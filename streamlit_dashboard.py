@@ -1850,25 +1850,25 @@ def main():
                                         "Feature": feature_names[:len(shap_values)],
                                         "SHAP_Value": shap_values
                                     }).sort_values("SHAP_Value", key=abs, ascending=False).head(15)
-                                        
-                                        fig = px.bar(
-                                            shap_df,
-                                            x="SHAP_Value",
-                                            y="Feature",
-                                            orientation='h',
-                                            title="SHAP Values (Waterfall Style)",
-                                            color="SHAP_Value",
-                                            color_continuous_scale="RdBu_r"
-                                        )
-                                        fig.add_vline(x=0, line_dash="dash", line_color="black", line_width=2)
-                                        fig.update_layout(height=500)
-                                        st.plotly_chart(fig, use_container_width=True)
-                                        
-                                        # Show cumulative effect
-                                        cumulative_effect = baseline + sum(shap_values)
-                                        st.write(f"**Baseline Prediction:** {baseline:.4f}")
-                                        st.write(f"**Final Prediction:** {cumulative_effect:.4f}")
-                                        st.write(f"**Total SHAP Effect:** {sum(shap_values):.4f}")
+                                    
+                                    fig = px.bar(
+                                        shap_df,
+                                        x="SHAP_Value",
+                                        y="Feature",
+                                        orientation='h',
+                                        title="SHAP Values (Waterfall Style)",
+                                        color="SHAP_Value",
+                                        color_continuous_scale="RdBu_r"
+                                    )
+                                    fig.add_vline(x=0, line_dash="dash", line_color="black", line_width=2)
+                                    fig.update_layout(height=500)
+                                    st.plotly_chart(fig, use_container_width=True)
+                                    
+                                    # Show cumulative effect
+                                    cumulative_effect = baseline + sum(shap_values)
+                                    st.write(f"**Baseline Prediction:** {baseline:.4f}")
+                                    st.write(f"**Final Prediction:** {cumulative_effect:.4f}")
+                                    st.write(f"**Total SHAP Effect:** {sum(shap_values):.4f}")
                             
                             # LIME-specific analysis
                             elif "lime" in method:
