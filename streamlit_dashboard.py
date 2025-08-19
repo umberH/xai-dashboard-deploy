@@ -1883,18 +1883,18 @@ def main():
                                         "Feature": feature_names[:len(lime_explanation)],
                                         "LIME_Weight": lime_explanation
                                     }).sort_values("LIME_Weight", key=abs, ascending=False).head(10)
-                                        
-                                        fig = px.bar(
-                                            lime_df,
-                                            x="LIME_Weight",
-                                            y="Feature",
-                                            orientation='h',
-                                            title="LIME Feature Weights",
-                                            color="LIME_Weight",
-                                            color_continuous_scale="RdBu_r"
-                                        )
-                                        fig.add_vline(x=0, line_dash="dash", line_color="black")
-                                        st.plotly_chart(fig, use_container_width=True)
+                                    
+                                    fig = px.bar(
+                                        lime_df,
+                                        x="LIME_Weight",
+                                        y="Feature",
+                                        orientation='h',
+                                        title="LIME Feature Weights",
+                                        color="LIME_Weight",
+                                        color_continuous_scale="RdBu_r"
+                                    )
+                                    fig.add_vline(x=0, line_dash="dash", line_color="black")
+                                    st.plotly_chart(fig, use_container_width=True)
                             
                             # Counterfactual-specific analysis
                             elif "counterfactual" in method:
