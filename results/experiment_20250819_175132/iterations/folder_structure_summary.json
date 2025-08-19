@@ -1,0 +1,607 @@
+{
+  "organized_structure": {
+    "adult": {
+      "income": {
+        "decision_tree_bayesian_rule_list": {
+          "file_count": 1,
+          "files": [
+            "iteration_0008_20250819_175338.json"
+          ]
+        },
+        "decision_tree_causal_shap": {
+          "file_count": 1,
+          "files": [
+            "iteration_0003_20250819_175251.json"
+          ]
+        },
+        "decision_tree_corels": {
+          "file_count": 1,
+          "files": [
+            "iteration_0009_20250819_175346.json"
+          ]
+        },
+        "decision_tree_counterfactual": {
+          "file_count": 1,
+          "files": [
+            "iteration_0007_20250819_175329.json"
+          ]
+        },
+        "decision_tree_feature_ablation": {
+          "file_count": 1,
+          "files": [
+            "iteration_0010_20250819_175359.json"
+          ]
+        },
+        "decision_tree_lime": {
+          "file_count": 1,
+          "files": [
+            "iteration_0002_20250819_175242.json"
+          ]
+        },
+        "decision_tree_prototype": {
+          "file_count": 1,
+          "files": [
+            "iteration_0006_20250819_175321.json"
+          ]
+        },
+        "decision_tree_shap": {
+          "file_count": 1,
+          "files": [
+            "iteration_0001_20250819_175144.json"
+          ]
+        },
+        "decision_tree_shapley_flow": {
+          "file_count": 1,
+          "files": [
+            "iteration_0004_20250819_175301.json"
+          ]
+        },
+        "decision_tree_shap_interactive": {
+          "file_count": 1,
+          "files": [
+            "iteration_0005_20250819_175309.json"
+          ]
+        },
+        "gradient_boosting_bayesian_rule_list": {
+          "file_count": 1,
+          "files": [
+            "iteration_0027_20250819_182045.json"
+          ]
+        },
+        "gradient_boosting_causal_shap": {
+          "file_count": 1,
+          "files": [
+            "iteration_0023_20250819_181934.json"
+          ]
+        },
+        "gradient_boosting_corels": {
+          "file_count": 1,
+          "files": [
+            "iteration_0028_20250819_182057.json"
+          ]
+        },
+        "gradient_boosting_counterfactual": {
+          "file_count": 1,
+          "files": [
+            "iteration_0026_20250819_182014.json"
+          ]
+        },
+        "gradient_boosting_feature_ablation": {
+          "file_count": 1,
+          "files": [
+            "iteration_0029_20250819_182119.json"
+          ]
+        },
+        "gradient_boosting_lime": {
+          "file_count": 1,
+          "files": [
+            "iteration_0022_20250819_181920.json"
+          ]
+        },
+        "gradient_boosting_prototype": {
+          "file_count": 1,
+          "files": [
+            "iteration_0025_20250819_182002.json"
+          ]
+        },
+        "gradient_boosting_shap": {
+          "file_count": 1,
+          "files": [
+            "iteration_0021_20250819_181815.json"
+          ]
+        },
+        "gradient_boosting_shap_interactive": {
+          "file_count": 1,
+          "files": [
+            "iteration_0024_20250819_181946.json"
+          ]
+        },
+        "mlp_bayesian_rule_list": {
+          "file_count": 1,
+          "files": [
+            "iteration_0039_20250819_182545.json"
+          ]
+        },
+        "mlp_causal_shap": {
+          "file_count": 1,
+          "files": [
+            "iteration_0033_20250819_182317.json"
+          ]
+        },
+        "mlp_corels": {
+          "file_count": 1,
+          "files": [
+            "iteration_0040_20250819_182555.json"
+          ]
+        },
+        "mlp_counterfactual": {
+          "file_count": 1,
+          "files": [
+            "iteration_0037_20250819_182423.json"
+          ]
+        },
+        "mlp_feature_ablation": {
+          "file_count": 1,
+          "files": [
+            "iteration_0041_20250819_182609.json"
+          ]
+        },
+        "mlp_influence_functions": {
+          "file_count": 1,
+          "files": [
+            "iteration_0038_20250819_182535.json"
+          ]
+        },
+        "mlp_integrated_gradients": {
+          "file_count": 1,
+          "files": [
+            "iteration_0032_20250819_182301.json"
+          ]
+        },
+        "mlp_lime": {
+          "file_count": 1,
+          "files": [
+            "iteration_0031_20250819_182248.json"
+          ]
+        },
+        "mlp_prototype": {
+          "file_count": 1,
+          "files": [
+            "iteration_0036_20250819_182402.json"
+          ]
+        },
+        "mlp_shap": {
+          "file_count": 1,
+          "files": [
+            "iteration_0030_20250819_182138.json"
+          ]
+        },
+        "mlp_shapley_flow": {
+          "file_count": 1,
+          "files": [
+            "iteration_0034_20250819_182333.json"
+          ]
+        },
+        "mlp_shap_interactive": {
+          "file_count": 1,
+          "files": [
+            "iteration_0035_20250819_182346.json"
+          ]
+        },
+        "random_forest_bayesian_rule_list": {
+          "file_count": 1,
+          "files": [
+            "iteration_0018_20250819_181421.json"
+          ]
+        },
+        "random_forest_causal_shap": {
+          "file_count": 1,
+          "files": [
+            "iteration_0013_20250819_175930.json"
+          ]
+        },
+        "random_forest_corels": {
+          "file_count": 1,
+          "files": [
+            "iteration_0019_20250819_181510.json"
+          ]
+        },
+        "random_forest_counterfactual": {
+          "file_count": 1,
+          "files": [
+            "iteration_0017_20250819_181334.json"
+          ]
+        },
+        "random_forest_feature_ablation": {
+          "file_count": 1,
+          "files": [
+            "iteration_0020_20250819_181804.json"
+          ]
+        },
+        "random_forest_lime": {
+          "file_count": 1,
+          "files": [
+            "iteration_0012_20250819_175739.json"
+          ]
+        },
+        "random_forest_prototype": {
+          "file_count": 1,
+          "files": [
+            "iteration_0016_20250819_181240.json"
+          ]
+        },
+        "random_forest_shap": {
+          "file_count": 1,
+          "files": [
+            "iteration_0011_20250819_175454.json"
+          ]
+        },
+        "random_forest_shapley_flow": {
+          "file_count": 1,
+          "files": [
+            "iteration_0014_20250819_180036.json"
+          ]
+        },
+        "random_forest_shap_interactive": {
+          "file_count": 1,
+          "files": [
+            "iteration_0015_20250819_180150.json"
+          ]
+        }
+      }
+    },
+    "compas": {
+      "decision": {
+        "tree_bayesian_rule_list": {
+          "file_count": 1,
+          "files": [
+            "iteration_0049_20250819_182646.json"
+          ]
+        },
+        "tree_causal_shap": {
+          "file_count": 1,
+          "files": [
+            "iteration_0044_20250819_182634.json"
+          ]
+        },
+        "tree_corels": {
+          "file_count": 1,
+          "files": [
+            "iteration_0050_20250819_182647.json"
+          ]
+        },
+        "tree_counterfactual": {
+          "file_count": 1,
+          "files": [
+            "iteration_0048_20250819_182644.json"
+          ]
+        },
+        "tree_feature_ablation": {
+          "file_count": 1,
+          "files": [
+            "iteration_0051_20250819_182652.json"
+          ]
+        },
+        "tree_lime": {
+          "file_count": 1,
+          "files": [
+            "iteration_0043_20250819_182633.json"
+          ]
+        },
+        "tree_prototype": {
+          "file_count": 1,
+          "files": [
+            "iteration_0047_20250819_182641.json"
+          ]
+        },
+        "tree_shap": {
+          "file_count": 1,
+          "files": [
+            "iteration_0042_20250819_182614.json"
+          ]
+        },
+        "tree_shapley_flow": {
+          "file_count": 1,
+          "files": [
+            "iteration_0045_20250819_182636.json"
+          ]
+        },
+        "tree_shap_interactive": {
+          "file_count": 1,
+          "files": [
+            "iteration_0046_20250819_182639.json"
+          ]
+        }
+      },
+      "gradient": {
+        "boosting_bayesian_rule_list": {
+          "file_count": 1,
+          "files": [
+            "iteration_0068_20250819_183144.json"
+          ]
+        },
+        "boosting_causal_shap": {
+          "file_count": 1,
+          "files": [
+            "iteration_0064_20250819_183133.json"
+          ]
+        },
+        "boosting_corels": {
+          "file_count": 1,
+          "files": [
+            "iteration_0069_20250819_183145.json"
+          ]
+        },
+        "boosting_counterfactual": {
+          "file_count": 1,
+          "files": [
+            "iteration_0067_20250819_183142.json"
+          ]
+        },
+        "boosting_feature_ablation": {
+          "file_count": 1,
+          "files": [
+            "iteration_0070_20250819_183149.json"
+          ]
+        },
+        "boosting_lime": {
+          "file_count": 1,
+          "files": [
+            "iteration_0063_20250819_183129.json"
+          ]
+        },
+        "boosting_prototype": {
+          "file_count": 1,
+          "files": [
+            "iteration_0066_20250819_183140.json"
+          ]
+        },
+        "boosting_shap": {
+          "file_count": 1,
+          "files": [
+            "iteration_0062_20250819_183108.json"
+          ]
+        },
+        "boosting_shap_interactive": {
+          "file_count": 1,
+          "files": [
+            "iteration_0065_20250819_183137.json"
+          ]
+        }
+      },
+      "mlp": {
+        "bayesian_rule_list": {
+          "file_count": 1,
+          "files": [
+            "iteration_0080_20250819_183249.json"
+          ]
+        },
+        "causal_shap": {
+          "file_count": 1,
+          "files": [
+            "iteration_0074_20250819_183225.json"
+          ]
+        },
+        "corels": {
+          "file_count": 1,
+          "files": [
+            "iteration_0081_20250819_183250.json"
+          ]
+        },
+        "counterfactual": {
+          "file_count": 1,
+          "files": [
+            "iteration_0078_20250819_183232.json"
+          ]
+        },
+        "feature_ablation": {
+          "file_count": 1,
+          "files": [
+            "iteration_0082_20250819_183252.json"
+          ]
+        },
+        "influence_functions": {
+          "file_count": 1,
+          "files": [
+            "iteration_0079_20250819_183248.json"
+          ]
+        },
+        "integrated_gradients": {
+          "file_count": 1,
+          "files": [
+            "iteration_0073_20250819_183223.json"
+          ]
+        },
+        "lime": {
+          "file_count": 1,
+          "files": [
+            "iteration_0072_20250819_183221.json"
+          ]
+        },
+        "prototype": {
+          "file_count": 1,
+          "files": [
+            "iteration_0077_20250819_183231.json"
+          ]
+        },
+        "shap": {
+          "file_count": 1,
+          "files": [
+            "iteration_0071_20250819_183153.json"
+          ]
+        },
+        "shapley_flow": {
+          "file_count": 1,
+          "files": [
+            "iteration_0075_20250819_183227.json"
+          ]
+        },
+        "shap_interactive": {
+          "file_count": 1,
+          "files": [
+            "iteration_0076_20250819_183229.json"
+          ]
+        }
+      },
+      "random": {
+        "forest_bayesian_rule_list": {
+          "file_count": 1,
+          "files": [
+            "iteration_0059_20250819_183009.json"
+          ]
+        },
+        "forest_causal_shap": {
+          "file_count": 1,
+          "files": [
+            "iteration_0054_20250819_182833.json"
+          ]
+        },
+        "forest_corels": {
+          "file_count": 1,
+          "files": [
+            "iteration_0060_20250819_183024.json"
+          ]
+        },
+        "forest_counterfactual": {
+          "file_count": 1,
+          "files": [
+            "iteration_0058_20250819_182954.json"
+          ]
+        },
+        "forest_feature_ablation": {
+          "file_count": 1,
+          "files": [
+            "iteration_0061_20250819_183104.json"
+          ]
+        },
+        "forest_lime": {
+          "file_count": 1,
+          "files": [
+            "iteration_0053_20250819_182800.json"
+          ]
+        },
+        "forest_prototype": {
+          "file_count": 1,
+          "files": [
+            "iteration_0057_20250819_182942.json"
+          ]
+        },
+        "forest_shap": {
+          "file_count": 1,
+          "files": [
+            "iteration_0052_20250819_182710.json"
+          ]
+        },
+        "forest_shapley_flow": {
+          "file_count": 1,
+          "files": [
+            "iteration_0055_20250819_182851.json"
+          ]
+        },
+        "forest_shap_interactive": {
+          "file_count": 1,
+          "files": [
+            "iteration_0056_20250819_182918.json"
+          ]
+        }
+      }
+    },
+    "imdb": {
+      "bert": {
+        "attention_visualization": {
+          "file_count": 1,
+          "files": [
+            "iteration_0093_20250819_183502.json"
+          ]
+        },
+        "lime": {
+          "file_count": 1,
+          "files": [
+            "iteration_0091_20250819_183427.json"
+          ]
+        },
+        "text_occlusion": {
+          "file_count": 1,
+          "files": [
+            "iteration_0092_20250819_183437.json"
+          ]
+        }
+      },
+      "lstm": {
+        "attention_visualization": {
+          "file_count": 1,
+          "files": [
+            "iteration_0096_20250819_183621.json"
+          ]
+        },
+        "lime": {
+          "file_count": 1,
+          "files": [
+            "iteration_0094_20250819_183522.json"
+          ]
+        },
+        "text_occlusion": {
+          "file_count": 1,
+          "files": [
+            "iteration_0095_20250819_183536.json"
+          ]
+        }
+      }
+    },
+    "mnist": {
+      "cnn": {
+        "concept_bottleneck": {
+          "file_count": 1,
+          "files": [
+            "iteration_0086_20250819_183314.json"
+          ]
+        },
+        "counterfactual": {
+          "file_count": 1,
+          "files": [
+            "iteration_0084_20250819_183314.json"
+          ]
+        },
+        "occlusion": {
+          "file_count": 1,
+          "files": [
+            "iteration_0087_20250819_183320.json"
+          ]
+        },
+        "prototype": {
+          "file_count": 1,
+          "files": [
+            "iteration_0083_20250819_183313.json"
+          ]
+        },
+        "tcav": {
+          "file_count": 1,
+          "files": [
+            "iteration_0085_20250819_183314.json"
+          ]
+        }
+      },
+      "vit": {
+        "concept_bottleneck": {
+          "file_count": 1,
+          "files": [
+            "iteration_0089_20250819_183332.json"
+          ]
+        },
+        "occlusion": {
+          "file_count": 1,
+          "files": [
+            "iteration_0090_20250819_183351.json"
+          ]
+        },
+        "tcav": {
+          "file_count": 1,
+          "files": [
+            "iteration_0088_20250819_183330.json"
+          ]
+        }
+      }
+    }
+  },
+  "generated_at": "2025-08-19T18:36:21.446280"
+}
