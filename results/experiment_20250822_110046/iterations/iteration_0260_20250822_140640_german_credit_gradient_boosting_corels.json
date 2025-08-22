@@ -1,0 +1,835 @@
+{
+  "iteration_info": {
+    "iteration_number": 260,
+    "timestamp": "2025-08-22T14:06:40.645869",
+    "iteration_key": "german_credit_gradient_boosting_corels",
+    "filename": "iteration_0260_20250822_140640.json",
+    "folder_path": "results\\experiment_20250822_110046\\iterations\\iterations\\german\\credit\\gradient_boosting_corels"
+  },
+  "experiment_info": {
+    "config": {
+      "data": {
+        "tabular_datasets": [
+          {
+            "name": "adult_income",
+            "source": "uci",
+            "description": "Adult Income (UCI) - Binary classification, well-known interpretable baseline dataset",
+            "mandatory": true
+          },
+          {
+            "name": "compas",
+            "source": "custom",
+            "description": "COMPAS - Binary classification, real-world socially sensitive dataset",
+            "mandatory": true
+          },
+          {
+            "name": "breast_cancer",
+            "source": "sklearn",
+            "description": "Breast Cancer Wisconsin - Binary medical diagnosis dataset",
+            "mandatory": true
+          },
+          {
+            "name": "heart_disease",
+            "source": "uci",
+            "description": "Heart Disease UCI - Binary medical classification with mixed feature types",
+            "mandatory": true
+          },
+          {
+            "name": "german_credit",
+            "source": "uci",
+            "description": "German Credit Risk - Binary financial fairness dataset",
+            "mandatory": true
+          },
+          {
+            "name": "iris",
+            "source": "sklearn",
+            "description": "Iris flower classification - 3-class botanical dataset",
+            "mandatory": true
+          },
+          {
+            "name": "wine_quality",
+            "source": "uci",
+            "description": "Wine Quality - 3-class quality prediction (low/medium/high)",
+            "mandatory": true
+          },
+          {
+            "name": "diabetes",
+            "source": "sklearn",
+            "description": "Diabetes progression - 3-class medical dataset",
+            "mandatory": true
+          },
+          {
+            "name": "wine_classification",
+            "source": "sklearn",
+            "description": "Wine classification - 3-class wine origin dataset",
+            "mandatory": true
+          },
+          {
+            "name": "digits",
+            "source": "sklearn",
+            "description": "Digits classification - 10-class handwritten digit recognition (8x8 tabular)",
+            "mandatory": true
+          },
+          {
+            "name": "synthetic_tabular",
+            "source": "sklearn",
+            "description": "Synthetic Tabular with Known Ground Truth - Test explanation accuracy",
+            "mandatory": false
+          }
+        ],
+        "image_datasets": [
+          {
+            "name": "mnist",
+            "source": "torchvision",
+            "description": "MNIST - 10-class digit classification, standard grayscale images",
+            "mandatory": true
+          },
+          {
+            "name": "cifar10",
+            "source": "torchvision",
+            "description": "CIFAR-10 - 10-class color image classification dataset",
+            "mandatory": true
+          },
+          {
+            "name": "fashion_mnist",
+            "source": "torchvision",
+            "description": "Fashion-MNIST - 10-class clothing classification, complex grayscale patterns",
+            "mandatory": true
+          },
+          {
+            "name": "cifar100",
+            "source": "torchvision",
+            "description": "CIFAR-100 - Fine-grained classification with 100 classes",
+            "mandatory": false
+          },
+          {
+            "name": "imagenette",
+            "source": "custom",
+            "description": "ImageNette - Real-world images, 10 classes from ImageNet",
+            "mandatory": false
+          },
+          {
+            "name": "chest_xray",
+            "source": "custom",
+            "description": "ChestX-ray subset - Medical imaging for high-stakes explanation testing",
+            "mandatory": false
+          }
+        ],
+        "text_datasets": [
+          {
+            "name": "imdb",
+            "source": "huggingface",
+            "description": "IMDB Movie Reviews - Binary sentiment classification, common NLP task",
+            "mandatory": true
+          },
+          {
+            "name": "20newsgroups",
+            "source": "sklearn",
+            "description": "20 Newsgroups - 4-class news article classification dataset",
+            "mandatory": true
+          },
+          {
+            "name": "ag_news",
+            "source": "huggingface",
+            "description": "AG News - 4-class news categorization dataset",
+            "mandatory": true
+          },
+          {
+            "name": "yelp_reviews",
+            "source": "huggingface",
+            "description": "Yelp Reviews - 5-class sentiment analysis (1-5 stars)",
+            "mandatory": false
+          },
+          {
+            "name": "reuters21578",
+            "source": "custom",
+            "description": "Reuters-21578 - Multi-label news classification",
+            "mandatory": false
+          }
+        ]
+      },
+      "validation": {
+        "class_imbalance_ratio": 0.2,
+        "min_dataset_size": 100,
+        "min_test_size": 10,
+        "max_missing_ratio": 0.3,
+        "outlier_threshold": 3.0,
+        "feature_correlation_threshold": 0.95,
+        "min_features": 2,
+        "max_features": 1000,
+        "max_skewness": 3.0,
+        "max_outlier_ratio": 0.1
+      },
+      "hyperparameter_tuning": {
+        "cv_folds": 5,
+        "scoring": "accuracy",
+        "n_jobs": -1,
+        "verbose": 1,
+        "optimization_method": "grid_search",
+        "n_trials": 100,
+        "timeout": 3600,
+        "save_best_params": true,
+        "save_all_results": true,
+        "parameter_grids": {
+          "decision_tree": {
+            "max_depth": [
+              3,
+              5,
+              7,
+              10,
+              "None"
+            ],
+            "min_samples_split": [
+              2,
+              5,
+              10
+            ],
+            "min_samples_leaf": [
+              1,
+              2,
+              4
+            ],
+            "criterion": [
+              "gini",
+              "entropy"
+            ]
+          },
+          "random_forest": {
+            "n_estimators": [
+              50,
+              100,
+              200
+            ],
+            "max_depth": [
+              5,
+              10,
+              15,
+              "None"
+            ],
+            "min_samples_split": [
+              2,
+              5,
+              10
+            ],
+            "max_features": [
+              "sqrt",
+              "log2",
+              "None"
+            ]
+          },
+          "gradient_boosting": {
+            "n_estimators": [
+              50,
+              100,
+              200
+            ],
+            "learning_rate": [
+              0.01,
+              0.1,
+              0.2
+            ],
+            "max_depth": [
+              3,
+              5,
+              7
+            ],
+            "subsample": [
+              0.8,
+              0.9,
+              1.0
+            ]
+          },
+          "mlp": {
+            "hidden_layer_sizes": [
+              "(50",
+              ")",
+              "(100",
+              ")",
+              "(50",
+              "50)"
+            ],
+            "activation": [
+              "relu",
+              "tanh"
+            ],
+            "alpha": [
+              0.0001,
+              0.001,
+              0.01
+            ],
+            "max_iter": [
+              500,
+              1000
+            ]
+          },
+          "linear_regression": {
+            "fit_intercept": [
+              true,
+              false
+            ],
+            "copy_X": [
+              true
+            ],
+            "n_jobs": [
+              null,
+              -1
+            ]
+          },
+          "logistic_regression": {
+            "penalty": [
+              "l1",
+              "l2",
+              "elasticnet"
+            ],
+            "C": [
+              0.01,
+              0.1,
+              1.0,
+              10.0
+            ],
+            "solver": [
+              "liblinear",
+              "lbfgs",
+              "saga"
+            ],
+            "max_iter": [
+              100,
+              500,
+              1000
+            ]
+          },
+          "resnet": {
+            "variant": [
+              "resnet18",
+              "resnet34",
+              "resnet50"
+            ],
+            "pretrained": [
+              true,
+              false
+            ],
+            "learning_rate": [
+              0.001,
+              0.01,
+              0.1
+            ],
+            "batch_size": [
+              16,
+              32,
+              64
+            ]
+          },
+          "roberta": {
+            "learning_rate": [
+              "1e-5",
+              "2e-5",
+              "5e-5"
+            ],
+            "batch_size": [
+              8,
+              16,
+              32
+            ],
+            "max_length": [
+              128,
+              256,
+              512
+            ],
+            "epochs": [
+              2,
+              3,
+              4
+            ]
+          },
+          "naive_bayes_text": {
+            "alpha": [
+              0.1,
+              0.5,
+              1.0,
+              2.0
+            ],
+            "fit_prior": [
+              true,
+              false
+            ]
+          },
+          "svm_text": {
+            "C": [
+              0.1,
+              1.0,
+              10.0,
+              100.0
+            ],
+            "kernel": [
+              "linear",
+              "rbf",
+              "poly"
+            ],
+            "gamma": [
+              "scale",
+              "auto",
+              0.001,
+              0.01
+            ]
+          },
+          "xgboost_text": {
+            "n_estimators": [
+              50,
+              100,
+              200,
+              300
+            ],
+            "max_depth": [
+              3,
+              5,
+              7,
+              9
+            ],
+            "learning_rate": [
+              0.01,
+              0.1,
+              0.2,
+              0.3
+            ],
+            "subsample": [
+              0.8,
+              0.9,
+              1.0
+            ]
+          }
+        }
+      },
+      "models": {
+        "models_to_train": [
+          "decision_tree",
+          "random_forest",
+          "gradient_boosting",
+          "mlp",
+          "linear_regression",
+          "logistic_regression",
+          "cnn",
+          "vit",
+          "resnet",
+          "bert",
+          "lstm",
+          "roberta",
+          "naive_bayes_text",
+          "svm_text",
+          "xgboost_text"
+        ],
+        "tabular": [
+          {
+            "name": "decision_tree",
+            "description": "Decision Tree Classifier",
+            "library": "sklearn"
+          },
+          {
+            "name": "random_forest",
+            "description": "Random Forest Classifier",
+            "library": "sklearn"
+          },
+          {
+            "name": "gradient_boosting",
+            "description": "Gradient Boosting Classifier",
+            "library": "sklearn"
+          },
+          {
+            "name": "mlp",
+            "description": "Multi-layer Perceptron",
+            "library": "sklearn"
+          },
+          {
+            "name": "linear_regression",
+            "description": "Linear Regression (with classification adaptation)",
+            "library": "sklearn"
+          },
+          {
+            "name": "logistic_regression",
+            "description": "Logistic Regression",
+            "library": "sklearn"
+          }
+        ],
+        "image": [
+          {
+            "name": "cnn",
+            "description": "Convolutional Neural Network",
+            "library": "pytorch"
+          },
+          {
+            "name": "vit",
+            "description": "Vision Transformer",
+            "library": "pytorch"
+          },
+          {
+            "name": "resnet",
+            "description": "Residual Neural Network",
+            "library": "pytorch"
+          }
+        ],
+        "text": [
+          {
+            "name": "bert",
+            "description": "BERT-based classifier (simplified)",
+            "library": "sklearn"
+          },
+          {
+            "name": "lstm",
+            "description": "LSTM-based classifier (simplified)",
+            "library": "sklearn"
+          },
+          {
+            "name": "roberta",
+            "description": "RoBERTa-based classifier",
+            "library": "transformers"
+          },
+          {
+            "name": "naive_bayes_text",
+            "description": "Naive Bayes for text classification",
+            "library": "sklearn"
+          },
+          {
+            "name": "svm_text",
+            "description": "SVM for text classification",
+            "library": "sklearn"
+          },
+          {
+            "name": "xgboost_text",
+            "description": "XGBoost for text classification",
+            "library": "xgboost"
+          }
+        ]
+      },
+      "explanations": {
+        "feature_attribution": [
+          {
+            "name": "shap",
+            "description": "SHAP (SHapley Additive exPlanations)",
+            "library": "shap"
+          },
+          {
+            "name": "lime",
+            "description": "LIME (Local Interpretable Model-agnostic Explanations)",
+            "library": "lime"
+          },
+          {
+            "name": "integrated_gradients",
+            "description": "Integrated Gradients",
+            "library": "captum"
+          },
+          {
+            "name": "causal_shap",
+            "description": "Causal SHAP - SHAP values with causal structure consideration",
+            "library": "custom",
+            "data_types": [
+              "tabular"
+            ]
+          },
+          {
+            "name": "shapley_flow",
+            "description": "Shapley Flow - tracks value propagation through model layers",
+            "library": "custom",
+            "data_types": [
+              "tabular",
+              "image"
+            ]
+          },
+          {
+            "name": "shap_interactive",
+            "description": "SHAP Interactive - includes main effects and pairwise interactions",
+            "library": "custom",
+            "data_types": [
+              "tabular"
+            ]
+          }
+        ],
+        "example_based": [
+          {
+            "name": "prototype",
+            "description": "Prototype-based explanations",
+            "library": "custom"
+          },
+          {
+            "name": "counterfactual",
+            "description": "Counterfactual explanations",
+            "library": "alibi"
+          },
+          {
+            "name": "influence_functions",
+            "description": "Influence Functions - identifies training examples affecting predictions",
+            "library": "custom",
+            "data_types": [
+              "tabular",
+              "image",
+              "text"
+            ]
+          }
+        ],
+        "concept_based": [
+          {
+            "name": "tcav",
+            "description": "TCAV (Testing with Concept Activation Vectors)",
+            "library": "custom"
+          },
+          {
+            "name": "concept_bottleneck",
+            "description": "Concept Bottleneck Models",
+            "library": "custom"
+          },
+          {
+            "name": "bayesian_rule_list",
+            "description": "Bayesian Rule Lists - interpretable if-then rules with posteriors",
+            "library": "custom",
+            "data_types": [
+              "tabular"
+            ]
+          },
+          {
+            "name": "corels",
+            "description": "CORELS - certifiably optimal rule lists",
+            "library": "custom",
+            "data_types": [
+              "tabular"
+            ]
+          }
+        ],
+        "perturbation": [
+          {
+            "name": "occlusion",
+            "description": "Occlusion-based explanations",
+            "library": "captum"
+          },
+          {
+            "name": "feature_ablation",
+            "description": "Feature ablation explanations",
+            "library": "captum"
+          }
+        ]
+      },
+      "evaluation": {
+        "fidelity": [
+          {
+            "name": "faithfulness",
+            "description": "How well explanations reflect model behavior"
+          },
+          {
+            "name": "monotonicity",
+            "description": "Consistency of explanation with model predictions"
+          },
+          {
+            "name": "completeness",
+            "description": "Coverage of explanation across features"
+          }
+        ],
+        "time_complexity": [
+          {
+            "name": "explanation_time",
+            "description": "Time taken to generate explanations"
+          },
+          {
+            "name": "training_time",
+            "description": "Time taken to train the model"
+          }
+        ],
+        "stability": [
+          {
+            "name": "consistency",
+            "description": "Consistency of explanations across similar inputs"
+          },
+          {
+            "name": "robustness",
+            "description": "Robustness to small input perturbations"
+          }
+        ],
+        "comprehensibility": [
+          {
+            "name": "sparsity",
+            "description": "Sparsity of explanations"
+          },
+          {
+            "name": "simplicity",
+            "description": "Simplicity of explanation structure"
+          }
+        ]
+      },
+      "experiment": {
+        "preprocessing": {
+          "test_size": 0.2,
+          "random_state": 42,
+          "scale_features": true,
+          "handle_missing": true
+        },
+        "data_splitting": {
+          "default_strategy": "stratified",
+          "test_size": 0.2,
+          "validation_size": 0.1,
+          "random_state": 42,
+          "stratify": true,
+          "shuffle": true,
+          "n_splits": 5,
+          "n_repeats": 3,
+          "time_column": null,
+          "gap": 0,
+          "group_column": null,
+          "min_samples_per_class": 2,
+          "max_imbalance_ratio": 0.3,
+          "strategies": {
+            "stratified": {
+              "description": "Maintains class distribution across splits",
+              "supports_validation": true,
+              "supports_cv": true
+            },
+            "time_based": {
+              "description": "Time-based splits for temporal data",
+              "supports_validation": false,
+              "supports_cv": false,
+              "requires_time_column": true
+            },
+            "cross_validation": {
+              "description": "K-fold cross-validation",
+              "supports_validation": false,
+              "supports_cv": true,
+              "cv_types": [
+                "stratified_kfold",
+                "kfold",
+                "leave_one_out",
+                "stratified_shuffle_split"
+              ]
+            },
+            "group_based": {
+              "description": "Group-based splits (e.g., by patient, subject)",
+              "supports_validation": false,
+              "supports_cv": false,
+              "requires_group_column": true
+            },
+            "custom": {
+              "description": "Custom split strategies",
+              "supports_validation": true,
+              "supports_cv": true
+            },
+            "holdout": {
+              "description": "Simple holdout split",
+              "supports_validation": true,
+              "supports_cv": false
+            }
+          }
+        },
+        "training": {
+          "max_iter": 1000,
+          "early_stopping": true,
+          "validation_split": 0.1
+        },
+        "explanation": {
+          "num_samples": 100,
+          "max_features": 10,
+          "random_state": 42
+        },
+        "evaluation": {
+          "num_runs": 5,
+          "confidence_level": 0.95,
+          "significance_level": 0.05,
+          "multiple_comparison_correction": "bonferroni",
+          "statistical_tests": [
+            "t_test",
+            "mann_whitney",
+            "wilcoxon",
+            "anova",
+            "kruskal_wallis",
+            "friedman"
+          ],
+          "effect_size_calculation": true,
+          "power_analysis": true,
+          "correlation_analysis": true
+        }
+      },
+      "output": {
+        "results_dir": "results",
+        "save_models": true,
+        "save_explanations": true,
+        "generate_plots": true,
+        "save_reports": true
+      },
+      "logging": {
+        "level": "INFO",
+        "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        "file": "benchmark.log"
+      }
+    },
+    "benchmark_timestamp": "2025-08-22 11:00:46"
+  },
+  "result_data": {
+    "dataset": "german_credit",
+    "dataset_type": "tabular",
+    "model": "gradient_boosting",
+    "model_type": "gradient_boosting",
+    "explanation_method": "corels",
+    "explanation_type": "corels",
+    "model_performance": {
+      "train_accuracy": 0.83875,
+      "test_accuracy": 0.715,
+      "train_f1": 0.8203892381595034,
+      "test_f1": 0.6891803278688525,
+      "train_precision": 0.8581871239687285,
+      "test_precision": 0.6889177489177488,
+      "train_recall": 0.83875,
+      "test_recall": 0.715,
+      "overfitting_gap": 0.12375000000000003,
+      "overfitting_severity": "moderate",
+      "class_accuracies": [
+        0.8857142857142857,
+        0.31666666666666665
+      ],
+      "n_classes": 2,
+      "n_train_samples": 800,
+      "n_test_samples": 200,
+      "training_time": 0.2724928855895996,
+      "model_complexity": {
+        "n_parameters": 20,
+        "model_size_bytes": 48,
+        "model_size_mb": 4.57763671875e-05,
+        "complexity_level": "simple"
+      }
+    },
+    "explanation_info": {
+      "n_explanations": 100,
+      "optimal_rule_list": [],
+      "feature_names": [
+        "feature_1",
+        "feature_4",
+        "feature_7",
+        "feature_10",
+        "feature_12",
+        "feature_15",
+        "feature_17"
+      ]
+    },
+    "evaluations": {
+      "time_complexity": 0.0012079095840454102,
+      "faithfulness": 0.0,
+      "monotonicity": 0.0,
+      "completeness": 0.0,
+      "stability": 0.9999999999999978,
+      "consistency": 0.0,
+      "sparsity": 0.0,
+      "simplicity": 0.0,
+      "advanced_identity": 1.0,
+      "advanced_separability": 6.071532165918824e-17,
+      "advanced_non_sensitivity": 2.0966935851280683e-14,
+      "advanced_compactness": 0.0,
+      "advanced_correctness": 0.4830000000000001,
+      "advanced_entropy": 0.9999999996402711,
+      "advanced_gini_coefficient": 0.0,
+      "advanced_kl_divergence": 0.0
+    },
+    "detailed_explanations_file": "detailed_explanations\\german_credit\\gradient_boosting\\corels_detailed_explanations.json",
+    "detailed_explanations_summary": {
+      "total_instances": 200,
+      "valid_explanations": 200,
+      "errors": 0,
+      "accuracy": 0.715,
+      "avg_prediction": 0.175,
+      "avg_true_label": 0.3
+    },
+    "used_tuned_params": false,
+    "validation_status": true
+  }
+}

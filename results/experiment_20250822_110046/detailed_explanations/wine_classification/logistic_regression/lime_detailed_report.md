@@ -1,0 +1,145 @@
+# Detailed Explanation Report
+
+**Dataset:** wine_classification  
+**Model:** logistic_regression  
+**Explanation Method:** lime  
+**Generated:** 2025-08-22 14:32:17  
+
+## Summary Statistics
+
+- **Total Instances:** 36
+- **Valid Explanations:** 36
+- **Errors:** 0
+- **Model Accuracy:** 0.9722
+- **Average Feature Importance:** 0.0128
+- **Feature Importance Std:** 0.0833
+- **Max Feature Importance:** 1.0000
+
+## Prediction Analysis
+
+- **Correct Predictions:** 35 (97.2%)
+- **Incorrect Predictions:** 1 (2.8%)
+
+## Feature Importance Analysis
+
+### Most Frequently Important Features
+
+| Feature Index | Frequency | Avg Importance | Percentage |
+|---------------|-----------|----------------|------------|
+| 1 | 35 | 0.0097 | 97.2% |
+| 3 | 35 | 0.0649 | 97.2% |
+| 0 | 34 | 0.0362 | 94.4% |
+| 2 | 34 | 0.0220 | 94.4% |
+| 4 | 32 | 0.0020 | 88.9% |
+| 10 | 2 | 0.1191 | 5.6% |
+| 7 | 2 | 0.0329 | 5.6% |
+| 11 | 2 | 0.2442 | 5.6% |
+| 9 | 2 | 0.1308 | 5.6% |
+| 6 | 1 | 0.1354 | 2.8% |
+
+## Sample Explanations
+
+### Correct Predictions (Sample)
+
+#### Instance 0
+
+- **True Label:** 0.0
+- **Prediction:** 0.0
+- **Prediction Probabilities:** ['1.000', '0.000', '0.000']
+- **Top Features:**
+  - Feature 0: 0.0000
+  - Feature 1: 0.0000
+  - Feature 2: 0.0000
+
+#### Instance 2
+
+- **True Label:** 0.0
+- **Prediction:** 0.0
+- **Prediction Probabilities:** ['0.992', '0.008', '0.000']
+- **Top Features:**
+  - Feature 0: 0.0000
+  - Feature 1: 0.0000
+  - Feature 2: 0.0000
+
+#### Instance 3
+
+- **True Label:** 1.0
+- **Prediction:** 1.0
+- **Prediction Probabilities:** ['0.290', '0.707', '0.003']
+- **Top Features:**
+  - Feature 0: 0.0000
+  - Feature 1: 0.0000
+  - Feature 2: 0.0000
+
+#### Instance 4
+
+- **True Label:** 1.0
+- **Prediction:** 1.0
+- **Prediction Probabilities:** ['0.033', '0.962', '0.005']
+- **Top Features:**
+  - Feature 0: 0.8121
+  - Feature 10: 0.1879
+  - Feature 1: 0.0000
+
+#### Instance 5
+
+- **True Label:** 0.0
+- **Prediction:** 0.0
+- **Prediction Probabilities:** ['0.999', '0.001', '0.000']
+- **Top Features:**
+  - Feature 0: 0.0000
+  - Feature 1: 0.0000
+  - Feature 2: 0.0000
+
+### Incorrect Predictions (Sample)
+
+#### Instance 1
+
+- **True Label:** 2.0
+- **Prediction:** 1.0
+- **Prediction Probabilities:** ['0.007', '0.540', '0.453']
+- **Top Features:**
+  - Feature 0: 0.0000
+  - Feature 1: 0.0000
+  - Feature 2: 0.0000
+
+## Detailed Results Table
+
+| Instance ID | True Label | Prediction | Correct | Top Feature | Top Importance |
+|-------------|------------|------------|---------|-------------|----------------|
+| 0 | 0.0 | 0.000 | YES | 0 | 0.0 |
+| 1 | 2.0 | 1.000 | NO | 0 | 0.0 |
+| 2 | 0.0 | 0.000 | YES | 0 | 0.0 |
+| 3 | 1.0 | 1.000 | YES | 0 | 0.0 |
+| 4 | 1.0 | 1.000 | YES | 0 | 0.8120775958622483 |
+| 5 | 0.0 | 0.000 | YES | 0 | 0.0 |
+| 6 | 0.0 | 0.000 | YES | 0 | 0.0 |
+| 7 | 1.0 | 1.000 | YES | 0 | 0.0 |
+| 8 | 1.0 | 1.000 | YES | 2 | 0.679627018372677 |
+| 9 | 2.0 | 2.000 | YES | 0 | 0.0 |
+| 10 | 1.0 | 1.000 | YES | 0 | 0.0 |
+| 11 | 2.0 | 2.000 | YES | 0 | 0.0 |
+| 12 | 0.0 | 0.000 | YES | 0 | 0.0 |
+| 13 | 2.0 | 2.000 | YES | 0 | 0.0 |
+| 14 | 0.0 | 0.000 | YES | 0 | 0.0 |
+| 15 | 1.0 | 1.000 | YES | 0 | 0.0 |
+| 16 | 1.0 | 1.000 | YES | 0 | 0.0 |
+| 17 | 0.0 | 0.000 | YES | 0 | 0.0 |
+| 18 | 1.0 | 1.000 | YES | 0 | 0.0 |
+| 19 | 0.0 | 0.000 | YES | 0 | 0.0 |
+| 20 | 1.0 | 1.000 | YES | 11 | 0.4707332094873591 |
+| 21 | 1.0 | 1.000 | YES | 0 | 0.0 |
+| 22 | 0.0 | 0.000 | YES | 0 | 0.0 |
+| 23 | 0.0 | 0.000 | YES | 0 | 0.0 |
+| 24 | 1.0 | 1.000 | YES | 0 | 0.0 |
+| 25 | 1.0 | 1.000 | YES | 0 | 0.0 |
+| 26 | 0.0 | 0.000 | YES | 0 | 0.0 |
+| 27 | 2.0 | 2.000 | YES | 0 | 0.0 |
+| 28 | 1.0 | 1.000 | YES | 0 | 0.0 |
+| 29 | 2.0 | 2.000 | YES | 0 | 0.0 |
+| 30 | 0.0 | 0.000 | YES | 0 | 0.0 |
+| 31 | 2.0 | 2.000 | YES | 3 | 0.3143024656827299 |
+| 32 | 1.0 | 1.000 | YES | 0 | 0.0 |
+| 33 | 2.0 | 2.000 | YES | 0 | 0.0 |
+| 34 | 2.0 | 2.000 | YES | 3 | 0.7438483467728687 |
+| 35 | 2.0 | 2.000 | YES | 3 | 1.0 |

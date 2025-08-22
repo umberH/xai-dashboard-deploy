@@ -530,13 +530,15 @@ def main():
         filtered_df = pd.DataFrame()
     
     # Main content with tabs
-    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+    tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs([
         "Overview", 
         "Model Performance", 
         "Explanation Metrics",
         "Performance Analysis",
         "Explanation Visualizations",
-        "Detailed Analysis"
+        "Detailed Analysis",
+        "🔬 Method Comparator",
+        "🧪 Experiment Planner"
     ])
     # --- New Tab: Explanation Visualizations ---
     with tab5:
@@ -1850,25 +1852,25 @@ def main():
                                         "Feature": feature_names[:len(shap_values)],
                                         "SHAP_Value": shap_values
                                     }).sort_values("SHAP_Value", key=abs, ascending=False).head(15)
-                                    
-                                    fig = px.bar(
-                                        shap_df,
-                                        x="SHAP_Value",
-                                        y="Feature",
-                                        orientation='h',
-                                        title="SHAP Values (Waterfall Style)",
-                                        color="SHAP_Value",
-                                        color_continuous_scale="RdBu_r"
-                                    )
-                                    fig.add_vline(x=0, line_dash="dash", line_color="black", line_width=2)
-                                    fig.update_layout(height=500)
-                                    st.plotly_chart(fig, use_container_width=True)
-                                    
-                                    # Show cumulative effect
-                                    cumulative_effect = baseline + sum(shap_values)
-                                    st.write(f"**Baseline Prediction:** {baseline:.4f}")
-                                    st.write(f"**Final Prediction:** {cumulative_effect:.4f}")
-                                    st.write(f"**Total SHAP Effect:** {sum(shap_values):.4f}")
+                                        
+                                        fig = px.bar(
+                                            shap_df,
+                                            x="SHAP_Value",
+                                            y="Feature",
+                                            orientation='h',
+                                            title="SHAP Values (Waterfall Style)",
+                                            color="SHAP_Value",
+                                            color_continuous_scale="RdBu_r"
+                                        )
+                                        fig.add_vline(x=0, line_dash="dash", line_color="black", line_width=2)
+                                        fig.update_layout(height=500)
+                                        st.plotly_chart(fig, use_container_width=True)
+                                        
+                                        # Show cumulative effect
+                                        cumulative_effect = baseline + sum(shap_values)
+                                        st.write(f"**Baseline Prediction:** {baseline:.4f}")
+                                        st.write(f"**Final Prediction:** {cumulative_effect:.4f}")
+                                        st.write(f"**Total SHAP Effect:** {sum(shap_values):.4f}")
                             
                             # LIME-specific analysis
                             elif "lime" in method:
@@ -1883,18 +1885,18 @@ def main():
                                         "Feature": feature_names[:len(lime_explanation)],
                                         "LIME_Weight": lime_explanation
                                     }).sort_values("LIME_Weight", key=abs, ascending=False).head(10)
-                                    
-                                    fig = px.bar(
-                                        lime_df,
-                                        x="LIME_Weight",
-                                        y="Feature",
-                                        orientation='h',
-                                        title="LIME Feature Weights",
-                                        color="LIME_Weight",
-                                        color_continuous_scale="RdBu_r"
-                                    )
-                                    fig.add_vline(x=0, line_dash="dash", line_color="black")
-                                    st.plotly_chart(fig, use_container_width=True)
+                                        
+                                        fig = px.bar(
+                                            lime_df,
+                                            x="LIME_Weight",
+                                            y="Feature",
+                                            orientation='h',
+                                            title="LIME Feature Weights",
+                                            color="LIME_Weight",
+                                            color_continuous_scale="RdBu_r"
+                                        )
+                                        fig.add_vline(x=0, line_dash="dash", line_color="black")
+                                        st.plotly_chart(fig, use_container_width=True)
                             
                             # Counterfactual-specific analysis
                             elif "counterfactual" in method:
@@ -1975,6 +1977,170 @@ def main():
                     else:
                         st.warning("Selected explanation is not in the expected format.")
                         st.json(selected_explanation)
+    
+    # --- New Tab: Method Comparator ---
+    with tab7:
+        st.header("🔬 Real-time Method Comparator")
+        
+        # Import and create the comparator component
+        try:
+            import sys
+            import os
+            sys.path.append(os.path.join(os.path.dirname(__file__), 'src', 'components'))
+            
+            from explanation_comparator import create_explanation_comparator
+            
+            # Create the comparator instance
+            comparator = create_explanation_comparator(results)
+            
+            # Render the comparator interface
+            comparator.render_comparison_widget()
+            
+        except ImportError as e:
+            st.error(f"Could not load Method Comparator component: {e}")
+            st.info("Please ensure the explanation_comparator.py file is in the src/components/ directory.")
+        except Exception as e:
+            st.error(f"Error in Method Comparator: {e}")
+            st.info("Using basic comparison fallback...")
+            
+            # Basic fallback comparison
+            st.markdown("### Basic Method Comparison")
+            
+            if not filtered_df.empty:
+                available_methods = filtered_df['Method'].unique()
+                
+                if len(available_methods) >= 2:
+                    col1, col2 = st.columns(2)
+                    
+                    with col1:
+                        method_a = st.selectbox("Select first method:", available_methods, key="basic_method_a")
+                    
+                    with col2:
+                        method_b = st.selectbox("Select second method:", 
+                                              [m for m in available_methods if m != method_a], 
+                                              key="basic_method_b")
+                    
+                    if method_a and method_b:
+                        # Simple comparison
+                        method_a_data = filtered_df[filtered_df['Method'] == method_a]
+                        method_b_data = filtered_df[filtered_df['Method'] == method_b]
+                        
+                        metrics = ['faithfulness', 'stability', 'completeness', 'sparsity']
+                        
+                        comparison_data = []
+                        for metric in metrics:
+                            a_mean = method_a_data[metric].mean()
+                            b_mean = method_b_data[metric].mean()
+                            
+                            comparison_data.append({
+                                'Metric': metric.title(),
+                                f'{method_a}': f"{a_mean:.3f}",
+                                f'{method_b}': f"{b_mean:.3f}",
+                                'Difference': f"{abs(a_mean - b_mean):.3f}",
+                                'Winner': method_a if a_mean > b_mean else method_b
+                            })
+                        
+                        comparison_df = pd.DataFrame(comparison_data)
+                        st.dataframe(comparison_df, use_container_width=True)
+                else:
+                    st.warning("Need at least 2 methods for comparison.")
+            else:
+                st.warning("No data available for comparison.")
+    
+    # --- New Tab: Experiment Planner ---
+    with tab8:
+        st.header("🧪 Statistical Experiment Planner")
+        
+        # Import and create the planner component
+        try:
+            from experiment_planner import create_experiment_planner
+            
+            # Create the planner instance
+            planner = create_experiment_planner(results)
+            
+            # Render the planner interface
+            planner.render_planner()
+            
+        except ImportError as e:
+            st.error(f"Could not load Experiment Planner component: {e}")
+            st.info("Please ensure the experiment_planner.py file is in the src/components/ directory.")
+        except Exception as e:
+            st.error(f"Error in Experiment Planner: {e}")
+            st.info("Using basic planner fallback...")
+            
+            # Basic fallback planner
+            st.markdown("### Basic Experiment Planning")
+            
+            st.info("""
+            **Statistical Experiment Planning** helps you design rigorous comparisons of XAI methods.
+            Key considerations:
+            - Sample size calculation
+            - Power analysis  
+            - Multiple comparison corrections
+            - Friedman test for multiple methods
+            - Data type specific tests
+            """)
+            
+            # Extract available options
+            if not filtered_df.empty:
+                available_datasets = filtered_df['Dataset'].unique()
+                available_models = filtered_df['Model'].unique()
+                available_methods = filtered_df['Method'].unique()
+                
+                col1, col2, col3 = st.columns(3)
+                
+                with col1:
+                    st.metric("Available Datasets", len(available_datasets))
+                    st.write("**Datasets:**")
+                    for dataset in available_datasets:
+                        st.write(f"- {dataset}")
+                
+                with col2:
+                    st.metric("Available Models", len(available_models))
+                    st.write("**Models:**")
+                    for model in available_models:
+                        st.write(f"- {model}")
+                
+                with col3:
+                    st.metric("Available Methods", len(available_methods))
+                    st.write("**Methods:**")
+                    for method in available_methods:
+                        st.write(f"- {method}")
+                
+                # Basic power calculation
+                st.markdown("#### 📊 Basic Power Analysis")
+                
+                n_methods = len(available_methods)
+                if n_methods >= 3:
+                    # Simplified power calculation
+                    effect_size = st.slider("Expected effect size (Cohen's d):", 0.1, 2.0, 0.5, 0.1)
+                    alpha = st.selectbox("Alpha level:", [0.001, 0.01, 0.05], index=2)
+                    power = st.slider("Desired power:", 0.7, 0.95, 0.8, 0.05)
+                    
+                    # Simplified sample size calculation
+                    z_alpha = 1.96 if alpha == 0.05 else 2.58 if alpha == 0.01 else 3.29
+                    z_beta = 0.84 if power == 0.8 else 1.28 if power == 0.9 else 1.64
+                    
+                    n_per_group = max(3, int(2 * ((z_alpha + z_beta) ** 2) / (effect_size ** 2)))
+                    total_experiments = n_per_group * n_methods
+                    
+                    col1, col2 = st.columns(2)
+                    
+                    with col1:
+                        st.metric("Sample Size per Method", n_per_group)
+                        st.metric("Total Experiments", total_experiments)
+                    
+                    with col2:
+                        st.info(f"""
+                        **Recommended Statistical Tests:**
+                        - **Friedman Test**: For comparing {n_methods} methods
+                        - **Post-hoc**: Pairwise comparisons with Bonferroni correction
+                        - **Effect Size**: Kendall's W for Friedman test
+                        """)
+                else:
+                    st.warning("Need at least 3 methods for multi-method comparison planning.")
+            else:
+                st.warning("No data available for experiment planning.")
     
     with tab1:
         st.header("📈 Experiment Overview")

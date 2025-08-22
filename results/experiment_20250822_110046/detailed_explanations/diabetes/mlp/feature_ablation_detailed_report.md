@@ -1,0 +1,173 @@
+# Detailed Explanation Report
+
+**Dataset:** diabetes  
+**Model:** mlp  
+**Explanation Method:** feature_ablation  
+**Generated:** 2025-08-22 14:25:20  
+
+## Summary Statistics
+
+- **Total Instances:** 89
+- **Valid Explanations:** 89
+- **Errors:** 0
+- **Model Accuracy:** 0.4494
+
+## Prediction Analysis
+
+- **Correct Predictions:** 40 (44.9%)
+- **Incorrect Predictions:** 49 (55.1%)
+
+## Feature Importance Analysis
+
+### Most Frequently Important Features
+
+| Feature Index | Frequency | Avg Importance | Percentage |
+|---------------|-----------|----------------|------------|
+| 0 | 89 | 0.1573 | 100.0% |
+| 1 | 89 | 0.2022 | 100.0% |
+| 2 | 89 | 0.2360 | 100.0% |
+| 3 | 89 | 0.1461 | 100.0% |
+| 4 | 89 | 0.1348 | 100.0% |
+
+## Sample Explanations
+
+### Correct Predictions (Sample)
+
+#### Instance 0
+
+- **True Label:** 1.0
+- **Prediction:** 1.0
+- **Prediction Probabilities:** ['0.226', '0.446', '0.328']
+- **Top Features:**
+  - Feature 0: 0.0000
+  - Feature 1: 1.0000
+  - Feature 2: 1.0000
+
+#### Instance 3
+
+- **True Label:** 2.0
+- **Prediction:** 2.0
+- **Prediction Probabilities:** ['0.000', '0.004', '0.996']
+- **Top Features:**
+  - Feature 0: 0.0000
+  - Feature 1: 0.0000
+  - Feature 2: 1.0000
+
+#### Instance 4
+
+- **True Label:** 0.0
+- **Prediction:** 0.0
+- **Prediction Probabilities:** ['1.000', '0.000', '0.000']
+- **Top Features:**
+  - Feature 0: 0.0000
+  - Feature 1: 0.0000
+  - Feature 2: 0.0000
+
+#### Instance 6
+
+- **True Label:** 2.0
+- **Prediction:** 2.0
+- **Prediction Probabilities:** ['0.303', '0.046', '0.651']
+- **Top Features:**
+  - Feature 0: 0.0000
+  - Feature 1: 2.0000
+  - Feature 2: 1.0000
+
+#### Instance 8
+
+- **True Label:** 1.0
+- **Prediction:** 1.0
+- **Prediction Probabilities:** ['0.046', '0.866', '0.088']
+- **Top Features:**
+  - Feature 0: 0.0000
+  - Feature 1: 0.0000
+  - Feature 2: 0.0000
+
+### Incorrect Predictions (Sample)
+
+#### Instance 1
+
+- **True Label:** 0.0
+- **Prediction:** 2.0
+- **Prediction Probabilities:** ['0.013', '0.038', '0.950']
+- **Top Features:**
+  - Feature 0: 0.0000
+  - Feature 1: 0.0000
+  - Feature 2: 0.0000
+
+#### Instance 2
+
+- **True Label:** 1.0
+- **Prediction:** 0.0
+- **Prediction Probabilities:** ['0.984', '0.016', '0.000']
+- **Top Features:**
+  - Feature 0: 0.0000
+  - Feature 1: 0.0000
+  - Feature 2: 1.0000
+
+#### Instance 5
+
+- **True Label:** 1.0
+- **Prediction:** 0.0
+- **Prediction Probabilities:** ['0.828', '0.106', '0.065']
+- **Top Features:**
+  - Feature 0: 0.0000
+  - Feature 1: 2.0000
+  - Feature 2: 0.0000
+
+## Detailed Results Table
+
+| Instance ID | True Label | Prediction | Correct | Top Feature | Top Importance |
+|-------------|------------|------------|---------|-------------|----------------|
+| 0 | 1.0 | 1.000 | YES | 0 | 0 |
+| 1 | 0.0 | 2.000 | NO | 0 | 0 |
+| 2 | 1.0 | 0.000 | NO | 0 | 0 |
+| 3 | 2.0 | 2.000 | YES | 0 | 0 |
+| 4 | 0.0 | 0.000 | YES | 0 | 0 |
+| 5 | 1.0 | 0.000 | NO | 0 | 0 |
+| 6 | 2.0 | 2.000 | YES | 0 | 0 |
+| 7 | 1.0 | 2.000 | NO | 0 | 0 |
+| 8 | 1.0 | 1.000 | YES | 0 | 0 |
+| 9 | 0.0 | 0.000 | YES | 0 | 0 |
+| 10 | 1.0 | 0.000 | NO | 0 | 0 |
+| 11 | 0.0 | 0.000 | YES | 0 | 0 |
+| 12 | 0.0 | 1.000 | NO | 0 | 0 |
+| 13 | 2.0 | 1.000 | NO | 0 | 1 |
+| 14 | 1.0 | 0.000 | NO | 0 | 0 |
+| 15 | 2.0 | 2.000 | YES | 0 | 0 |
+| 16 | 0.0 | 0.000 | YES | 0 | 0 |
+| 17 | 0.0 | 1.000 | NO | 0 | 0 |
+| 18 | 0.0 | 1.000 | NO | 0 | 0 |
+| 19 | 0.0 | 0.000 | YES | 0 | 0 |
+| 20 | 0.0 | 1.000 | NO | 0 | 1 |
+| 21 | 0.0 | 1.000 | NO | 0 | 1 |
+| 22 | 0.0 | 0.000 | YES | 0 | 0 |
+| 23 | 0.0 | 0.000 | YES | 0 | 0 |
+| 24 | 0.0 | 0.000 | YES | 0 | 0 |
+| 25 | 2.0 | 1.000 | NO | 0 | 0 |
+| 26 | 1.0 | 1.000 | YES | 0 | 0 |
+| 27 | 1.0 | 2.000 | NO | 0 | 0 |
+| 28 | 2.0 | 1.000 | NO | 0 | 0 |
+| 29 | 1.0 | 0.000 | NO | 0 | 0 |
+| 30 | 0.0 | 0.000 | YES | 0 | 0 |
+| 31 | 2.0 | 2.000 | YES | 0 | 0 |
+| 32 | 0.0 | 0.000 | YES | 0 | 0 |
+| 33 | 1.0 | 0.000 | NO | 0 | 0 |
+| 34 | 0.0 | 1.000 | NO | 0 | 0 |
+| 35 | 1.0 | 0.000 | NO | 0 | 0 |
+| 36 | 1.0 | 2.000 | NO | 0 | 0 |
+| 37 | 0.0 | 1.000 | NO | 0 | 1 |
+| 38 | 0.0 | 1.000 | NO | 0 | 0 |
+| 39 | 1.0 | 0.000 | NO | 0 | 0 |
+| 40 | 0.0 | 0.000 | YES | 0 | 0 |
+| 41 | 0.0 | 0.000 | YES | 0 | 0 |
+| 42 | 1.0 | 1.000 | YES | 0 | 0 |
+| 43 | 2.0 | 2.000 | YES | 0 | 2 |
+| 44 | 0.0 | 0.000 | YES | 0 | 0 |
+| 45 | 0.0 | 1.000 | NO | 0 | 1 |
+| 46 | 2.0 | 2.000 | YES | 0 | 0 |
+| 47 | 0.0 | 1.000 | NO | 0 | 1 |
+| 48 | 0.0 | 0.000 | YES | 0 | 0 |
+| 49 | 1.0 | 0.000 | NO | 0 | 0 |
+
+*Showing first 50 of 89 instances. See JSON file for complete data.*
