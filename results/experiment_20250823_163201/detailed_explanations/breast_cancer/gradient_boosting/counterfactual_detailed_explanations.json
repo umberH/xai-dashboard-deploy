@@ -1,0 +1,1712 @@
+[
+  {
+    "instance_id": 0,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9996670391693392,
+      0.00033296083066076596
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 1,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0001873931197671208,
+      0.9998126068802329
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 2,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9967767089031169,
+      0.0032232910968831093
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 3,
+    "true_label": 1.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.8762236027425518,
+      0.12377639725744813
+    ],
+    "correct_prediction": false,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 4,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9995627547862893,
+      0.000437245213710655
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 5,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0008291429361538816,
+      0.9991708570638461
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 6,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.00026199619335753876,
+      0.9997380038066425
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 7,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9996670391693392,
+      0.00033296083066076596
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 8,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9994324819583509,
+      0.0005675180416491682
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 9,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9996619098191322,
+      0.0003380901808678258
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 10,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0005713162077367606,
+      0.9994286837922632
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 11,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9987683880740241,
+      0.001231611925975883
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 12,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.00024319848214526818,
+      0.9997568015178547
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 13,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9995447583623405,
+      0.00045524163765947595
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 14,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9996077089778302,
+      0.0003922910221697645
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 15,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.03035642637085767,
+      0.9696435736291423
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 16,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.23721638834479764,
+      0.7627836116552024
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 17,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.024209863989231528,
+      0.9757901360107685
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 18,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0002652300485419534,
+      0.999734769951458
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 19,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0015948762948330142,
+      0.998405123705167
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 20,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9985604140348834,
+      0.0014395859651166439
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 21,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9427312942339652,
+      0.05726870576603482
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 22,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0007301487418583941,
+      0.9992698512581416
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 23,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0007251565425986373,
+      0.9992748434574014
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 24,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0008656363752573837,
+      0.9991343636247426
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 25,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.19954813260342963,
+      0.8004518673965704
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 26,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9996619098191322,
+      0.0003380901808678258
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 27,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0008565600644420135,
+      0.999143439935558
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 28,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.000333132858872931,
+      0.9996668671411271
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 29,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.00043831960214502086,
+      0.999561680397855
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 30,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.003972825543362646,
+      0.9960271744566374
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 31,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0001873931197671208,
+      0.9998126068802329
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 32,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0009233602787286355,
+      0.9990766397212714
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 33,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.01597895815931072,
+      0.9840210418406893
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 34,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9995878821381066,
+      0.00041211786189340375
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 35,
+    "true_label": 0.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.06124805375444331,
+      0.9387519462455567
+    ],
+    "correct_prediction": false,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 36,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.00037342474123580605,
+      0.9996265752587642
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 37,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.022125672935079388,
+      0.9778743270649206
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 38,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.03420296778881471,
+      0.9657970322111853
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 39,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9996339440797087,
+      0.00036605592029129614
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 40,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.00033302731273920916,
+      0.9996669726872608
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 41,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0002537224813128347,
+      0.9997462775186872
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 42,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0017545821047191268,
+      0.9982454178952809
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 43,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9995431336964365,
+      0.0004568663035635063
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 44,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9995932911853829,
+      0.0004067088146171033
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 45,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.031024204664365507,
+      0.9689757953356345
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 46,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0002133017031183959,
+      0.9997866982968816
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 47,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0005999786929070661,
+      0.9994000213070929
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 48,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.08412083414097193,
+      0.9158791658590281
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 49,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9995431336964365,
+      0.0004568663035635063
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 50,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0001828321035736158,
+      0.9998171678964264
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 51,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.15448626384214237,
+      0.8455137361578576
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 52,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.000513864258185448,
+      0.9994861357418146
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 53,
+    "true_label": 0.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.05393183917944799,
+      0.946068160820552
+    ],
+    "correct_prediction": false,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 54,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0015739302978898806,
+      0.9984260697021101
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 55,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0005694135293049518,
+      0.999430586470695
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 56,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0001873931197671208,
+      0.9998126068802329
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 57,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9981664594982613,
+      0.0018335405017387283
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 58,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9995693878234806,
+      0.0004306121765194512
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 59,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.002098258407656206,
+      0.9979017415923438
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 60,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0004989034480559207,
+      0.9995010965519441
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 61,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0004732360827591764,
+      0.9995267639172408
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 62,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.00045903067427666144,
+      0.9995409693257233
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 63,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.001886632898167262,
+      0.9981133671018327
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 64,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9990075032615728,
+      0.000992496738427131
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 65,
+    "true_label": 0.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.06833381314852105,
+      0.931666186851479
+    ],
+    "correct_prediction": false,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 66,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.21071271029972405,
+      0.789287289700276
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 67,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0002887989754196685,
+      0.9997112010245803
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 68,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.007664722375362976,
+      0.992335277624637
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 69,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0030928385788482338,
+      0.9969071614211518
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 70,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0009565137002102153,
+      0.9990434862997898
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 71,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0003091382011526367,
+      0.9996908617988474
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 72,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.00034550645958020265,
+      0.9996544935404198
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 73,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9995693878234806,
+      0.0004306121765194512
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 74,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9994849873691617,
+      0.0005150126308383305
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 75,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9987831428821573,
+      0.001216857117842678
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 76,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9860960749890542,
+      0.01390392501094589
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 77,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0002493665405426393,
+      0.9997506334594574
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 78,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0005236363846319314,
+      0.9994763636153681
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 79,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0002767259667263433,
+      0.9997232740332737
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 80,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.005610835824994664,
+      0.9943891641750053
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 81,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.000333132858872931,
+      0.9996668671411271
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 82,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.999336620727275,
+      0.0006633792727249359
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 83,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0002537224813128347,
+      0.9997462775186872
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 84,
+    "true_label": 0.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.04934255625352313,
+      0.9506574437464769
+    ],
+    "correct_prediction": false,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 85,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.00040954809652704594,
+      0.999590451903473
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 86,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.007402760781367812,
+      0.9925972392186322
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 87,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0015068044083155208,
+      0.9984931955916845
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 88,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0018341225302809239,
+      0.9981658774697191
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 89,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0050873073329235075,
+      0.9949126926670765
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 90,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0057791700743760055,
+      0.994220829925624
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 91,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0006968331828118846,
+      0.9993031668171881
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 92,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9995500642528025,
+      0.0004499357471975803
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 93,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9929442488234235,
+      0.007055751176576522
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 94,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9995627547862893,
+      0.000437245213710655
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 95,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0001873931197671208,
+      0.9998126068802329
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 96,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9989064863142763,
+      0.0010935136857237238
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 97,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0005053745442454849,
+      0.9994946254557545
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 98,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9996378355092861,
+      0.0003621644907138735
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 99,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.013648987619509056,
+      0.9863510123804909
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 100,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9896838268681171,
+      0.010316173131882923
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 101,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9995431336964365,
+      0.0004568663035635063
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 102,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9984505761058422,
+      0.0015494238941577711
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 103,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0006352436088734592,
+      0.9993647563911265
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 104,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9996339440797087,
+      0.00036605592029129614
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 105,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9995693878234806,
+      0.0004306121765194512
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 106,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0004521700303778964,
+      0.9995478299696221
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 107,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9994597517367185,
+      0.0005402482632814666
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 108,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0005240333701607147,
+      0.9994759666298393
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 109,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9996394975603675,
+      0.0003605024396324551
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 110,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.15384964616258967,
+      0.8461503538374103
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 111,
+    "true_label": 0.0,
+    "prediction": 0.0,
+    "prediction_proba": [
+      0.9987268804413786,
+      0.0012731195586214658
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 112,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.001529463843210399,
+      0.9984705361567896
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 113,
+    "true_label": 1.0,
+    "prediction": 1.0,
+    "prediction_proba": [
+      0.0005927277034032397,
+      0.9994072722965968
+    ],
+    "correct_prediction": true,
+    "feature_importance": [],
+    "top_features": [],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  }
+]

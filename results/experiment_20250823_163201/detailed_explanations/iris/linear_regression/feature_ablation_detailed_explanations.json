@@ -1,0 +1,1202 @@
+[
+  {
+    "instance_id": 0,
+    "true_label": 0.0,
+    "prediction": -0.021802036940573255,
+    "prediction_proba": [
+      -0.021802036940573255
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.1435248295150342,
+      0.002151538178993162,
+      0.5421630248310264,
+      0.6253153798035743
+    ],
+    "top_features": [
+      {
+        "feature_index": 3,
+        "importance": 0.6253153798035743,
+        "abs_importance": 0.6253153798035743
+      },
+      {
+        "feature_index": 2,
+        "importance": 0.5421630248310264,
+        "abs_importance": 0.5421630248310264
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.1435248295150342,
+        "abs_importance": 0.1435248295150342
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.002151538178993162,
+        "abs_importance": 0.002151538178993162
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 1,
+    "true_label": 2.0,
+    "prediction": 1.594678905525389,
+    "prediction_proba": [
+      1.594678905525389
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.025718322051827114,
+      0.00215153817899294,
+      0.24803409638018614,
+      0.3702115930180365
+    ],
+    "top_features": [
+      {
+        "feature_index": 3,
+        "importance": 0.3702115930180365,
+        "abs_importance": 0.3702115930180365
+      },
+      {
+        "feature_index": 2,
+        "importance": 0.24803409638018614,
+        "abs_importance": 0.24803409638018614
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.025718322051827114,
+        "abs_importance": 0.025718322051827114
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.00215153817899294,
+        "abs_importance": 0.00215153817899294
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 2,
+    "true_label": 1.0,
+    "prediction": 0.8918912024316553,
+    "prediction_proba": [
+      0.8918912024316553
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.09374743199536917,
+      0.02886028798718554,
+      0.10316462415813055,
+      0.12755189339276873
+    ],
+    "top_features": [
+      {
+        "feature_index": 3,
+        "importance": 0.12755189339276873,
+        "abs_importance": 0.12755189339276873
+      },
+      {
+        "feature_index": 2,
+        "importance": 0.10316462415813055,
+        "abs_importance": 0.10316462415813055
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.09374743199536917,
+        "abs_importance": 0.09374743199536917
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.02886028798718554,
+        "abs_importance": 0.02886028798718554
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 3,
+    "true_label": 1.0,
+    "prediction": 0.8863871812290878,
+    "prediction_proba": [
+      0.8863871812290878
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.08379195249143634,
+      0.033311746288550936,
+      0.10316462415813055,
+      0.12755189339276884
+    ],
+    "top_features": [
+      {
+        "feature_index": 3,
+        "importance": 0.12755189339276884,
+        "abs_importance": 0.12755189339276884
+      },
+      {
+        "feature_index": 2,
+        "importance": 0.10316462415813055,
+        "abs_importance": 0.10316462415813055
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.08379195249143634,
+        "abs_importance": 0.08379195249143634
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.033311746288550936,
+        "abs_importance": 0.033311746288550936
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 4,
+    "true_label": 0.0,
+    "prediction": -0.030704953543304048,
+    "prediction_proba": [
+      -0.030704953543304048
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.1435248295150342,
+      0.006751378423737631,
+      0.5421630248310264,
+      0.6253153798035743
+    ],
+    "top_features": [
+      {
+        "feature_index": 3,
+        "importance": 0.6253153798035743,
+        "abs_importance": 0.6253153798035743
+      },
+      {
+        "feature_index": 2,
+        "importance": 0.5421630248310264,
+        "abs_importance": 0.5421630248310264
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.1435248295150342,
+        "abs_importance": 0.1435248295150342
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.006751378423737631,
+        "abs_importance": 0.006751378423737631
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 5,
+    "true_label": 1.0,
+    "prediction": 1.3930728599434359,
+    "prediction_proba": [
+      1.3930728599434359
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.045629281059692994,
+      0.011202836725102916,
+      0.2041342563128965,
+      0.2457707214153353
+    ],
+    "top_features": [
+      {
+        "feature_index": 3,
+        "importance": 0.2457707214153353,
+        "abs_importance": 0.2457707214153353
+      },
+      {
+        "feature_index": 2,
+        "importance": 0.2041342563128965,
+        "abs_importance": 0.2041342563128965
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.045629281059692994,
+        "abs_importance": 0.045629281059692994
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.011202836725102916,
+        "abs_importance": 0.011202836725102916
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 6,
+    "true_label": 0.0,
+    "prediction": -0.13427150585756575,
+    "prediction_proba": [
+      -0.13427150585756575
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.12361387050716832,
+      0.024557211629198994,
+      0.6080127849319606,
+      0.6253153798035742
+    ],
+    "top_features": [
+      {
+        "feature_index": 3,
+        "importance": 0.6253153798035742,
+        "abs_importance": 0.6253153798035742
+      },
+      {
+        "feature_index": 2,
+        "importance": 0.6080127849319606,
+        "abs_importance": 0.6080127849319606
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.12361387050716832,
+        "abs_importance": 0.12361387050716832
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.024557211629198994,
+        "abs_importance": 0.024557211629198994
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 7,
+    "true_label": 0.0,
+    "prediction": -0.05136298505078585,
+    "prediction_proba": [
+      -0.05136298505078585
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.043970034475704134,
+      0.015654295026468423,
+      0.45436334469644735,
+      0.6253153798035743
+    ],
+    "top_features": [
+      {
+        "feature_index": 3,
+        "importance": 0.6253153798035743,
+        "abs_importance": 0.6253153798035743
+      },
+      {
+        "feature_index": 2,
+        "importance": 0.45436334469644735,
+        "abs_importance": 0.45436334469644735
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.043970034475704134,
+        "abs_importance": 0.043970034475704134
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.015654295026468423,
+        "abs_importance": 0.015654295026468423
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 8,
+    "true_label": 2.0,
+    "prediction": 1.7451476192132926,
+    "prediction_proba": [
+      1.7451476192132926
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.0655402400675591,
+      0.002151538178993162,
+      0.3138838564811206,
+      0.494652464620738
+    ],
+    "top_features": [
+      {
+        "feature_index": 3,
+        "importance": 0.494652464620738,
+        "abs_importance": 0.494652464620738
+      },
+      {
+        "feature_index": 2,
+        "importance": 0.3138838564811206,
+        "abs_importance": 0.3138838564811206
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.0655402400675591,
+        "abs_importance": 0.0655402400675591
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.002151538178993162,
+        "abs_importance": 0.002151538178993162
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 9,
+    "true_label": 1.0,
+    "prediction": 1.389906274514289,
+    "prediction_proba": [
+      1.389906274514289
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.043970034475704356,
+      0.002151538178993384,
+      0.16023441624560708,
+      0.1835502856139848
+    ],
+    "top_features": [
+      {
+        "feature_index": 3,
+        "importance": 0.1835502856139848,
+        "abs_importance": 0.1835502856139848
+      },
+      {
+        "feature_index": 2,
+        "importance": 0.16023441624560708,
+        "abs_importance": 0.16023441624560708
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.043970034475704356,
+        "abs_importance": 0.043970034475704356
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.002151538178993384,
+        "abs_importance": 0.002151538178993384
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 10,
+    "true_label": 2.0,
+    "prediction": 1.786963490250585,
+    "prediction_proba": [
+      1.786963490250585
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.14518407609902328,
+      0.006602996480358669,
+      0.555332976851213,
+      0.3702115930180365
+    ],
+    "top_features": [
+      {
+        "feature_index": 2,
+        "importance": 0.555332976851213,
+        "abs_importance": 0.555332976851213
+      },
+      {
+        "feature_index": 3,
+        "importance": 0.3702115930180365,
+        "abs_importance": 0.3702115930180365
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.14518407609902328,
+        "abs_importance": 0.14518407609902328
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.006602996480358669,
+        "abs_importance": 0.006602996480358669
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 11,
+    "true_label": 2.0,
+    "prediction": 1.8655856302666023,
+    "prediction_proba": [
+      1.8655856302666023
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.10536215808329086,
+      0.0022999201223719012,
+      0.2919339364474758,
+      0.6813137720247899
+    ],
+    "top_features": [
+      {
+        "feature_index": 3,
+        "importance": 0.6813137720247899,
+        "abs_importance": 0.6813137720247899
+      },
+      {
+        "feature_index": 2,
+        "importance": 0.2919339364474758,
+        "abs_importance": 0.2919339364474758
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.10536215808329086,
+        "abs_importance": 0.10536215808329086
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.0022999201223719012,
+        "abs_importance": 0.0022999201223719012
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 12,
+    "true_label": 2.0,
+    "prediction": 2.001288011017863,
+    "prediction_proba": [
+      2.001288011017863
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.0655402400675591,
+      0.002151538178993162,
+      0.4455833766829893,
+      0.6190933362234394
+    ],
+    "top_features": [
+      {
+        "feature_index": 3,
+        "importance": 0.6190933362234394,
+        "abs_importance": 0.6190933362234394
+      },
+      {
+        "feature_index": 2,
+        "importance": 0.4455833766829893,
+        "abs_importance": 0.4455833766829893
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.0655402400675591,
+        "abs_importance": 0.0655402400675591
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.002151538178993162,
+        "abs_importance": 0.002151538178993162
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 13,
+    "true_label": 1.0,
+    "prediction": 1.2814485628722279,
+    "prediction_proba": [
+      1.2814485628722279
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.05558476056362616,
+      0.006751378423737409,
+      0.16023441624560686,
+      0.18355028561398457
+    ],
+    "top_features": [
+      {
+        "feature_index": 3,
+        "importance": 0.18355028561398457,
+        "abs_importance": 0.18355028561398457
+      },
+      {
+        "feature_index": 2,
+        "importance": 0.16023441624560686,
+        "abs_importance": 0.16023441624560686
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.05558476056362616,
+        "abs_importance": 0.05558476056362616
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.006751378423737409,
+        "abs_importance": 0.006751378423737409
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 14,
+    "true_label": 0.0,
+    "prediction": -0.055440907102343284,
+    "prediction_proba": [
+      -0.055440907102343284
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.08379195249143612,
+      0.015654295026468423,
+      0.4982631847637369,
+      0.6253153798035743
+    ],
+    "top_features": [
+      {
+        "feature_index": 3,
+        "importance": 0.6253153798035743,
+        "abs_importance": 0.6253153798035743
+      },
+      {
+        "feature_index": 2,
+        "importance": 0.4982631847637369,
+        "abs_importance": 0.4982631847637369
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.08379195249143612,
+        "abs_importance": 0.08379195249143612
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.015654295026468423,
+        "abs_importance": 0.015654295026468423
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 15,
+    "true_label": 0.0,
+    "prediction": -0.0729393688346226,
+    "prediction_proba": [
+      -0.0729393688346226
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.08379195249143634,
+      0.011202836725102916,
+      0.5202131047973816,
+      0.6253153798035743
+    ],
+    "top_features": [
+      {
+        "feature_index": 3,
+        "importance": 0.6253153798035743,
+        "abs_importance": 0.6253153798035743
+      },
+      {
+        "feature_index": 2,
+        "importance": 0.5202131047973816,
+        "abs_importance": 0.5202131047973816
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.08379195249143634,
+        "abs_importance": 0.08379195249143634
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.011202836725102916,
+        "abs_importance": 0.011202836725102916
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 16,
+    "true_label": 0.0,
+    "prediction": -0.2276432530429341,
+    "prediction_proba": [
+      -0.2276432530429341
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.004148116459972151,
+      0.04236304483466058,
+      0.5641129448646712,
+      0.6253153798035743
+    ],
+    "top_features": [
+      {
+        "feature_index": 3,
+        "importance": 0.6253153798035743,
+        "abs_importance": 0.6253153798035743
+      },
+      {
+        "feature_index": 2,
+        "importance": 0.5641129448646712,
+        "abs_importance": 0.5641129448646712
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.04236304483466058,
+        "abs_importance": 0.04236304483466058
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.004148116459972151,
+        "abs_importance": 0.004148116459972151
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 17,
+    "true_label": 1.0,
+    "prediction": 1.0116713436059783,
+    "prediction_proba": [
+      1.0116713436059783
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.024059075467838142,
+      0.024408829685820144,
+      0.028534896043738156,
+      0.06533145759141812
+    ],
+    "top_features": [
+      {
+        "feature_index": 3,
+        "importance": 0.06533145759141812,
+        "abs_importance": 0.06533145759141812
+      },
+      {
+        "feature_index": 2,
+        "importance": 0.028534896043738156,
+        "abs_importance": 0.028534896043738156
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.024408829685820144,
+        "abs_importance": 0.024408829685820144
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.024059075467838142,
+        "abs_importance": 0.024059075467838142
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 18,
+    "true_label": 1.0,
+    "prediction": 1.3063487805540621,
+    "prediction_proba": [
+      1.3063487805540621
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.025718322051826892,
+      0.006602996480358669,
+      0.20413425631289672,
+      0.12132984981263384
+    ],
+    "top_features": [
+      {
+        "feature_index": 2,
+        "importance": 0.20413425631289672,
+        "abs_importance": 0.20413425631289672
+      },
+      {
+        "feature_index": 3,
+        "importance": 0.12132984981263384,
+        "abs_importance": 0.12132984981263384
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.025718322051826892,
+        "abs_importance": 0.025718322051826892
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.006602996480358669,
+        "abs_importance": 0.006602996480358669
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 19,
+    "true_label": 2.0,
+    "prediction": 1.582684464995677,
+    "prediction_proba": [
+      1.582684464995677
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.015762842547894174,
+      0.00215153817899294,
+      0.2260841763465411,
+      0.3702115930180365
+    ],
+    "top_features": [
+      {
+        "feature_index": 3,
+        "importance": 0.3702115930180365,
+        "abs_importance": 0.3702115930180365
+      },
+      {
+        "feature_index": 2,
+        "importance": 0.2260841763465411,
+        "abs_importance": 0.2260841763465411
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.015762842547894174,
+        "abs_importance": 0.015762842547894174
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.00215153817899294,
+        "abs_importance": 0.00215153817899294
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 20,
+    "true_label": 0.0,
+    "prediction": -0.10861720002217157,
+    "prediction_proba": [
+      -0.10861720002217157
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.04397003447570391,
+      0.0290086699305645,
+      0.4982631847637369,
+      0.6253153798035743
+    ],
+    "top_features": [
+      {
+        "feature_index": 3,
+        "importance": 0.6253153798035743,
+        "abs_importance": 0.6253153798035743
+      },
+      {
+        "feature_index": 2,
+        "importance": 0.4982631847637369,
+        "abs_importance": 0.4982631847637369
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.04397003447570391,
+        "abs_importance": 0.04397003447570391
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.0290086699305645,
+        "abs_importance": 0.0290086699305645
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 21,
+    "true_label": 2.0,
+    "prediction": 2.057466625244043,
+    "prediction_proba": [
+      2.057466625244043
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.08545119907542498,
+      0.0022999201223719012,
+      0.40168353661569967,
+      0.7435342078261407
+    ],
+    "top_features": [
+      {
+        "feature_index": 3,
+        "importance": 0.7435342078261407,
+        "abs_importance": 0.7435342078261407
+      },
+      {
+        "feature_index": 2,
+        "importance": 0.40168353661569967,
+        "abs_importance": 0.40168353661569967
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.08545119907542498,
+        "abs_importance": 0.08545119907542498
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.0022999201223719012,
+        "abs_importance": 0.0022999201223719012
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 22,
+    "true_label": 1.0,
+    "prediction": 1.1724010271994014,
+    "prediction_proba": [
+      1.1724010271994014
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.07549571957149204,
+      0.006602996480358669,
+      0.18218433627925168,
+      0.05910941401128311
+    ],
+    "top_features": [
+      {
+        "feature_index": 2,
+        "importance": 0.18218433627925168,
+        "abs_importance": 0.18218433627925168
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.07549571957149204,
+        "abs_importance": 0.07549571957149204
+      },
+      {
+        "feature_index": 3,
+        "importance": 0.05910941401128311,
+        "abs_importance": 0.05910941401128311
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.006602996480358669,
+        "abs_importance": 0.006602996480358669
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 23,
+    "true_label": 2.0,
+    "prediction": 1.5172524357609611,
+    "prediction_proba": [
+      1.5172524357609611
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.025718322051826892,
+      0.019957371384454747,
+      0.40168353661569944,
+      0.12132984981263384
+    ],
+    "top_features": [
+      {
+        "feature_index": 2,
+        "importance": 0.40168353661569944,
+        "abs_importance": 0.40168353661569944
+      },
+      {
+        "feature_index": 3,
+        "importance": 0.12132984981263384,
+        "abs_importance": 0.12132984981263384
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.025718322051826892,
+        "abs_importance": 0.025718322051826892
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.019957371384454747,
+        "abs_importance": 0.019957371384454747
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 24,
+    "true_label": 2.0,
+    "prediction": 1.976246567057237,
+    "prediction_proba": [
+      1.976246567057237
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.055584760563625935,
+      0.011054454781723955,
+      0.40168353661569967,
+      0.6190933362234394
+    ],
+    "top_features": [
+      {
+        "feature_index": 3,
+        "importance": 0.6190933362234394,
+        "abs_importance": 0.6190933362234394
+      },
+      {
+        "feature_index": 2,
+        "importance": 0.40168353661569967,
+        "abs_importance": 0.40168353661569967
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.055584760563625935,
+        "abs_importance": 0.055584760563625935
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.011054454781723955,
+        "abs_importance": 0.011054454781723955
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 25,
+    "true_label": 1.0,
+    "prediction": 1.494675512734085,
+    "prediction_proba": [
+      1.494675512734085
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.08545119907542498,
+      0.002151538178993162,
+      0.26998401641383096,
+      0.307991157216686
+    ],
+    "top_features": [
+      {
+        "feature_index": 3,
+        "importance": 0.307991157216686,
+        "abs_importance": 0.307991157216686
+      },
+      {
+        "feature_index": 2,
+        "importance": 0.26998401641383096,
+        "abs_importance": 0.26998401641383096
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.08545119907542498,
+        "abs_importance": 0.08545119907542498
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.002151538178993162,
+        "abs_importance": 0.002151538178993162
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 26,
+    "true_label": 1.0,
+    "prediction": 1.1862701646320972,
+    "prediction_proba": [
+      1.1862701646320972
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.07549571957149204,
+      0.002151538178993162,
+      0.13828449621196226,
+      0.12132984981263384
+    ],
+    "top_features": [
+      {
+        "feature_index": 2,
+        "importance": 0.13828449621196226,
+        "abs_importance": 0.13828449621196226
+      },
+      {
+        "feature_index": 3,
+        "importance": 0.12132984981263384,
+        "abs_importance": 0.12132984981263384
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.07549571957149204,
+        "abs_importance": 0.07549571957149204
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.002151538178993162,
+        "abs_importance": 0.002151538178993162
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 27,
+    "true_label": 0.0,
+    "prediction": -0.03681482096669553,
+    "prediction_proba": [
+      -0.03681482096669553
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.014103595963905091,
+      0.03346012823192979,
+      0.45436334469644724,
+      0.5630949440022234
+    ],
+    "top_features": [
+      {
+        "feature_index": 3,
+        "importance": 0.5630949440022234,
+        "abs_importance": 0.5630949440022234
+      },
+      {
+        "feature_index": 2,
+        "importance": 0.45436334469644724,
+        "abs_importance": 0.45436334469644724
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.03346012823192979,
+        "abs_importance": 0.03346012823192979
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.014103595963905091,
+        "abs_importance": 0.014103595963905091
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 28,
+    "true_label": 2.0,
+    "prediction": 1.6865565077115257,
+    "prediction_proba": [
+      1.6865565077115257
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.0655402400675591,
+      0.002151538178993384,
+      0.37973361658205484,
+      0.37021159301803674
+    ],
+    "top_features": [
+      {
+        "feature_index": 2,
+        "importance": 0.37973361658205484,
+        "abs_importance": 0.37973361658205484
+      },
+      {
+        "feature_index": 3,
+        "importance": 0.37021159301803674,
+        "abs_importance": 0.37021159301803674
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.0655402400675591,
+        "abs_importance": 0.0655402400675591
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.002151538178993384,
+        "abs_importance": 0.002151538178993384
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  },
+  {
+    "instance_id": 29,
+    "true_label": 0.0,
+    "prediction": -0.09730178614385399,
+    "prediction_proba": [
+      -0.09730178614385399
+    ],
+    "correct_prediction": true,
+    "feature_importance": [
+      0.06388099348357024,
+      0.0156542950264682,
+      0.5202131047973815,
+      0.6253153798035743
+    ],
+    "top_features": [
+      {
+        "feature_index": 3,
+        "importance": 0.6253153798035743,
+        "abs_importance": 0.6253153798035743
+      },
+      {
+        "feature_index": 2,
+        "importance": 0.5202131047973815,
+        "abs_importance": 0.5202131047973815
+      },
+      {
+        "feature_index": 0,
+        "importance": 0.06388099348357024,
+        "abs_importance": 0.06388099348357024
+      },
+      {
+        "feature_index": 1,
+        "importance": 0.0156542950264682,
+        "abs_importance": 0.0156542950264682
+      }
+    ],
+    "explanation_confidence": 1.0,
+    "explanation_metadata": {},
+    "instance_type": "ndarray"
+  }
+]

@@ -13,6 +13,7 @@ from pathlib import Path
 import numpy as np
 from typing import Dict, Any, List
 import altair as alt
+import matplotlib.pyplot as plt
 
 # Page configuration
 st.set_page_config(
@@ -318,7 +319,7 @@ def parse_feature_importance(importance_data):
 
 @st.cache_data
 def discover_available_experiments() -> Dict[str, Dict[str, Any]]:
-    """Discover all available experiment folders"""
+    """Discover all available experiment folders, sorted by timestamp (latest first)"""
     experiments = {}
     results_dir = Path("results")
     
@@ -342,12 +343,20 @@ def discover_available_experiments() -> Dict[str, Dict[str, Any]]:
                         "folder": str(exp_dir),
                         "display_name": f"Experiment {timestamp[:8]} {timestamp[9:15]}",
                         "comprehensive_results_count": len(data.get("comprehensive_results", [])),
-                        "description": f"Comprehensive experiment from {timestamp[:8]}"
+                        "description": f"Comprehensive experiment from {timestamp[:8]}",
+                        "sort_key": timestamp  # Add sort key for ordering
                     }
                 except Exception as e:
                     continue
     
-    return experiments
+    # Sort experiments by timestamp (latest first)
+    sorted_experiments = dict(sorted(
+        experiments.items(), 
+        key=lambda x: x[1]["sort_key"], 
+        reverse=True
+    ))
+    
+    return sorted_experiments
 
 @st.cache_data
 def load_experiment_data(experiment_info: Dict[str, Any]) -> Dict[str, Any]:
@@ -452,6 +461,533 @@ def create_explanation_dataframe(results: Dict[str, Any]) -> pd.DataFrame:
     
     return pd.DataFrame(explanation_data)
 
+def render_experiment_planner(results: Dict[str, Any]):
+    """Integrated experiment planner component"""
+    import scikit_posthocs as sp
+    from scipy import stats
+    import itertools
+    import matplotlib.pyplot as plt
+    
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+        padding: 2rem;
+        border-radius: 20px;
+        margin: 1rem 0;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(255, 154, 158, 0.3);
+    ">
+        <h2 style="color: white; margin: 0; font-size: 2.5rem; font-weight: 700;">
+            🧪 Statistical Experiment Planner
+        </h2>
+        <p style="color: rgba(255,255,255,0.9); margin: 0.5rem 0 0 0; font-size: 1.2rem;">
+            Design rigorous experiments for comparing XAI methods
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Create tabs for different planning aspects
+    plan_tab1, plan_tab2, plan_tab3, plan_tab4, plan_tab5 = st.tabs([
+        "🎯 Experiment Design",
+        "📊 Power Analysis", 
+        "🔬 Sample Size Calc",
+        "🧮 Specialized Tests",
+        "📊 Critical Difference"
+    ])
+    
+    # Create metrics dataframe for analysis
+    metrics_df = create_metrics_dataframe(results)
+    
+    with plan_tab1:
+        st.subheader("🎯 Experiment Design")
+        
+        if not metrics_df.empty:
+            available_datasets = sorted(metrics_df['Dataset'].unique())
+            available_models = sorted(metrics_df['Model'].unique())
+            available_methods = sorted(metrics_df['Method'].unique())
+            
+            col1, col2, col3 = st.columns(3)
+            
+            with col1:
+                st.metric("Available Datasets", len(available_datasets))
+                st.write("**Datasets:**")
+                for dataset in available_datasets:
+                    st.write(f"- {dataset}")
+            
+            with col2:
+                st.metric("Available Models", len(available_models))
+                st.write("**Models:**")
+                for model in available_models:
+                    st.write(f"- {model}")
+            
+            with col3:
+                st.metric("Available Methods", len(available_methods))
+                st.write("**Methods:**")
+                for method in available_methods:
+                    st.write(f"- {method}")
+                    
+        else:
+            st.warning("No data available for experiment design.")
+    
+    with plan_tab2:
+        st.subheader("📊 Power Analysis")
+        
+        if not metrics_df.empty:
+            n_methods = len(metrics_df['Method'].unique())
+            
+            if n_methods >= 2:
+                effect_size = st.slider("Expected effect size (Cohen's d):", 0.1, 2.0, 0.5, 0.1, key="exp_effect_size")
+                alpha = st.selectbox("Alpha level:", [0.001, 0.01, 0.05], index=2, key="exp_alpha_level")
+                power = st.slider("Desired power:", 0.7, 0.95, 0.8, 0.05, key="exp_power")
+                
+                # Simplified power calculation
+                z_alpha = 1.96 if alpha == 0.05 else 2.58 if alpha == 0.01 else 3.29
+                z_beta = 0.84 if power == 0.8 else 1.28 if power == 0.9 else 1.64
+                
+                n_per_group = max(3, int(2 * ((z_alpha + z_beta) ** 2) / (effect_size ** 2)))
+                total_experiments = n_per_group * n_methods
+                
+                col1, col2 = st.columns(2)
+                
+                with col1:
+                    st.metric("Sample Size per Method", n_per_group)
+                    st.metric("Total Experiments", total_experiments)
+                
+                with col2:
+                    st.info(f"""
+                    **Recommended Statistical Tests:**
+                    - **Friedman Test**: For comparing {n_methods} methods
+                    - **Wilcoxon Signed-Rank**: For pairwise comparisons
+                    - **McNemar Test**: For binary outcomes
+                    """)
+            else:
+                st.warning("Need at least 2 methods for power analysis.")
+        else:
+            st.warning("No data available for power analysis.")
+    
+    with plan_tab3:
+        st.subheader("🔬 Sample Size Calculator")
+        
+        st.info("""
+        **Sample Size Calculation** helps determine the minimum number of observations needed 
+        for statistically reliable comparisons between explanation methods.
+        """)
+        
+        if not metrics_df.empty:
+            # Sample size calculation interface
+            expected_effect = st.slider("Expected effect size:", 0.1, 2.0, 0.5, 0.1, key="sample_effect_size")
+            significance = st.selectbox("Significance level:", [0.001, 0.01, 0.05], index=2, key="sample_alpha")
+            power_level = st.slider("Desired statistical power:", 0.70, 0.95, 0.80, 0.05, key="sample_power")
+            
+            # Calculate sample size
+            alpha = significance
+            beta = 1 - power_level
+            z_alpha = stats.norm.ppf(1 - alpha/2)
+            z_beta = stats.norm.ppf(power_level)
+            
+            sample_size = int(2 * ((z_alpha + z_beta) ** 2) / (expected_effect ** 2))
+            sample_size = max(sample_size, 3)  # Minimum sample size
+            
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.metric("Calculated Sample Size", sample_size)
+            with col2:
+                st.metric("Per Method", sample_size)
+            with col3:
+                total_observations = sample_size * len(metrics_df['Method'].unique())
+                st.metric("Total Observations", total_observations)
+                
+        else:
+            st.warning("No data available for sample size calculation.")
+    
+    with plan_tab4:
+        st.subheader("🧮 Specialized Statistical Tests")
+        
+        # Wilcoxon and McNemar test interface
+        test_subtab1, test_subtab2 = st.tabs(["Wilcoxon Signed-Rank", "McNemar Test"])
+        
+        with test_subtab1:
+            st.markdown("#### Wilcoxon Signed-Rank Test")
+            st.info("Non-parametric test for comparing two related samples or paired observations.")
+            
+            if not metrics_df.empty:
+                # Method selection
+                available_methods = sorted(metrics_df['Method'].unique())
+                if len(available_methods) >= 2:
+                    method1 = st.selectbox("Select Method 1:", available_methods, key="wilcoxon_method1")
+                    method2 = st.selectbox("Select Method 2:", [m for m in available_methods if m != method1], key="wilcoxon_method2")
+                    metric_wilcoxon = st.selectbox("Select Metric:", ['faithfulness', 'monotonicity', 'completeness', 'stability', 'consistency', 'sparsity', 'simplicity'], key="wilcoxon_metric")
+                    
+                    if st.button("Run Wilcoxon Test", key="run_wilcoxon"):
+                        # Get data for both methods
+                        method1_data = metrics_df[metrics_df['Method'] == method1][metric_wilcoxon].dropna()
+                        method2_data = metrics_df[metrics_df['Method'] == method2][metric_wilcoxon].dropna()
+                        
+                        if len(method1_data) > 0 and len(method2_data) > 0:
+                            # Align data by creating matched pairs
+                            min_len = min(len(method1_data), len(method2_data))
+                            method1_aligned = method1_data.iloc[:min_len].values
+                            method2_aligned = method2_data.iloc[:min_len].values
+                            
+                            # Run Wilcoxon test
+                            try:
+                                statistic, p_value = stats.wilcoxon(method1_aligned, method2_aligned, alternative='two-sided')
+                                
+                                col1, col2, col3 = st.columns(3)
+                                with col1:
+                                    st.metric("W Statistic", f"{statistic:.4f}")
+                                with col2:
+                                    st.metric("p-value", f"{p_value:.4f}")
+                                with col3:
+                                    significance = "Significant" if p_value < 0.05 else "Not Significant"
+                                    st.metric("Result (α=0.05)", significance)
+                                
+                                # Show interpretation
+                                if p_value < 0.05:
+                                    st.success(f"There is a statistically significant difference between {method1} and {method2} on {metric_wilcoxon} (p < 0.05)")
+                                else:
+                                    st.info(f"No statistically significant difference found between {method1} and {method2} on {metric_wilcoxon} (p ≥ 0.05)")
+                                    
+                            except Exception as e:
+                                st.error(f"Error running Wilcoxon test: {e}")
+                        else:
+                            st.warning("Insufficient data for selected methods and metric.")
+                else:
+                    st.warning("Need at least 2 methods for Wilcoxon test.")
+            else:
+                st.warning("No data available for Wilcoxon test.")
+        
+        with test_subtab2:
+            st.markdown("#### McNemar Test")
+            st.info("Test for comparing paired binary outcomes (e.g., success/failure rates).")
+            
+            st.markdown("""
+            **McNemar Test Setup:**
+            - Convert continuous metrics to binary outcomes (above/below threshold)
+            - Compare success rates between two methods
+            - Useful for classification performance comparisons
+            """)
+            
+            if not metrics_df.empty:
+                available_methods = sorted(metrics_df['Method'].unique())
+                if len(available_methods) >= 2:
+                    method1_mc = st.selectbox("Select Method 1:", available_methods, key="mcnemar_method1")
+                    method2_mc = st.selectbox("Select Method 2:", [m for m in available_methods if m != method1_mc], key="mcnemar_method2")
+                    metric_mc = st.selectbox("Select Metric:", ['faithfulness', 'monotonicity', 'completeness', 'stability', 'consistency', 'sparsity', 'simplicity'], key="mcnemar_metric")
+                    threshold_mc = st.slider("Success Threshold:", 0.0, 1.0, 0.5, 0.05, key="mcnemar_threshold")
+                    
+                    if st.button("Run McNemar Test", key="run_mcnemar"):
+                        # Get data and convert to binary
+                        method1_data = metrics_df[metrics_df['Method'] == method1_mc][metric_mc].dropna()
+                        method2_data = metrics_df[metrics_df['Method'] == method2_mc][metric_mc].dropna()
+                        
+                        if len(method1_data) > 0 and len(method2_data) > 0:
+                            min_len = min(len(method1_data), len(method2_data))
+                            method1_binary = (method1_data.iloc[:min_len] > threshold_mc).astype(int)
+                            method2_binary = (method2_data.iloc[:min_len] > threshold_mc).astype(int)
+                            
+                            # Create contingency table
+                            both_success = np.sum((method1_binary == 1) & (method2_binary == 1))
+                            method1_only = np.sum((method1_binary == 1) & (method2_binary == 0))
+                            method2_only = np.sum((method1_binary == 0) & (method2_binary == 1))
+                            both_fail = np.sum((method1_binary == 0) & (method2_binary == 0))
+                            
+                            # Display contingency table
+                            contingency_df = pd.DataFrame({
+                                f'{method2_mc} Success': [both_success, method2_only],
+                                f'{method2_mc} Fail': [method1_only, both_fail]
+                            }, index=[f'{method1_mc} Success', f'{method1_mc} Fail'])
+                            
+                            st.write("**Contingency Table:**")
+                            st.dataframe(contingency_df)
+                            
+                            # McNemar test
+                            if method1_only + method2_only > 0:
+                                statistic = ((abs(method1_only - method2_only) - 1) ** 2) / (method1_only + method2_only)
+                                p_value = 1 - stats.chi2.cdf(statistic, 1)
+                                
+                                col1, col2, col3 = st.columns(3)
+                                with col1:
+                                    st.metric("χ² Statistic", f"{statistic:.4f}")
+                                with col2:
+                                    st.metric("p-value", f"{p_value:.4f}")
+                                with col3:
+                                    significance = "Significant" if p_value < 0.05 else "Not Significant"
+                                    st.metric("Result (α=0.05)", significance)
+                            else:
+                                st.warning("No discordant pairs found - cannot perform McNemar test.")
+                        else:
+                            st.warning("Insufficient data for selected methods and metric.")
+                else:
+                    st.warning("Need at least 2 methods for McNemar test.")
+            else:
+                st.warning("No data available for McNemar test.")
+    
+    with plan_tab5:
+        st.subheader("📊 Critical Difference Analysis")
+        st.info("Visualize statistical significance between multiple explanation methods using Nemenyi post-hoc test.")
+        
+        if not metrics_df.empty:
+            # Data type categorization
+            st.markdown("#### Data Type Categorization")
+            
+            # Get available datasets and categorize them automatically
+            available_datasets = sorted(metrics_df['Dataset'].unique())
+            
+            # Define dataset categorization based on common dataset names
+            def categorize_datasets(datasets):
+                binary_tabular = []
+                multiclass_tabular = []
+                image_datasets = []
+                text_datasets = []
+                
+                for dataset in datasets:
+                    dataset_lower = dataset.lower()
+                    
+                    # Binary tabular datasets
+                    if any(keyword in dataset_lower for keyword in [
+                        'adult_income', 'compas', 'breast_cancer', 'heart_disease', 'german_credit',
+                        'adult', 'credit', 'heart', 'cancer', 'diabetes_binary', 'titanic', 
+                        'bank', 'churn', 'fraud'
+                    ]):
+                        binary_tabular.append(dataset)
+                    
+                    # Image datasets
+                    elif any(keyword in dataset_lower for keyword in [
+                        'mnist', 'cifar', 'fashion_mnist', 'imagenet', 'coco', 'svhn', 
+                        'chest_xray', 'skin_cancer', 'retina', 'image'
+                    ]):
+                        image_datasets.append(dataset)
+                    
+                    # Text datasets
+                    elif any(keyword in dataset_lower for keyword in [
+                        'imdb', 'yelp', 'ag_news', '20newsgroups', 'reuters', 'amazon', 
+                        'sentiment', 'review', 'news', 'text', 'nlp', 'twitter'
+                    ]):
+                        text_datasets.append(dataset)
+                    
+                    # Multiclass tabular datasets (default for remaining tabular)
+                    elif any(keyword in dataset_lower for keyword in [
+                        'iris', 'wine', 'digits', 'glass', 'vehicle', 'segment', 'letter',
+                        'optdigits', 'pendigits', 'satimage', 'shuttle', 'covtype'
+                    ]):
+                        multiclass_tabular.append(dataset)
+                    
+                    # If no clear match, try to infer from context or add to multiclass tabular as default
+                    else:
+                        # Default to multiclass tabular for unknown datasets
+                        multiclass_tabular.append(dataset)
+                
+                return binary_tabular, multiclass_tabular, image_datasets, text_datasets
+            
+            auto_binary, auto_multiclass, auto_image, auto_text = categorize_datasets(available_datasets)
+            
+            # Create categorization interface with pre-populated relevant datasets
+            col1, col2, col3, col4 = st.columns(4)
+            
+            with col1:
+                st.write("**Binary Tabular:**")
+                binary_datasets = st.multiselect(
+                    "Select binary tabular datasets:",
+                    auto_binary + [d for d in available_datasets if d not in auto_binary],
+                    default=auto_binary,
+                    key="cd_binary_datasets"
+                )
+            
+            with col2:
+                st.write("**Multiclass Tabular:**")
+                multiclass_datasets = st.multiselect(
+                    "Select multiclass tabular datasets:",
+                    auto_multiclass + [d for d in available_datasets if d not in auto_multiclass],
+                    default=auto_multiclass,
+                    key="cd_multiclass_datasets"
+                )
+            
+            with col3:
+                st.write("**Image Datasets:**")
+                image_datasets = st.multiselect(
+                    "Select image datasets:",
+                    auto_image + [d for d in available_datasets if d not in auto_image],
+                    default=auto_image,
+                    key="cd_image_datasets"
+                )
+            
+            with col4:
+                st.write("**Text Datasets:**")
+                text_datasets = st.multiselect(
+                    "Select text datasets:",
+                    auto_text + [d for d in available_datasets if d not in auto_text],
+                    default=auto_text,
+                    key="cd_text_datasets"
+                )
+            
+            # Analysis options
+            data_type = st.selectbox(
+                "Select data type for analysis:",
+                ["Binary Tabular", "Multiclass Tabular", "Image", "Text"],
+                key="cd_data_type"
+            )
+            
+            metric_cd = st.selectbox(
+                "Select metric for critical difference plot:",
+                ['faithfulness', 'monotonicity', 'completeness', 'stability', 'consistency', 'sparsity', 'simplicity'],
+                key="cd_metric"
+            )
+            
+            if st.button("Generate Critical Difference Plot", key="generate_cd_plot"):
+                # Select datasets based on data type
+                if data_type == "Binary Tabular":
+                    selected_datasets = binary_datasets
+                elif data_type == "Multiclass Tabular":
+                    selected_datasets = multiclass_datasets
+                elif data_type == "Image":
+                    selected_datasets = image_datasets
+                else:  # Text
+                    selected_datasets = text_datasets
+                
+                if selected_datasets:
+                    # Filter data for selected datasets
+                    cd_data = metrics_df[
+                        (metrics_df['Dataset'].isin(selected_datasets)) &
+                        (metrics_df[metric_cd].notna())
+                    ]
+                    
+                    if not cd_data.empty and len(cd_data['Method'].unique()) > 1:
+                        try:
+                            # Create pivot table for critical difference analysis
+                            pivot_data = cd_data.pivot_table(
+                                values=metric_cd,
+                                index=['Dataset', 'Model'],
+                                columns='Method',
+                                aggfunc='mean'
+                            ).reset_index()
+                            
+                            # Remove rows with any NaN values
+                            pivot_data = pivot_data.dropna()
+                            
+                            if not pivot_data.empty and len(pivot_data.columns) > 3:  # At least 2 methods + Dataset + Model
+                                # Extract method columns (exclude Dataset and Model)
+                                method_columns = [col for col in pivot_data.columns if col not in ['Dataset', 'Model']]
+                                method_data = pivot_data[method_columns]
+                                
+                                # Perform Friedman test
+                                if len(method_data) >= 3:  # Need at least 3 observations
+                                    try:
+                                        # Convert to numpy array for Friedman test
+                                        data_for_friedman = [method_data[col].values for col in method_columns]
+                                        friedman_stat, friedman_p = stats.friedmanchisquare(*data_for_friedman)
+                                        
+                                        col1, col2 = st.columns(2)
+                                        with col1:
+                                            st.metric("Friedman χ²", f"{friedman_stat:.4f}")
+                                        with col2:
+                                            st.metric("p-value", f"{friedman_p:.4f}")
+                                        
+                                        if friedman_p < 0.05:
+                                            st.success("Friedman test indicates significant differences between methods (p < 0.05)")
+                                            
+                                            # Perform Nemenyi post-hoc test using the exact working logic
+                                            try:
+                                                # Calculate rankings (1 = best, higher values = worse)
+                                                ranking_matrix = method_data.rank(axis=1, method='average', ascending=False)
+                                                avg_ranks = ranking_matrix.mean().sort_values()
+                                                
+                                                # Display average ranks
+                                                st.write("**Average Ranks:**")
+                                                rank_df = pd.DataFrame({
+                                                    'Method': avg_ranks.index,
+                                                    'Average Rank': avg_ranks.values
+                                                })
+                                                st.dataframe(rank_df)
+                                                
+                                                # Perform Nemenyi post-hoc test
+                                                posthoc_results = sp.posthoc_nemenyi_friedman(ranking_matrix)
+                                                
+                                                # Create critical difference plot using exact working logic
+                                                fig, ax = plt.subplots(figsize=(14, 8))
+                                                
+                                                sp.critical_difference_diagram(
+                                                    avg_ranks, 
+                                                    posthoc_results, 
+                                                    ax=ax
+                                                )
+                                                
+                                                ax.set_title(f'Critical Difference Plot - Friedman + Nemenyi Test\n'
+                                                           f'{data_type} | {metric_cd.title()} | α = 0.05', 
+                                                           fontsize=16, pad=20)
+                                                ax.set_xlabel('Average Ranking (1 = Best)', fontsize=14)
+                                                ax.grid(True, alpha=0.3)
+                                                
+                                                st.pyplot(fig)
+                                                plt.close()
+                                                
+                                                st.info("""
+                                                **How to interpret the Critical Difference plot:**
+                                                - Methods connected by a thick black line are NOT significantly different
+                                                - Methods not connected are significantly different  
+                                                - Lower average rank = better performance
+                                                """)
+                                                
+                                                # Show pairwise comparison details
+                                                st.markdown("#### 🔍 Pairwise Comparison Results")
+                                                comparison_results = []
+                                                methods = avg_ranks.index.tolist()
+                                                
+                                                for i, method1 in enumerate(methods):
+                                                    for j, method2 in enumerate(methods):
+                                                        if i < j:
+                                                            p_val = posthoc_results.loc[method1, method2]
+                                                            significant = "Yes" if p_val < 0.05 else "No"
+                                                            comparison_results.append({
+                                                                'Method 1': method1,
+                                                                'Method 2': method2,
+                                                                'p-value': f"{p_val:.4f}",
+                                                                'Significant (α=0.05)': significant
+                                                            })
+                                                
+                                                if comparison_results:
+                                                    comparison_df = pd.DataFrame(comparison_results)
+                                                    
+                                                    # Apply color formatting: Green for significant, Red for non-significant
+                                                    def highlight_significance(val):
+                                                        if val == "Yes":
+                                                            return 'color: green; font-weight: bold'
+                                                        elif val == "No":
+                                                            return 'color: red; font-weight: bold'
+                                                        return ''
+                                                    
+                                                    # Style the dataframe
+                                                    styled_df = comparison_df.style.applymap(
+                                                        highlight_significance, 
+                                                        subset=['Significant (α=0.05)']
+                                                    )
+                                                    
+                                                    st.dataframe(styled_df, use_container_width=True)
+                                                
+                                            except Exception as e:
+                                                st.error(f"Error creating critical difference plot: {e}")
+                                                
+                                        else:
+                                            st.info("Friedman test indicates no significant differences between methods (p ≥ 0.05)")
+                                            st.write("No post-hoc analysis needed.")
+                                            
+                                    except Exception as e:
+                                        st.error(f"Error in Friedman test: {e}")
+                                        
+                                else:
+                                    st.warning(f"Need at least 3 observations for statistical analysis. Found {len(method_data)} observations.")
+                            else:
+                                st.warning("Insufficient data after removing missing values or not enough methods for comparison.")
+                                
+                        except Exception as e:
+                            st.error(f"Error processing data for critical difference analysis: {e}")
+                    else:
+                        st.warning(f"No data available for {data_type} datasets with {metric_cd} metric.")
+                else:
+                    st.warning(f"Please select at least one {data_type.lower()} dataset.")
+        else:
+            st.warning("No data available for critical difference analysis.")
+
 def main():
     # Header with Claude Artifacts styling
     st.markdown('<h1 class="main-header">XAI Benchmarking Dashboard</h1>', unsafe_allow_html=True)
@@ -477,13 +1013,14 @@ def main():
         show_error("No experiment data available. Please run benchmarking first with: `python main.py --comprehensive`")
         return
     
-    # Experiment selection dropdown
+    # Experiment selection dropdown (latest experiment first by default)
     experiment_names = list(available_experiments.keys())
     selected_experiment_name = st.sidebar.selectbox(
         "Select Experiment:",
         experiment_names,
+        index=0,  # Default to the first (latest) experiment
         format_func=lambda x: available_experiments[x]["display_name"],
-        help="Choose which experiment to analyze"
+        help="Choose which experiment to analyze (latest experiment selected by default)"
     )
     
     selected_experiment_info = available_experiments[selected_experiment_name]
@@ -537,8 +1074,8 @@ def main():
         "Performance Analysis",
         "Explanation Visualizations",
         "Detailed Analysis",
-        "🔬 Method Comparator",
-        "🧪 Experiment Planner"
+        "Method Comparator",
+        "Experiment Planner"
     ])
     # --- New Tab: Explanation Visualizations ---
     with tab5:
@@ -577,7 +1114,8 @@ def main():
         selected_combination_name = st.selectbox(
             "Select Dataset-Model-Method Combination:",
             combination_names,
-            help="Choose which combination to visualize"
+            help="Choose which combination to visualize",
+            key="detailed_explanation_combination"
         )
         
         selected_combo = next(c for c in available_combinations if c["display_name"] == selected_combination_name)
@@ -647,7 +1185,8 @@ def main():
                 "Select Instance to Analyze:",
                 range(len(explanations)),
                 format_func=lambda x: f"Instance {x}",
-                help="Choose an instance to analyze in detail"
+                help="Choose an instance to analyze in detail",
+                key="detailed_explanation_instance"
             )
             
             explanation = explanations[selected_instance_idx]
@@ -901,7 +1440,7 @@ def main():
                         f"Select instance for {method} analysis:",
                         range(len(explanations)),
                         format_func=lambda x: f"Instance {x}",
-                        key=f"{method}_instance"
+                        key=f"generic_method_{hash(selected_combo['display_name'])}_{method}_instance"
                     )
                     
                     explanation = explanations[instance_idx]
@@ -943,7 +1482,8 @@ def main():
         analysis_type = st.selectbox(
             "Select Analysis Type:",
             ["Dataset Level Analysis", "Model Level Analysis", "Explanation Method Deep Dive", "Feature Importance Analysis", "Individual Instance Analysis"],
-            help="Choose the type of detailed analysis to perform"
+            help="Choose the type of detailed analysis to perform",
+            key="analysis_type_selector"
         )
         
         if analysis_type == "Dataset Level Analysis":
@@ -959,7 +1499,7 @@ def main():
                 show_warning("No datasets found in detailed explanations.")
                 return
             
-            selected_dataset = st.selectbox("Select Dataset:", available_datasets)
+            selected_dataset = st.selectbox("Select Dataset:", available_datasets, key="dataset_level_dataset")
             dataset_path = detailed_explanations_dir / selected_dataset
             
             # Get all models and methods for this dataset
@@ -1041,29 +1581,94 @@ def main():
             combinations_df = pd.DataFrame(combinations_data)
             st.dataframe(combinations_df, use_container_width=True)
             
-            # Model-Method heatmap
+            # Average Generation Time Analysis
             if not combinations_df.empty:
-                st.markdown("#### 🔥 Explanation Count Heatmap")
+                st.markdown("#### ⏱️ Average Generation Time Analysis")
                 
-                # Create pivot table for heatmap
-                pivot_data = combinations_df.pivot_table(
-                    values='Explanations',
-                    index='Model',
-                    columns='Method',
-                    aggfunc='sum',
-                    fill_value=0
-                )
+                # Filter out N/A values and extract numeric generation times
+                numeric_times = []
+                time_data_for_chart = []
                 
-                fig = px.imshow(
-                    pivot_data.values,
-                    x=pivot_data.columns,
-                    y=pivot_data.index,
-                    color_continuous_scale='Blues',
-                    title=f"Number of Explanations for {selected_dataset}",
-                    labels=dict(color="Explanation Count")
-                )
-                fig.update_layout(height=400)
-                st.plotly_chart(fig, use_container_width=True)
+                for _, row in combinations_df.iterrows():
+                    if row['Avg Generation Time'] != "N/A":
+                        try:
+                            time_value = float(row['Avg Generation Time'].replace('s', ''))
+                            numeric_times.append(time_value)
+                            time_data_for_chart.append({
+                                'Model': row['Model'],
+                                'Method': row['Method'],
+                                'Generation Time': time_value,
+                                'Explanations': row['Explanations']
+                            })
+                        except:
+                            pass
+                
+                if time_data_for_chart:
+                    time_df = pd.DataFrame(time_data_for_chart)
+                    
+                    col1, col2 = st.columns(2)
+                    
+                    with col1:
+                        # Summary statistics
+                        st.markdown("##### 📊 Generation Time Summary")
+                        avg_time = np.mean(numeric_times)
+                        median_time = np.median(numeric_times)
+                        std_time = np.std(numeric_times)
+                        
+                        metric_col1, metric_col2, metric_col3 = st.columns(3)
+                        with metric_col1:
+                            st.metric("Average Time", f"{avg_time:.3f}s")
+                        with metric_col2:
+                            st.metric("Median Time", f"{median_time:.3f}s")
+                        with metric_col3:
+                            st.metric("Std Dev", f"{std_time:.3f}s")
+                        
+                        # Top/Bottom performers
+                        fastest_method = time_df.loc[time_df['Generation Time'].idxmin()]
+                        slowest_method = time_df.loc[time_df['Generation Time'].idxmax()]
+                        
+                        st.success(f"🚀 **Fastest**: {fastest_method['Method']} ({fastest_method['Model']}) - {fastest_method['Generation Time']:.3f}s")
+                        st.warning(f"🐌 **Slowest**: {slowest_method['Method']} ({slowest_method['Model']}) - {slowest_method['Generation Time']:.3f}s")
+                    
+                    with col2:
+                        # Generation time heatmap
+                        pivot_time = time_df.pivot_table(
+                            values='Generation Time',
+                            index='Model',
+                            columns='Method',
+                            aggfunc='mean',
+                            fill_value=0
+                        )
+                        
+                        fig = px.imshow(
+                            pivot_time.values,
+                            x=pivot_time.columns,
+                            y=pivot_time.index,
+                            color_continuous_scale='RdYlBu_r',  # Red = slow, Blue = fast
+                            title=f"Average Generation Time (seconds) - {selected_dataset}",
+                            labels=dict(color="Time (s)")
+                        )
+                        fig.update_layout(height=400)
+                        st.plotly_chart(fig, use_container_width=True)
+                        
+                    # Bar chart showing generation time by method
+                    st.markdown("##### 📈 Generation Time by Method")
+                    method_avg = time_df.groupby('Method')['Generation Time'].agg(['mean', 'std']).reset_index()
+                    method_avg['std'] = method_avg['std'].fillna(0)  # Handle single observation cases
+                    
+                    fig_bar = px.bar(
+                        method_avg,
+                        x='Method',
+                        y='mean',
+                        error_y='std',
+                        title="Average Generation Time by Explanation Method",
+                        labels={'mean': 'Average Time (seconds)', 'Method': 'Explanation Method'}
+                    )
+                    fig_bar.update_layout(height=400)
+                    st.plotly_chart(fig_bar, use_container_width=True)
+                    
+                else:
+                    st.warning("No valid generation time data available for visualization.")
             
         elif analysis_type == "🤖 Model Level Analysis":
             st.subheader("🤖 Model Level Analysis")
@@ -1082,7 +1687,7 @@ def main():
                 show_warning("No models found in detailed explanations.")
                 return
             
-            selected_model = st.selectbox("Select Model:", available_models)
+            selected_model = st.selectbox("Select Model:", available_models, key="model_level_model")
             
             # Collect model data from detailed explanations
             model_data = {}
@@ -1236,7 +1841,7 @@ def main():
                 show_warning("No explanation methods found in detailed explanations.")
                 return
             
-            selected_method = st.selectbox("Select Explanation Method:", available_methods)
+            selected_method = st.selectbox("Select Explanation Method:", available_methods, key="method_deep_dive_method")
             
             # Collect method data across all datasets and models
             method_data = []
@@ -1382,7 +1987,8 @@ def main():
             selected_combination = st.selectbox(
                 "Select Dataset-Model-Method Combination:",
                 combination_names,
-                help="Choose combination for feature importance analysis"
+                help="Choose combination for feature importance analysis",
+                key="feature_importance_combination"
             )
             
             selected_combo = next(c for c in combinations_with_features if c["display_name"] == selected_combination)
@@ -1555,7 +2161,8 @@ def main():
                 "Select Dataset-Model-Method Combination:",
                 range(len(combination_names)),
                 format_func=lambda x: combination_names[x],
-                help="Choose combination for individual instance analysis"
+                help="Choose combination for individual instance analysis",
+                key="individual_instance_combination"
             )
             
             selected_combo = combinations_with_explanations[selected_combination_idx]
@@ -1622,7 +2229,8 @@ def main():
                         "Select Instance:",
                         range(len(instance_options)),
                         format_func=lambda x: instance_options[x],
-                        help="Choose an instance to analyze in detail"
+                        help="Choose an instance to analyze in detail",
+                        key="individual_instance_selector"
                     )
                 
                 with col2:
@@ -1847,30 +2455,27 @@ def main():
                                 if shap_values and feature_names and len(feature_names) >= len(shap_values):
                                     # Create waterfall effect
                                     baseline = selected_explanation.get("baseline_prediction", 0)
-                                    
                                     shap_df = pd.DataFrame({
                                         "Feature": feature_names[:len(shap_values)],
                                         "SHAP_Value": shap_values
                                     }).sort_values("SHAP_Value", key=abs, ascending=False).head(15)
-                                        
-                                        fig = px.bar(
-                                            shap_df,
-                                            x="SHAP_Value",
-                                            y="Feature",
-                                            orientation='h',
-                                            title="SHAP Values (Waterfall Style)",
-                                            color="SHAP_Value",
-                                            color_continuous_scale="RdBu_r"
-                                        )
-                                        fig.add_vline(x=0, line_dash="dash", line_color="black", line_width=2)
-                                        fig.update_layout(height=500)
-                                        st.plotly_chart(fig, use_container_width=True)
-                                        
-                                        # Show cumulative effect
-                                        cumulative_effect = baseline + sum(shap_values)
-                                        st.write(f"**Baseline Prediction:** {baseline:.4f}")
-                                        st.write(f"**Final Prediction:** {cumulative_effect:.4f}")
-                                        st.write(f"**Total SHAP Effect:** {sum(shap_values):.4f}")
+                                    fig = px.bar(
+                                        shap_df,
+                                        x="SHAP_Value",
+                                        y="Feature",
+                                        orientation='h',
+                                        title="SHAP Values (Waterfall Style)",
+                                        color="SHAP_Value",
+                                        color_continuous_scale="RdBu_r"
+                                    )
+                                    fig.add_vline(x=0, line_dash="dash", line_color="black", line_width=2)
+                                    fig.update_layout(height=500)
+                                    st.plotly_chart(fig, use_container_width=True)
+                                    # Show cumulative effect
+                                    cumulative_effect = baseline + sum(shap_values)
+                                    st.write(f"**Baseline Prediction:** {baseline:.4f}")
+                                    st.write(f"**Final Prediction:** {cumulative_effect:.4f}")
+                                    st.write(f"**Total SHAP Effect:** {sum(shap_values):.4f}")
                             
                             # LIME-specific analysis
                             elif "lime" in method:
@@ -1885,18 +2490,17 @@ def main():
                                         "Feature": feature_names[:len(lime_explanation)],
                                         "LIME_Weight": lime_explanation
                                     }).sort_values("LIME_Weight", key=abs, ascending=False).head(10)
-                                        
-                                        fig = px.bar(
-                                            lime_df,
-                                            x="LIME_Weight",
-                                            y="Feature",
-                                            orientation='h',
-                                            title="LIME Feature Weights",
-                                            color="LIME_Weight",
-                                            color_continuous_scale="RdBu_r"
-                                        )
-                                        fig.add_vline(x=0, line_dash="dash", line_color="black")
-                                        st.plotly_chart(fig, use_container_width=True)
+                                    fig = px.bar(
+                                        lime_df,
+                                        x="LIME_Weight",
+                                        y="Feature",
+                                        orientation='h',
+                                        title="LIME Feature Weights",
+                                        color="LIME_Weight",
+                                        color_continuous_scale="RdBu_r"
+                                    )
+                                    fig.add_vline(x=0, line_dash="dash", line_color="black")
+                                    st.plotly_chart(fig, use_container_width=True)
                             
                             # Counterfactual-specific analysis
                             elif "counterfactual" in method:
@@ -1980,7 +2584,7 @@ def main():
     
     # --- New Tab: Method Comparator ---
     with tab7:
-        st.header("🔬 Real-time Method Comparator")
+        st.header("Real-time Method Comparator")
         
         # Import and create the comparator component
         try:
@@ -2051,96 +2655,8 @@ def main():
     with tab8:
         st.header("🧪 Statistical Experiment Planner")
         
-        # Import and create the planner component
-        try:
-            from experiment_planner import create_experiment_planner
-            
-            # Create the planner instance
-            planner = create_experiment_planner(results)
-            
-            # Render the planner interface
-            planner.render_planner()
-            
-        except ImportError as e:
-            st.error(f"Could not load Experiment Planner component: {e}")
-            st.info("Please ensure the experiment_planner.py file is in the src/components/ directory.")
-        except Exception as e:
-            st.error(f"Error in Experiment Planner: {e}")
-            st.info("Using basic planner fallback...")
-            
-            # Basic fallback planner
-            st.markdown("### Basic Experiment Planning")
-            
-            st.info("""
-            **Statistical Experiment Planning** helps you design rigorous comparisons of XAI methods.
-            Key considerations:
-            - Sample size calculation
-            - Power analysis  
-            - Multiple comparison corrections
-            - Friedman test for multiple methods
-            - Data type specific tests
-            """)
-            
-            # Extract available options
-            if not filtered_df.empty:
-                available_datasets = filtered_df['Dataset'].unique()
-                available_models = filtered_df['Model'].unique()
-                available_methods = filtered_df['Method'].unique()
-                
-                col1, col2, col3 = st.columns(3)
-                
-                with col1:
-                    st.metric("Available Datasets", len(available_datasets))
-                    st.write("**Datasets:**")
-                    for dataset in available_datasets:
-                        st.write(f"- {dataset}")
-                
-                with col2:
-                    st.metric("Available Models", len(available_models))
-                    st.write("**Models:**")
-                    for model in available_models:
-                        st.write(f"- {model}")
-                
-                with col3:
-                    st.metric("Available Methods", len(available_methods))
-                    st.write("**Methods:**")
-                    for method in available_methods:
-                        st.write(f"- {method}")
-                
-                # Basic power calculation
-                st.markdown("#### 📊 Basic Power Analysis")
-                
-                n_methods = len(available_methods)
-                if n_methods >= 3:
-                    # Simplified power calculation
-                    effect_size = st.slider("Expected effect size (Cohen's d):", 0.1, 2.0, 0.5, 0.1)
-                    alpha = st.selectbox("Alpha level:", [0.001, 0.01, 0.05], index=2)
-                    power = st.slider("Desired power:", 0.7, 0.95, 0.8, 0.05)
-                    
-                    # Simplified sample size calculation
-                    z_alpha = 1.96 if alpha == 0.05 else 2.58 if alpha == 0.01 else 3.29
-                    z_beta = 0.84 if power == 0.8 else 1.28 if power == 0.9 else 1.64
-                    
-                    n_per_group = max(3, int(2 * ((z_alpha + z_beta) ** 2) / (effect_size ** 2)))
-                    total_experiments = n_per_group * n_methods
-                    
-                    col1, col2 = st.columns(2)
-                    
-                    with col1:
-                        st.metric("Sample Size per Method", n_per_group)
-                        st.metric("Total Experiments", total_experiments)
-                    
-                    with col2:
-                        st.info(f"""
-                        **Recommended Statistical Tests:**
-                        - **Friedman Test**: For comparing {n_methods} methods
-                        - **Post-hoc**: Pairwise comparisons with Bonferroni correction
-                        - **Effect Size**: Kendall's W for Friedman test
-                        """)
-                else:
-                    st.warning("Need at least 3 methods for multi-method comparison planning.")
-            else:
-                st.warning("No data available for experiment planning.")
+        # Integrated experiment planner
+        render_experiment_planner(results)
     
     with tab1:
         st.header("📈 Experiment Overview")
@@ -2158,70 +2674,440 @@ def main():
         with col4:
             st.metric("Methods", len(set(metrics_df['Method']) if not metrics_df.empty else []))
         
-        # Summary statistics
+        # Top performers section
         if not filtered_df.empty:
-            st.subheader("📊 Summary Statistics")
+            st.subheader("🏆 Top Performers Across All Metrics")
             
-            # Calculate summary stats
-            numeric_cols = filtered_df.select_dtypes(include=[np.number]).columns
-            summary_stats = filtered_df[numeric_cols].describe()
+            # Get all available evaluation metrics
+            evaluation_metrics = ['faithfulness', 'monotonicity', 'completeness', 'stability', 'consistency', 'sparsity', 'simplicity']
+            available_metrics = [metric for metric in evaluation_metrics if metric in filtered_df.columns]
+            
+            if available_metrics:
+                # Create tabs for each metric's top performers
+                metric_tabs = st.tabs([metric.title() for metric in available_metrics])
+                
+                for idx, metric in enumerate(available_metrics):
+                    with metric_tabs[idx]:
+                        # Determine if higher or lower is better for this metric
+                        if metric in ['sparsity', 'simplicity']:
+                            # For sparsity and simplicity, lower might be better (more sparse/simple)
+                            top_performers = filtered_df.nsmallest(3, metric)
+                            direction = "Lowest"
+                        else:
+                            # For most metrics, higher is better
+                            top_performers = filtered_df.nlargest(3, metric)
+                            direction = "Highest"
+                        
+                        # Display top performers
+                        display_cols = ['Dataset', 'Model', 'Method', metric]
+                        top_performers_display = top_performers[display_cols].reset_index(drop=True)
+                        top_performers_display.index = ['🥇 1st', '🥈 2nd', '🥉 3rd']
+                        
+                        st.dataframe(top_performers_display, use_container_width=True)
+                        
+                        # Show metric statistics
+                        col_a, col_b, col_c = st.columns(3)
+                        with col_a:
+                            st.metric("Best Score", f"{top_performers_display[metric].iloc[0]:.4f}")
+                        with col_b:
+                            st.metric("Average", f"{filtered_df[metric].mean():.4f}")
+                        with col_c:
+                            st.metric("Std Dev", f"{filtered_df[metric].std():.4f}")
+            else:
+                st.warning("No evaluation metrics found in the data.")
+        
+        # Overall Champions Section
+        if not filtered_df.empty and available_metrics:
+            st.subheader("🏆 Overall Champions")
+            
+            # Calculate overall score (normalized metrics)
+            normalized_df = filtered_df.copy()
+            
+            # Normalize each metric to 0-1 scale
+            for metric in available_metrics:
+                if metric in ['sparsity', 'simplicity']:
+                    # For metrics where lower is better, invert the normalization
+                    normalized_df[f'{metric}_norm'] = 1 - (normalized_df[metric] - normalized_df[metric].min()) / (normalized_df[metric].max() - normalized_df[metric].min() + 1e-8)
+                else:
+                    # For metrics where higher is better
+                    normalized_df[f'{metric}_norm'] = (normalized_df[metric] - normalized_df[metric].min()) / (normalized_df[metric].max() - normalized_df[metric].min() + 1e-8)
+            
+            # Calculate overall score as average of normalized metrics
+            norm_cols = [f'{metric}_norm' for metric in available_metrics]
+            normalized_df['overall_score'] = normalized_df[norm_cols].mean(axis=1)
+            
+            # Get top performers
+            overall_champions = normalized_df.nlargest(5, 'overall_score')
             
             col1, col2 = st.columns(2)
             
             with col1:
-                st.write("**Numeric Metrics Summary:**")
-                st.dataframe(summary_stats, use_container_width=True)
+                st.write("**🥇 Top 5 Overall Champions:**")
+                champion_display = overall_champions[['Dataset', 'Model', 'Method', 'overall_score']].copy()
+                champion_display['overall_score'] = champion_display['overall_score'].round(4)
+                champion_display.columns = ['Dataset', 'Model', 'Method', 'Overall Score']
+                champion_display.index = ['🥇', '🥈', '🥉', '4th', '5th']
+                st.dataframe(champion_display, use_container_width=True)
             
             with col2:
-                # Top performers
-                st.write("**Top Performers by Faithfulness:**")
-                top_faithful = filtered_df.nlargest(5, 'faithfulness')[['Dataset', 'Model', 'Method', 'faithfulness']]
-                st.dataframe(top_faithful, use_container_width=True)
+                st.write("**📊 Champion Performance Breakdown:**")
+                champion = overall_champions.iloc[0]
+                
+                # Show the champion's scores for each metric
+                champion_metrics = {}
+                for metric in available_metrics:
+                    champion_metrics[metric.title()] = f"{champion[metric]:.4f}"
+                
+                # Create a nice display
+                for i, (metric_name, score) in enumerate(champion_metrics.items()):
+                    if i % 2 == 0:
+                        col_left, col_right = st.columns(2)
+                        col_left.metric(metric_name, score)
+                        if i + 1 < len(champion_metrics):
+                            next_metric = list(champion_metrics.items())[i + 1]
+                            col_right.metric(next_metric[0], next_metric[1])
+                
+                st.info(f"🏆 **Champion**: {champion['Method']} on {champion['Dataset']} with {champion['Model']}")
+        
+        # Method Performance Summary
+        if not filtered_df.empty and available_metrics:
+            st.subheader("📈 Method Performance Summary")
+            
+            # Calculate average performance by method across all metrics
+            method_summary = []
+            
+            for method in filtered_df['Method'].unique():
+                method_data = filtered_df[filtered_df['Method'] == method]
+                method_stats = {
+                    'Method': method,
+                    'Total Experiments': len(method_data),
+                    'Datasets Covered': method_data['Dataset'].nunique(),
+                    'Models Covered': method_data['Model'].nunique()
+                }
+                
+                # Add average for each metric
+                for metric in available_metrics:
+                    method_stats[f'{metric.title()} Avg'] = method_data[metric].mean()
+                
+                method_summary.append(method_stats)
+            
+            method_summary_df = pd.DataFrame(method_summary)
+            
+            # Display method summary
+            st.dataframe(method_summary_df.round(4), use_container_width=True)
+            
+            # Best method for each metric - both average and single best instance
+            st.write("**🎯 Best Method by Metric:**")
+            
+            # Create tabs for different views
+            best_tab1, best_tab2 = st.tabs(["📊 Best Average Performance", "🏆 Best Single Instance"])
+            
+            with best_tab1:
+                st.markdown("*Best average performance across all experiments*")
+                best_avg_methods = {}
+                
+                for metric in available_metrics:
+                    if metric in ['sparsity', 'simplicity']:
+                        best_idx = method_summary_df[f'{metric.title()} Avg'].idxmin()
+                        best_method = method_summary_df.loc[best_idx, 'Method']
+                        best_score = method_summary_df.loc[best_idx, f'{metric.title()} Avg']
+                        experiments_count = method_summary_df.loc[best_idx, 'Total Experiments']
+                        datasets_covered = method_summary_df.loc[best_idx, 'Datasets Covered']
+                        models_covered = method_summary_df.loc[best_idx, 'Models Covered']
+                    else:
+                        best_idx = method_summary_df[f'{metric.title()} Avg'].idxmax()
+                        best_method = method_summary_df.loc[best_idx, 'Method']
+                        best_score = method_summary_df.loc[best_idx, f'{metric.title()} Avg']
+                        experiments_count = method_summary_df.loc[best_idx, 'Total Experiments']
+                        datasets_covered = method_summary_df.loc[best_idx, 'Datasets Covered']
+                        models_covered = method_summary_df.loc[best_idx, 'Models Covered']
+                    
+                    best_avg_methods[metric.title()] = {
+                        'Method': best_method,
+                        'Average Score': f"{best_score:.4f}",
+                        'Experiments': experiments_count,
+                        'Datasets': datasets_covered,
+                        'Models': models_covered,
+                        'Coverage': f"{datasets_covered} datasets, {models_covered} models"
+                    }
+                
+                # Create a more detailed dataframe
+                best_avg_detailed = pd.DataFrame([
+                    {
+                        'Metric': metric,
+                        'Best Method': info['Method'],
+                        'Avg Score': info['Average Score'],
+                        'Coverage': info['Coverage'],
+                        'Total Experiments': info['Experiments']
+                    }
+                    for metric, info in best_avg_methods.items()
+                ])
+                
+                st.dataframe(best_avg_detailed, use_container_width=True)
+            
+            with best_tab2:
+                st.markdown("*Best single performance instance (specific dataset-model combination)*")
+                best_single_methods = {}
+                
+                for metric in available_metrics:
+                    if metric in ['sparsity', 'simplicity']:
+                        best_instance = filtered_df.loc[filtered_df[metric].idxmin()]
+                    else:
+                        best_instance = filtered_df.loc[filtered_df[metric].idxmax()]
+                    
+                    best_single_methods[metric.title()] = {
+                        'Method': best_instance['Method'],
+                        'Score': f"{best_instance[metric]:.4f}",
+                        'Dataset': best_instance['Dataset'],
+                        'Model': best_instance['Model'],
+                        'Full Description': f"{best_instance['Method']} ({best_instance[metric]:.4f}) on {best_instance['Dataset']} with {best_instance['Model']}"
+                    }
+                
+                # Create detailed display
+                for metric_name, info in best_single_methods.items():
+                    with st.container():
+                        col1, col2, col3, col4 = st.columns([2, 1.5, 1.5, 1.5])
+                        
+                        with col1:
+                            st.write(f"**{metric_name}:**")
+                        with col2:
+                            st.write(f"🥇 {info['Method']}")
+                        with col3:
+                            st.write(f"📊 Score: {info['Score']}")
+                        with col4:
+                            st.write(f"📍 {info['Dataset']} + {info['Model']}")
+                
+                # Show as comprehensive table
+                st.markdown("**📋 Complete Best Performance Table:**")
+                best_single_df = pd.DataFrame([
+                    {
+                        'Metric': metric,
+                        'Best Method': info['Method'],
+                        'Score': info['Score'],
+                        'Dataset': info['Dataset'],
+                        'Model': info['Model'],
+                        'Full Context': f"{info['Method']} on {info['Dataset']} with {info['Model']}"
+                    }
+                    for metric, info in best_single_methods.items()
+                ])
+                
+                # Color-code the dataframe for better readability
+                def highlight_best_scores(row):
+                    return ['background-color: #E8F5E8'] * len(row)  # Light green background
+                
+                styled_df = best_single_df.style.apply(highlight_best_scores, axis=1)
+                st.dataframe(styled_df, use_container_width=True)
+                
+                # Add summary statistics
+                st.markdown("**📊 Summary Insights:**")
+                
+                col1, col2, col3 = st.columns(3)
+                
+                with col1:
+                    # Most frequent best-performing method
+                    method_counts = best_single_df['Best Method'].value_counts()
+                    top_method = method_counts.index[0] if len(method_counts) > 0 else "N/A"
+                    top_method_count = method_counts.iloc[0] if len(method_counts) > 0 else 0
+                    st.metric("Most Winning Method", f"{top_method} ({top_method_count} metrics)")
+                
+                with col2:
+                    # Most frequent best dataset
+                    dataset_counts = best_single_df['Dataset'].value_counts()
+                    top_dataset = dataset_counts.index[0] if len(dataset_counts) > 0 else "N/A"
+                    top_dataset_count = dataset_counts.iloc[0] if len(dataset_counts) > 0 else 0
+                    st.metric("Most Winning Dataset", f"{top_dataset} ({top_dataset_count} metrics)")
+                
+                with col3:
+                    # Most frequent best model
+                    model_counts = best_single_df['Model'].value_counts()
+                    top_model = model_counts.index[0] if len(model_counts) > 0 else "N/A"
+                    top_model_count = model_counts.iloc[0] if len(model_counts) > 0 else 0
+                    st.metric("Most Winning Model", f"{top_model} ({top_model_count} metrics)")
+                
+                # Show distribution charts
+                if len(best_single_df) > 1:
+                    col1, col2 = st.columns(2)
+                    
+                    with col1:
+                        st.markdown("**🎯 Method Distribution:**")
+                        method_chart_data = method_counts.reset_index()
+                        method_chart_data.columns = ['Method', 'Count']
+                        
+                        method_fig = px.bar(
+                            method_chart_data, 
+                            x='Method', 
+                            y='Count',
+                            title="Number of Metrics Won by Method",
+                            color='Count',
+                            color_continuous_scale='Blues'
+                        )
+                        method_fig.update_layout(height=300, showlegend=False)
+                        st.plotly_chart(method_fig, use_container_width=True)
+                    
+                    with col2:
+                        st.markdown("**📊 Dataset Distribution:**")
+                        dataset_chart_data = dataset_counts.reset_index()
+                        dataset_chart_data.columns = ['Dataset', 'Count']
+                        
+                        dataset_fig = px.bar(
+                            dataset_chart_data,
+                            x='Dataset', 
+                            y='Count',
+                            title="Number of Metrics Won by Dataset",
+                            color='Count',
+                            color_continuous_scale='Greens'
+                        )
+                        dataset_fig.update_layout(height=300, showlegend=False)
+                        st.plotly_chart(dataset_fig, use_container_width=True)
     
     with tab2:
         st.header("🎯 Model Performance Analysis")
         
         if not filtered_df.empty:
-            # Model comparison heatmap
+            # Model comparison heatmap with filters
             st.subheader("🔥 Model Performance Heatmap")
             
-            # Select metric for heatmap
-            heatmap_metric = st.selectbox(
-                "Select Metric for Heatmap:",
-                ['faithfulness', 'monotonicity', 'completeness', 'stability', 'consistency', 'sparsity', 'simplicity'],
-                key='heatmap_metric'
-            )
+            # Create filter columns
+            col1, col2, col3 = st.columns(3)
             
-            # Pivot table for heatmap
-            pivot_data = filtered_df.pivot_table(
-                values=heatmap_metric,
-                index=['Dataset', 'Model'],
-                columns='Method',
-                aggfunc='mean'
-            ).round(3)
+            with col1:
+                # Select metric for heatmap
+                heatmap_metric = st.selectbox(
+                    "Select Metric for Heatmap:",
+                    ['faithfulness', 'monotonicity', 'completeness', 'stability', 'consistency', 'sparsity', 'simplicity'],
+                    key='heatmap_metric'
+                )
             
-            # Create heatmap
-            fig = px.imshow(
-                pivot_data.values,
-                x=pivot_data.columns,
-                y=[f"{idx[0]}_{idx[1]}" for idx in pivot_data.index],
-                color_continuous_scale='RdYlBu',
-                aspect='auto'
-            )
-            fig.update_layout(
-                title=f"Model Performance Heatmap ({heatmap_metric.title()})",
-                xaxis_title="Explanation Method",
-                yaxis_title="Dataset_Model",
-                height=500
-            )
-            st.plotly_chart(fig, use_container_width=True)
+            with col2:
+                # Dataset filter
+                available_datasets = ['All'] + sorted(filtered_df['Dataset'].unique().tolist())
+                selected_datasets = st.multiselect(
+                    "Filter by Dataset:",
+                    available_datasets,
+                    default=['All'],
+                    key='heatmap_datasets',
+                    help="Select specific datasets or 'All' for all datasets"
+                )
+                
+                # If 'All' is selected, use all datasets
+                if 'All' in selected_datasets or not selected_datasets:
+                    dataset_filter = filtered_df['Dataset'].unique()
+                else:
+                    dataset_filter = selected_datasets
+            
+            with col3:
+                # Intelligent Model filter - only show models available for selected datasets
+                if 'All' in selected_datasets or not selected_datasets:
+                    heatmap_dataset_context = filtered_df
+                else:
+                    heatmap_dataset_context = filtered_df[filtered_df['Dataset'].isin(selected_datasets)]
+                
+                available_models = ['All'] + sorted(heatmap_dataset_context['Model'].unique().tolist())
+                selected_models = st.multiselect(
+                    "Filter by Model:",
+                    available_models,
+                    default=['All'],
+                    key='heatmap_models',
+                    help=f"Models available for selected datasets ({len(available_models)-1} options)"
+                )
+                
+                # If 'All' is selected, use all available models for the dataset context
+                if 'All' in selected_models or not selected_models:
+                    model_filter = heatmap_dataset_context['Model'].unique()
+                else:
+                    model_filter = selected_models
+            
+            # Apply filters to data
+            heatmap_df = filtered_df[
+                (filtered_df['Dataset'].isin(dataset_filter)) & 
+                (filtered_df['Model'].isin(model_filter))
+            ]
+            
+            if not heatmap_df.empty:
+                # Show filtering info
+                st.info(f"Showing {len(heatmap_df)} results across {heatmap_df['Dataset'].nunique()} dataset(s) and {heatmap_df['Model'].nunique()} model(s)")
+                
+                # Pivot table for heatmap
+                pivot_data = heatmap_df.pivot_table(
+                    values=heatmap_metric,
+                    index=['Dataset', 'Model'],
+                    columns='Method',
+                    aggfunc='mean'
+                ).round(3)
+                
+                # Create heatmap
+                fig = px.imshow(
+                    pivot_data.values,
+                    x=pivot_data.columns,
+                    y=[f"{idx[0]}_{idx[1]}" for idx in pivot_data.index],
+                    color_continuous_scale='RdYlBu_r' if heatmap_metric in ['sparsity', 'simplicity'] else 'RdYlBu',
+                    aspect='auto',
+                    text_auto=True
+                )
+                
+                # Update layout based on data size
+                height = max(400, len(pivot_data.index) * 25 + 100)
+                
+                fig.update_layout(
+                    title=f"Model Performance Heatmap - {heatmap_metric.title()}<br><sub>Datasets: {len(dataset_filter)}, Models: {len(model_filter)}</sub>",
+                    xaxis_title="Explanation Method",
+                    yaxis_title="Dataset_Model",
+                    height=height,
+                    font=dict(size=10)
+                )
+                
+                # Add hover information
+                fig.update_traces(
+                    hovertemplate="<b>Method:</b> %{x}<br>" +
+                                  "<b>Dataset_Model:</b> %{y}<br>" +
+                                  f"<b>{heatmap_metric.title()}:</b> %{{z:.4f}}<br>" +
+                                  "<extra></extra>"
+                )
+                
+                st.plotly_chart(fig, use_container_width=True)
+                
+                # Show summary statistics for filtered data
+                col1, col2, col3, col4 = st.columns(4)
+                
+                with col1:
+                    st.metric("Datasets Shown", heatmap_df['Dataset'].nunique())
+                with col2:
+                    st.metric("Models Shown", heatmap_df['Model'].nunique()) 
+                with col3:
+                    st.metric("Methods Shown", len(pivot_data.columns))
+                with col4:
+                    best_combo = heatmap_df.loc[heatmap_df[heatmap_metric].idxmax() if heatmap_metric not in ['sparsity', 'simplicity'] else heatmap_df[heatmap_metric].idxmin()]
+                    st.metric("Best Score", f"{best_combo[heatmap_metric]:.4f}")
+                
+                # Show best performing combination
+                st.markdown("**🏆 Best Performing Combination:**")
+                best_info = f"**{best_combo['Method']}** on **{best_combo['Dataset']}** with **{best_combo['Model']}** ({heatmap_metric}: {best_combo[heatmap_metric]:.4f})"
+                st.success(best_info)
+                
+                # Option to show detailed data table
+                if st.checkbox("Show Detailed Heatmap Data", key="show_heatmap_data"):
+                    st.markdown("**📊 Heatmap Data Table:**")
+                    display_pivot = pivot_data.copy()
+                    st.dataframe(display_pivot, use_container_width=True)
+                    
+                    # Add download option
+                    csv = display_pivot.to_csv()
+                    st.download_button(
+                        label="📥 Download Heatmap Data as CSV",
+                        data=csv,
+                        file_name=f"heatmap_data_{heatmap_metric}_{len(dataset_filter)}datasets_{len(model_filter)}models.csv",
+                        mime="text/csv"
+                    )
+            else:
+                st.warning("No data available for the selected filters. Please adjust your dataset or model selection.")
             
             # Model comparison bar chart
             st.subheader("📊 Model Comparison")
             
             metric_to_plot = st.selectbox(
                 "Select Metric to Compare:",
-                ['faithfulness', 'monotonicity', 'completeness', 'stability', 'consistency', 'sparsity', 'simplicity']
+                ['faithfulness', 'monotonicity', 'completeness', 'stability', 'consistency', 'sparsity', 'simplicity'],
+                key="metric_comparison_selector"
             )
             
             if metric_to_plot in filtered_df.columns:
@@ -2239,51 +3125,205 @@ def main():
         st.header("🔍 Explanation Method Analysis")
         
         if not filtered_df.empty:
-            # Method comparison
-            st.subheader("📊 Explanation Method Comparison")
+            # Enhanced radar chart with comprehensive filtering
+            st.subheader("📊 Explanation Method Radar Chart")
             
-            # Radar chart for method comparison
-            method_metrics = ['faithfulness', 'monotonicity', 'completeness', 'stability', 'consistency', 'sparsity', 'simplicity']
+            # Create filter columns
+            col1, col2, col3, col4 = st.columns(4)
             
-            selected_methods = st.multiselect(
-                "Select methods to compare:",
-                filtered_df['Method'].unique(),
-                default=filtered_df['Method'].unique()[:3]
-            )
-            
-            if selected_methods:
-                method_data = filtered_df[filtered_df['Method'].isin(selected_methods)].groupby('Method')[method_metrics].mean()
-                
-                # Create radar chart
-                fig = go.Figure()
-                
-                for method in selected_methods:
-                    values = method_data.loc[method].values.tolist()
-                    values += values[:1]  # Close the radar chart
-                    
-                    fig.add_trace(go.Scatterpolar(
-                        r=values,
-                        theta=method_metrics + [method_metrics[0]],
-                        fill='toself',
-                        name=method
-                    ))
-                
-                fig.update_layout(
-                    polar=dict(
-                        radialaxis=dict(
-                            visible=True,
-                            range=[0, 1]
-                        )),
-                    showlegend=True,
-                    title="Explanation Method Performance Radar Chart"
+            with col1:
+                # Dataset filter
+                available_datasets = ['All'] + sorted(filtered_df['Dataset'].unique().tolist())
+                selected_datasets_radar = st.multiselect(
+                    "Filter by Dataset:",
+                    available_datasets,
+                    default=['All'],
+                    key='radar_datasets',
+                    help="Select specific datasets or 'All' for all datasets"
                 )
                 
-                st.plotly_chart(fig, use_container_width=True)
+                if 'All' in selected_datasets_radar or not selected_datasets_radar:
+                    dataset_filter_radar = filtered_df['Dataset'].unique()
+                else:
+                    dataset_filter_radar = selected_datasets_radar
             
-            # Method performance table
+            with col2:
+                # Intelligent Model filter - only show models available for selected datasets
+                if 'All' in selected_datasets_radar or not selected_datasets_radar:
+                    dataset_context = filtered_df
+                else:
+                    dataset_context = filtered_df[filtered_df['Dataset'].isin(selected_datasets_radar)]
+                
+                available_models = ['All'] + sorted(dataset_context['Model'].unique().tolist())
+                
+                selected_models_radar = st.multiselect(
+                    "Filter by Model:",
+                    available_models,
+                    default=['All'],
+                    key='radar_models',
+                    help=f"Models available for selected datasets ({len(available_models)-1} options)"
+                )
+                
+                if 'All' in selected_models_radar or not selected_models_radar:
+                    model_filter_radar = dataset_context['Model'].unique()
+                else:
+                    model_filter_radar = selected_models_radar
+            
+            with col3:
+                # Intelligent Method selection - only show methods available for selected dataset-model combinations
+                radar_filtered_df = filtered_df[
+                    (filtered_df['Dataset'].isin(dataset_filter_radar)) & 
+                    (filtered_df['Model'].isin(model_filter_radar))
+                ]
+                
+                available_methods_context = sorted(radar_filtered_df['Method'].unique().tolist()) if not radar_filtered_df.empty else []
+                
+                selected_methods = st.multiselect(
+                    "Select Methods to Compare:",
+                    available_methods_context,
+                    default=available_methods_context[:3] if len(available_methods_context) >= 3 else available_methods_context,
+                    key='radar_methods',
+                    help=f"Methods available for selected context ({len(available_methods_context)} options)"
+                )
+            
+            with col4:
+                # Metric selection
+                all_metrics = ['faithfulness', 'monotonicity', 'completeness', 'stability', 'consistency', 'sparsity', 'simplicity']
+                available_metrics_radar = [metric for metric in all_metrics if metric in radar_filtered_df.columns]
+                
+                selected_metrics_radar = st.multiselect(
+                    "Select Metrics to Display:",
+                    available_metrics_radar,
+                    default=available_metrics_radar,
+                    key='radar_metrics',
+                    help="Choose which metrics to show on radar chart axes"
+                )
+            
+            # Apply filters and create radar chart
+            if selected_methods and selected_metrics_radar and not radar_filtered_df.empty:
+                # Filter data based on all selections
+                chart_data = radar_filtered_df[
+                    radar_filtered_df['Method'].isin(selected_methods)
+                ]
+                
+                if not chart_data.empty:
+                    # Show filter summary
+                    st.info(f"📊 Showing {len(chart_data)} results across {chart_data['Dataset'].nunique()} dataset(s), "
+                           f"{chart_data['Model'].nunique()} model(s), and {len(selected_methods)} method(s)")
+                    
+                    # Calculate average performance for each method across selected combinations
+                    method_data = chart_data.groupby('Method')[selected_metrics_radar].mean()
+                    
+                    # Normalize metrics for better radar chart display
+                    normalized_data = method_data.copy()
+                    for metric in selected_metrics_radar:
+                        if metric in ['sparsity', 'simplicity']:
+                            # For metrics where lower is better, invert for visualization
+                            normalized_data[metric] = 1 - (method_data[metric] - method_data[metric].min()) / (method_data[metric].max() - method_data[metric].min() + 1e-8)
+                        else:
+                            # For metrics where higher is better
+                            normalized_data[metric] = (method_data[metric] - method_data[metric].min()) / (method_data[metric].max() - method_data[metric].min() + 1e-8)
+                    
+                    # Create radar chart
+                    fig = go.Figure()
+                    
+                    colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F']
+                    
+                    for i, method in enumerate(selected_methods):
+                        if method in normalized_data.index:
+                            values = normalized_data.loc[method].values.tolist()
+                            values += values[:1]  # Close the radar chart
+                            
+                            fig.add_trace(go.Scatterpolar(
+                                r=values,
+                                theta=selected_metrics_radar + [selected_metrics_radar[0]],
+                                fill='toself',
+                                name=method,
+                                line=dict(color=colors[i % len(colors)]),
+                                fillcolor=colors[i % len(colors)],
+                                opacity=0.6
+                            ))
+                    
+                    fig.update_layout(
+                        polar=dict(
+                            radialaxis=dict(
+                                visible=True,
+                                range=[0, 1],
+                                tickmode='linear',
+                                tick0=0,
+                                dtick=0.2
+                            )),
+                        showlegend=True,
+                        title={
+                            'text': f"Method Performance Radar Chart<br><sub>Datasets: {len(dataset_filter_radar)}, Models: {len(model_filter_radar)}</sub>",
+                            'x': 0.5
+                        },
+                        height=600,
+                        font=dict(size=12)
+                    )
+                    
+                    st.plotly_chart(fig, use_container_width=True)
+                    
+                    # Show raw data table
+                    col1, col2 = st.columns(2)
+                    
+                    with col1:
+                        st.markdown("**📊 Raw Average Scores:**")
+                        raw_data_display = method_data.round(4)
+                        st.dataframe(raw_data_display, use_container_width=True)
+                    
+                    with col2:
+                        st.markdown("**🔄 Normalized Scores (for radar):**")
+                        st.caption("Note: Sparsity & Simplicity inverted (lower = better)")
+                        normalized_display = normalized_data.round(4)
+                        st.dataframe(normalized_display, use_container_width=True)
+                    
+                    # Detailed breakdown by dataset-model combination
+                    if st.checkbox("Show Detailed Breakdown by Dataset-Model", key="radar_detailed"):
+                        st.markdown("**📋 Performance by Dataset-Model Combination:**")
+                        
+                        detailed_breakdown = chart_data.groupby(['Dataset', 'Model', 'Method'])[selected_metrics_radar].mean().round(4)
+                        
+                        # Reshape for better display
+                        detailed_df = detailed_breakdown.reset_index()
+                        st.dataframe(detailed_df, use_container_width=True)
+                        
+                        # Download option
+                        csv_data = detailed_df.to_csv(index=False)
+                        st.download_button(
+                            label="📥 Download Detailed Data",
+                            data=csv_data,
+                            file_name=f"radar_chart_data_{len(dataset_filter_radar)}datasets_{len(model_filter_radar)}models.csv",
+                            mime="text/csv",
+                            key="download_radar_data"
+                        )
+                
+                else:
+                    st.warning("No data available for the selected combination of filters. Please adjust your selections.")
+            
+            else:
+                if not selected_methods:
+                    st.warning("Please select at least one method to display.")
+                elif not selected_metrics_radar:
+                    st.warning("Please select at least one metric to display.")
+                else:
+                    st.warning("No data available for radar chart generation.")
+            
+            # Method performance table (using available metrics)
             st.subheader("📋 Method Performance Summary")
-            method_summary = filtered_df.groupby('Method')[method_metrics].agg(['mean', 'std']).round(3)
-            st.dataframe(method_summary, use_container_width=True)
+            
+            # Use the available metrics from the radar section or define them
+            if 'available_metrics_radar' in locals():
+                summary_metrics = available_metrics_radar
+            else:
+                all_metrics = ['faithfulness', 'monotonicity', 'completeness', 'stability', 'consistency', 'sparsity', 'simplicity']
+                summary_metrics = [metric for metric in all_metrics if metric in filtered_df.columns]
+            
+            if summary_metrics:
+                method_summary = filtered_df.groupby('Method')[summary_metrics].agg(['mean', 'std']).round(3)
+                st.dataframe(method_summary, use_container_width=True)
+            else:
+                st.warning("No metrics available for method performance summary.")
     
     with tab4:
         st.header("⏱️ Performance Analysis")
