@@ -903,22 +903,77 @@ def render_experiment_planner(results: Dict[str, Any]):
                                                 # Perform Nemenyi post-hoc test
                                                 posthoc_results = sp.posthoc_nemenyi_friedman(ranking_matrix)
                                                 
-                                                # Create critical difference plot using exact working logic
-                                                fig, ax = plt.subplots(figsize=(14, 8))
+                                                # Create clean avg_ranks without numbers in names
+                                                clean_avg_ranks = avg_ranks.copy()
+                                                clean_avg_ranks.index = [name.split(' (')[0] if ' (' in name else name for name in clean_avg_ranks.index]
+                                                
+                                                # Update posthoc_results index/columns to match clean names
+                                                clean_posthoc = posthoc_results.copy()
+                                                clean_posthoc.index = [name.split(' (')[0] if ' (' in name else name for name in clean_posthoc.index]
+                                                clean_posthoc.columns = [name.split(' (')[0] if ' (' in name else name for name in clean_posthoc.columns]
+                                                
+                                                # Clean critical difference plot - improved readability
+                                                st.write("**Clean Critical Difference Plot:**")
+                                                fig_clean, ax_clean = plt.subplots()
                                                 
                                                 sp.critical_difference_diagram(
-                                                    avg_ranks, 
-                                                    posthoc_results, 
-                                                    ax=ax
+                                                    clean_avg_ranks, 
+                                                    clean_posthoc, 
+                                                    ax=ax_clean
                                                 )
                                                 
-                                                ax.set_title(f'Critical Difference Plot - Friedman + Nemenyi Test\n'
-                                                           f'{data_type} | {metric_cd.title()} | α = 0.05', 
-                                                           fontsize=16, pad=20)
-                                                ax.set_xlabel('Average Ranking (1 = Best)', fontsize=14)
-                                                ax.grid(True, alpha=0.3)
+                                                # Calculate and add critical difference ruler
+                                                n_methods = len(clean_avg_ranks)
+                                                n_datasets = len(ranking_matrix)
                                                 
-                                                st.pyplot(fig)
+                                                # Critical difference calculation (same as Nemenyi test)
+                                                from scipy.stats import chi2
+                                                import math
+                                                
+                                                alpha = 0.05
+                                                k = n_methods
+                                                N = n_datasets
+                                                
+                                                # Nemenyi critical difference formula
+                                                q_alpha = 2.569  # For alpha=0.05, approximate value for large k
+                                                cd = q_alpha * math.sqrt((k * (k + 1)) / (6.0 * N))
+                                                
+                                                # Add CD ruler positioned to avoid overlaps
+                                                y_min, y_max = ax_clean.get_ylim()
+                                                x_min, x_max = ax_clean.get_xlim()
+                                                
+                                                # Position CD ruler at bottom-right, away from method names and axis numbers
+                                                cd_y = y_min - 1.5  # Below the plot area
+                                                cd_start = x_min + 0.5  # Start from left side with some margin
+                                                cd_end = cd_start + cd
+                                                
+                                                # Extend y-axis limits to accommodate CD ruler
+                                                ax_clean.set_ylim(y_min - 2.5, y_max)
+                                                
+                                                # Draw CD ruler: |----CD----|
+                                                ax_clean.plot([cd_start, cd_end], [cd_y, cd_y], 'k-', linewidth=4)
+                                                ax_clean.plot([cd_start, cd_start], [cd_y-0.15, cd_y+0.15], 'k-', linewidth=4)
+                                                ax_clean.plot([cd_end, cd_end], [cd_y-0.15, cd_y+0.15], 'k-', linewidth=4)
+                                                
+                                                # Add CD label below the ruler
+                                                ax_clean.text((cd_start + cd_end) / 2, cd_y - 0.5, f'CD = {cd:.2f}', 
+                                                             ha='center', va='top', fontsize=22, fontweight='bold')
+                                                
+                                                # Add title with very large font
+                                                ax_clean.set_title(f'{data_type} | {metric_cd.title()}', 
+                                                                 fontsize=30, pad=15)
+                                                
+                                                # Improve line width for better readability
+                                                for line in ax_clean.lines:
+                                                    line.set_linewidth(3)  # Slightly thicker connecting lines
+                                                
+                                                # Improve font readability - all graph text at 28pt
+                                                for text in ax_clean.texts + list(ax_clean.get_yticklabels()) + list(ax_clean.get_xticklabels()):
+                                                    text.set_fontsize(28)  # Very large readable text
+                                                    text.set_color('black')  # High contrast black text
+                                                    text.set_fontweight('normal')  # Clean, readable weight
+                                                
+                                                st.pyplot(fig_clean)
                                                 plt.close()
                                                 
                                                 st.info("""
@@ -962,7 +1017,7 @@ def render_experiment_planner(results: Dict[str, Any]):
                                                         subset=['Significant (α=0.05)']
                                                     )
                                                     
-                                                    st.dataframe(styled_df, use_container_width=True)
+                                                    st.dataframe(styled_df, width='stretch')
                                                 
                                             except Exception as e:
                                                 st.error(f"Error creating critical difference plot: {e}")
@@ -1218,7 +1273,7 @@ def main():
                     color_continuous_scale="RdBu_r"
                 )
                 fig.update_layout(height=500)
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
                 
                 # Summary statistics
                 col1, col2 = st.columns(2)
@@ -1270,7 +1325,7 @@ def main():
                     )
                     fig.update_xaxes(tickangle=45)
                     fig.update_layout(height=500)
-                    st.plotly_chart(fig, use_container_width=True)
+                    st.plotly_chart(fig, width='stretch')
                     
                     # Feature importance distribution
                     st.markdown("#### 📊 Feature Importance Distribution")
@@ -1299,7 +1354,7 @@ def main():
                             yaxis_title="Importance",
                             height=400
                         )
-                        st.plotly_chart(fig, use_container_width=True)
+                        st.plotly_chart(fig, width='stretch')
         
         with viz_tab4:
             st.markdown(f"### 🔬 {method.upper()}-Specific Visualizations")
@@ -1351,7 +1406,7 @@ def main():
                             ),
                             height=600
                         )
-                        st.plotly_chart(fig, use_container_width=True)
+                        st.plotly_chart(fig, width='stretch')
                         
                         # Local SHAP plot
                         st.markdown("##### 🎯 Local SHAP Analysis")
@@ -1381,7 +1436,7 @@ def main():
                             )
                             fig.add_vline(x=0, line_dash="dash", line_color="black")
                             fig.update_layout(height=500)
-                            st.plotly_chart(fig, use_container_width=True)
+                            st.plotly_chart(fig, width='stretch')
             
             # LIME-specific visualizations
             elif "lime" in method.lower():
@@ -1421,7 +1476,7 @@ def main():
                             color_continuous_scale="RdBu_r"
                         )
                         fig.add_vline(x=0, line_dash="dash", line_color="black")
-                        st.plotly_chart(fig, use_container_width=True)
+                        st.plotly_chart(fig, width='stretch')
             
             # Integrated Gradients
             elif "integrated_gradients" in method.lower():
@@ -1465,7 +1520,7 @@ def main():
                             color="Importance",
                             color_continuous_scale="Viridis"
                         )
-                        st.plotly_chart(fig, use_container_width=True)
+                        st.plotly_chart(fig, width='stretch')
     
     # --- New Tab: Detailed Analysis ---
     with tab6:
@@ -1579,7 +1634,7 @@ def main():
                     })
             
             combinations_df = pd.DataFrame(combinations_data)
-            st.dataframe(combinations_df, use_container_width=True)
+            st.dataframe(combinations_df, width='stretch')
             
             # Average Generation Time Analysis
             if not combinations_df.empty:
@@ -1649,7 +1704,7 @@ def main():
                             labels=dict(color="Time (s)")
                         )
                         fig.update_layout(height=400)
-                        st.plotly_chart(fig, use_container_width=True)
+                        st.plotly_chart(fig, width='stretch')
                         
                     # Bar chart showing generation time by method
                     st.markdown("##### 📈 Generation Time by Method")
@@ -1665,7 +1720,7 @@ def main():
                         labels={'mean': 'Average Time (seconds)', 'Method': 'Explanation Method'}
                     )
                     fig_bar.update_layout(height=400)
-                    st.plotly_chart(fig_bar, use_container_width=True)
+                    st.plotly_chart(fig_bar, width='stretch')
                     
                 else:
                     st.warning("No valid generation time data available for visualization.")
@@ -1778,7 +1833,7 @@ def main():
                         })
             
             analysis_df = pd.DataFrame(analysis_data)
-            st.dataframe(analysis_df, use_container_width=True)
+            st.dataframe(analysis_df, width='stretch')
             
             # Method performance comparison
             if not analysis_df.empty:
@@ -1802,7 +1857,7 @@ def main():
                     labels=dict(color="Explanation Count")
                 )
                 fig.update_layout(height=400)
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
                 
                 # Generation time comparison
                 st.markdown("#### ⏱️ Generation Time Analysis")
@@ -1818,7 +1873,7 @@ def main():
                         barmode='group'
                     )
                     fig.update_xaxes(tickangle=45)
-                    st.plotly_chart(fig, use_container_width=True)
+                    st.plotly_chart(fig, width='stretch')
                 else:
                     show_info("No generation time data available for analysis.")
             
@@ -1904,7 +1959,7 @@ def main():
             
             # Performance analysis
             st.markdown(f"#### 📊 {selected_method.title()} Performance Analysis")
-            st.dataframe(method_df, use_container_width=True)
+            st.dataframe(method_df, width='stretch')
             
             # Visualizations
             col1, col2 = st.columns(2)
@@ -1920,7 +1975,7 @@ def main():
                     barmode='group'
                 )
                 fig.update_xaxes(tickangle=45)
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
             
             with col2:
                 # Explanation count by model
@@ -1933,7 +1988,7 @@ def main():
                     barmode='group'
                 )
                 fig.update_xaxes(tickangle=45)
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
         
         elif analysis_type == "📈 Feature Importance Analysis":
             st.subheader("📈 Feature Importance Analysis")
@@ -2049,7 +2104,7 @@ def main():
                         color_continuous_scale="RdBu_r"
                     )
                     fig.update_layout(height=600)
-                    st.plotly_chart(fig, use_container_width=True)
+                    st.plotly_chart(fig, width='stretch')
                     
                     # Feature importance distribution
                     st.markdown("#### 📊 Feature Importance Distribution")
@@ -2077,7 +2132,7 @@ def main():
                             yaxis_title="Importance Value",
                             height=400
                         )
-                        st.plotly_chart(fig, use_container_width=True)
+                        st.plotly_chart(fig, width='stretch')
                     
                     # Feature correlation heatmap
                     st.markdown("#### 🔗 Feature Importance Correlation")
@@ -2094,7 +2149,7 @@ def main():
                             aspect="auto"
                         )
                         fig.update_layout(height=600)
-                        st.plotly_chart(fig, use_container_width=True)
+                        st.plotly_chart(fig, width='stretch')
                     else:
                         show_info(f"Too many features ({len(feature_names)}) for correlation matrix. Showing top 20 features only.")
                         
@@ -2111,7 +2166,7 @@ def main():
                             aspect="auto"
                         )
                         fig.update_layout(height=600)
-                        st.plotly_chart(fig, use_container_width=True)
+                        st.plotly_chart(fig, width='stretch')
         
         elif analysis_type == "🔬 Individual Instance Analysis":
             st.subheader("🔬 Individual Instance Analysis")
@@ -2282,11 +2337,11 @@ def main():
                                     # Show as a nice table
                                     original_df = pd.DataFrame([original]).T
                                     original_df.columns = ["Value"]
-                                    st.dataframe(original_df, use_container_width=True)
+                                    st.dataframe(original_df, width='stretch')
                                 elif isinstance(original, list):
                                     # Show as numbered list
                                     original_df = pd.DataFrame({"Feature Index": range(len(original)), "Value": original})
-                                    st.dataframe(original_df, use_container_width=True)
+                                    st.dataframe(original_df, width='stretch')
                                 else:
                                     st.write(f"**Original Instance:** {original}")
                         
@@ -2309,10 +2364,10 @@ def main():
                                         color="Probability",
                                         color_continuous_scale="Viridis"
                                     )
-                                    st.plotly_chart(fig, use_container_width=True)
+                                    st.plotly_chart(fig, width='stretch')
                                     
                                     # Show as table
-                                    st.dataframe(prob_df, use_container_width=True)
+                                    st.dataframe(prob_df, width='stretch')
                                 else:
                                     st.write(f"**Prediction Probabilities:** {probs}")
                             
@@ -2363,11 +2418,11 @@ def main():
                                         color_continuous_scale="RdBu_r"
                                     )
                                     fig.update_layout(height=max(300, len(top_features) * 25))
-                                    st.plotly_chart(fig, use_container_width=True)
+                                    st.plotly_chart(fig, width='stretch')
                                     
                                     # Feature importance table
                                     st.markdown("##### 📊 Feature Importance Details")
-                                    st.dataframe(feature_df, use_container_width=True)
+                                    st.dataframe(feature_df, width='stretch')
                                     
                                     # Summary statistics
                                     col_a, col_b, col_c = st.columns(3)
@@ -2381,7 +2436,7 @@ def main():
                                 
                                 else:
                                     st.warning("All feature importances are zero for this instance.")
-                                    st.dataframe(feature_df, use_container_width=True)
+                                    st.dataframe(feature_df, width='stretch')
                             
                             # Show top_features if available (alternative format)
                             elif "top_features" in selected_explanation and selected_explanation["top_features"]:
@@ -2420,9 +2475,9 @@ def main():
                                                 color_continuous_scale="RdBu_r"
                                             )
                                             fig.update_layout(height=max(300, len(non_zero_top) * 30))
-                                            st.plotly_chart(fig, use_container_width=True)
+                                            st.plotly_chart(fig, width='stretch')
                                         
-                                        st.dataframe(top_features_df, use_container_width=True)
+                                        st.dataframe(top_features_df, width='stretch')
                             
                             # Show raw importance data for debugging
                             elif importance_raw:
@@ -2470,7 +2525,7 @@ def main():
                                     )
                                     fig.add_vline(x=0, line_dash="dash", line_color="black", line_width=2)
                                     fig.update_layout(height=500)
-                                    st.plotly_chart(fig, use_container_width=True)
+                                    st.plotly_chart(fig, width='stretch')
                                     # Show cumulative effect
                                     cumulative_effect = baseline + sum(shap_values)
                                     st.write(f"**Baseline Prediction:** {baseline:.4f}")
@@ -2500,7 +2555,7 @@ def main():
                                         color_continuous_scale="RdBu_r"
                                     )
                                     fig.add_vline(x=0, line_dash="dash", line_color="black")
-                                    st.plotly_chart(fig, use_container_width=True)
+                                    st.plotly_chart(fig, width='stretch')
                             
                             # Counterfactual-specific analysis
                             elif "counterfactual" in method:
@@ -2526,13 +2581,13 @@ def main():
                                         
                                         if not changed_features.empty:
                                             st.markdown("**Features that need to change:**")
-                                            st.dataframe(changed_features, use_container_width=True)
+                                            st.dataframe(changed_features, width='stretch')
                                         else:
                                             st.info("No feature changes required for counterfactual.")
                                         
                                         # Show all features
                                         st.markdown("**All Features Comparison:**")
-                                        st.dataframe(changes_df, use_container_width=True)
+                                        st.dataframe(changes_df, width='stretch')
                             
                             # Prototype-specific analysis
                             elif "prototype" in method:
@@ -2552,7 +2607,7 @@ def main():
                                             "Difference": [abs(orig - proto) if isinstance(orig, (int, float)) and isinstance(proto, (int, float)) else "N/A" for orig, proto in zip(original, prototype)]
                                         })
                                         
-                                        st.dataframe(proto_df, use_container_width=True)
+                                        st.dataframe(proto_df, width='stretch')
                                 
                                 if "prototype_similarity" in selected_explanation:
                                     similarity = selected_explanation["prototype_similarity"]
@@ -2645,7 +2700,7 @@ def main():
                             })
                         
                         comparison_df = pd.DataFrame(comparison_data)
-                        st.dataframe(comparison_df, use_container_width=True)
+                        st.dataframe(comparison_df, width='stretch')
                 else:
                     st.warning("Need at least 2 methods for comparison.")
             else:
@@ -2703,7 +2758,7 @@ def main():
                         top_performers_display = top_performers[display_cols].reset_index(drop=True)
                         top_performers_display.index = ['🥇 1st', '🥈 2nd', '🥉 3rd']
                         
-                        st.dataframe(top_performers_display, use_container_width=True)
+                        st.dataframe(top_performers_display, width='stretch')
                         
                         # Show metric statistics
                         col_a, col_b, col_c = st.columns(3)
@@ -2747,7 +2802,7 @@ def main():
                 champion_display['overall_score'] = champion_display['overall_score'].round(4)
                 champion_display.columns = ['Dataset', 'Model', 'Method', 'Overall Score']
                 champion_display.index = ['🥇', '🥈', '🥉', '4th', '5th']
-                st.dataframe(champion_display, use_container_width=True)
+                st.dataframe(champion_display, width='stretch')
             
             with col2:
                 st.write("**📊 Champion Performance Breakdown:**")
@@ -2794,7 +2849,7 @@ def main():
             method_summary_df = pd.DataFrame(method_summary)
             
             # Display method summary
-            st.dataframe(method_summary_df.round(4), use_container_width=True)
+            st.dataframe(method_summary_df.round(4), width='stretch')
             
             # Best method for each metric - both average and single best instance
             st.write("**🎯 Best Method by Metric:**")
@@ -2843,7 +2898,7 @@ def main():
                     for metric, info in best_avg_methods.items()
                 ])
                 
-                st.dataframe(best_avg_detailed, use_container_width=True)
+                st.dataframe(best_avg_detailed, width='stretch')
             
             with best_tab2:
                 st.markdown("*Best single performance instance (specific dataset-model combination)*")
@@ -2896,7 +2951,7 @@ def main():
                     return ['background-color: #E8F5E8'] * len(row)  # Light green background
                 
                 styled_df = best_single_df.style.apply(highlight_best_scores, axis=1)
-                st.dataframe(styled_df, use_container_width=True)
+                st.dataframe(styled_df, width='stretch')
                 
                 # Add summary statistics
                 st.markdown("**📊 Summary Insights:**")
@@ -2942,7 +2997,7 @@ def main():
                             color_continuous_scale='Blues'
                         )
                         method_fig.update_layout(height=300, showlegend=False)
-                        st.plotly_chart(method_fig, use_container_width=True)
+                        st.plotly_chart(method_fig, width='stretch')
                     
                     with col2:
                         st.markdown("**📊 Dataset Distribution:**")
@@ -2958,7 +3013,7 @@ def main():
                             color_continuous_scale='Greens'
                         )
                         dataset_fig.update_layout(height=300, showlegend=False)
-                        st.plotly_chart(dataset_fig, use_container_width=True)
+                        st.plotly_chart(dataset_fig, width='stretch')
     
     with tab2:
         st.header("🎯 Model Performance Analysis")
@@ -3064,7 +3119,7 @@ def main():
                                   "<extra></extra>"
                 )
                 
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
                 
                 # Show summary statistics for filtered data
                 col1, col2, col3, col4 = st.columns(4)
@@ -3088,7 +3143,7 @@ def main():
                 if st.checkbox("Show Detailed Heatmap Data", key="show_heatmap_data"):
                     st.markdown("**📊 Heatmap Data Table:**")
                     display_pivot = pivot_data.copy()
-                    st.dataframe(display_pivot, use_container_width=True)
+                    st.dataframe(display_pivot, width='stretch')
                     
                     # Add download option
                     csv = display_pivot.to_csv()
@@ -3119,7 +3174,7 @@ def main():
                     title=f"Average {metric_to_plot.title()} by Model and Dataset",
                     barmode='group'
                 )
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
     
     with tab3:
         st.header("🔍 Explanation Method Analysis")
@@ -3262,7 +3317,7 @@ def main():
                         font=dict(size=12)
                     )
                     
-                    st.plotly_chart(fig, use_container_width=True)
+                    st.plotly_chart(fig, width='stretch')
                     
                     # Show raw data table
                     col1, col2 = st.columns(2)
@@ -3270,13 +3325,13 @@ def main():
                     with col1:
                         st.markdown("**📊 Raw Average Scores:**")
                         raw_data_display = method_data.round(4)
-                        st.dataframe(raw_data_display, use_container_width=True)
+                        st.dataframe(raw_data_display, width='stretch')
                     
                     with col2:
                         st.markdown("**🔄 Normalized Scores (for radar):**")
                         st.caption("Note: Sparsity & Simplicity inverted (lower = better)")
                         normalized_display = normalized_data.round(4)
-                        st.dataframe(normalized_display, use_container_width=True)
+                        st.dataframe(normalized_display, width='stretch')
                     
                     # Detailed breakdown by dataset-model combination
                     if st.checkbox("Show Detailed Breakdown by Dataset-Model", key="radar_detailed"):
@@ -3286,7 +3341,7 @@ def main():
                         
                         # Reshape for better display
                         detailed_df = detailed_breakdown.reset_index()
-                        st.dataframe(detailed_df, use_container_width=True)
+                        st.dataframe(detailed_df, width='stretch')
                         
                         # Download option
                         csv_data = detailed_df.to_csv(index=False)
@@ -3321,7 +3376,7 @@ def main():
             
             if summary_metrics:
                 method_summary = filtered_df.groupby('Method')[summary_metrics].agg(['mean', 'std']).round(3)
-                st.dataframe(method_summary, use_container_width=True)
+                st.dataframe(method_summary, width='stretch')
             else:
                 st.warning("No metrics available for method performance summary.")
     
@@ -3356,7 +3411,7 @@ def main():
                     scatter_kwargs['size'] = 'Number of Explanations'
                 
                 fig = px.scatter(merged_df, **scatter_kwargs)
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
             
             with col2:
                 # Time distribution by method
@@ -3366,7 +3421,7 @@ def main():
                     y='Generation Time (s)',
                     title="Generation Time Distribution by Method"
                 )
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
             
             # Performance vs Time efficiency
             st.subheader("⚡ Efficiency Analysis")
@@ -3380,7 +3435,7 @@ def main():
                 y='efficiency',
                 title="Efficiency Score (Faithfulness / Time) by Method"
             )
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
     
 
 if __name__ == "__main__":
