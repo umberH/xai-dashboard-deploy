@@ -845,130 +845,201 @@ def render_experiment_planner(results: Dict[str, Any]):
                 else:  # Text
                     selected_datasets = text_datasets
                 
-                import traceback
-
                 if selected_datasets:
-                    print(f"\n[DEBUG] Selected datasets: {selected_datasets}")
-                    print(f"[DEBUG] metric_cd: {metric_cd}")
-                    print(f"[DEBUG] metrics_df shape: {metrics_df.shape}")
-                    print(f"[DEBUG] metrics_df columns: {list(metrics_df.columns)}")
-
-                    try:
-                        # Step 1: Filter data
-                        cd_data = metrics_df[
-                            (metrics_df['Dataset'].isin(selected_datasets)) &
-                            (metrics_df[metric_cd].notna())
-                        ]
-                        print(f"[DEBUG] After filtering -> cd_data.shape = {cd_data.shape}")
-                        print(f"[DEBUG] Unique Methods in cd_data: {cd_data['Method'].unique() if not cd_data.empty else 'EMPTY'}")
-
-                        if cd_data.empty:
-                            print("[DEBUG] cd_data is empty. Check dataset names or NaN values in metric.")
-                            print(cd_data.head())
-                        elif len(cd_data['Method'].unique()) <= 1:
-                            print("[DEBUG] Only one unique method present. Skipping statistical tests.")
-
-                        if not cd_data.empty and len(cd_data['Method'].unique()) > 1:
-                            try:
-                                # Step 2: Pivot table
-                                print("[DEBUG] Creating pivot table...")
-                                pivot_data = cd_data.pivot_table(
-                                    values=metric_cd,
-                                    index=['Dataset', 'Model'],
-                                    columns='Method',
-                                    aggfunc='mean'
-                                ).reset_index()
-
-                                print(f"[DEBUG] Pivot created. Shape: {pivot_data.shape}")
-                                print("[DEBUG] Pivot columns:", list(pivot_data.columns))
-                                print("[DEBUG] Sample pivot rows:\n", pivot_data.head())
-
-                                # Step 3: Drop NaNs
-                                pivot_data = pivot_data.dropna()
-                                print(f"[DEBUG] After dropna -> pivot_data.shape = {pivot_data.shape}")
-
-                                if pivot_data.empty:
-                                    print("[DEBUG] pivot_data empty after dropna. Possibly unbalanced methods per dataset-model.")
-
-                                if not pivot_data.empty and len(pivot_data.columns) > 3:
-                                    method_columns = [col for col in pivot_data.columns if col not in ['Dataset', 'Model']]
-                                    method_data = pivot_data[method_columns]
-                                    print(f"[DEBUG] method_columns: {method_columns}")
-                                    print(f"[DEBUG] method_data shape: {method_data.shape}")
-
-                                    if len(method_data) >= 3:
-                                        try:
-                                            print("[DEBUG] Performing Friedman test...")
-                                            data_for_friedman = [method_data[col].values for col in method_columns]
-                                            friedman_stat, friedman_p = stats.friedmanchisquare(*data_for_friedman)
-                                            print(f"[DEBUG] Friedman result: stat={friedman_stat:.4f}, p={friedman_p:.4f}")
-
-                                            col1, col2 = st.columns(2)
-                                            with col1:
-                                                st.metric("Friedman χ²", f"{friedman_stat:.4f}")
-                                            with col2:
-                                                st.metric("p-value", f"{friedman_p:.4f}")
-
-                                            if friedman_p < 0.05:
-                                                print("[DEBUG] Significant difference detected. Running post-hoc tests.")
-                                                try:
-                                                    ranking_matrix = method_data.rank(axis=1, method='average', ascending=False)
-                                                    avg_ranks = ranking_matrix.mean().sort_values()
-                                                    print("[DEBUG] Average ranks:\n", avg_ranks)
-
-                                                    posthoc_results = sp.posthoc_nemenyi_friedman(ranking_matrix)
-                                                    print("[DEBUG] Posthoc matrix shape:", posthoc_results.shape)
-
-                                                    clean_avg_ranks = avg_ranks.copy()
-                                                    clean_avg_ranks.index = [name.split(' (')[0] if ' (' in name else name for name in clean_avg_ranks.index]
-                                                    clean_posthoc = posthoc_results.copy()
-                                                    clean_posthoc.index = [name.split(' (')[0] if ' (' in name else name for name in clean_posthoc.index]
-                                                    clean_posthoc.columns = [name.split(' (')[0] if ' (' in name else name for name in clean_posthoc.columns]
-
-                                                    # Plotting section
-                                                    fig_clean, ax_clean = plt.subplots()
-                                                    sp.critical_difference_diagram(clean_avg_ranks, clean_posthoc, ax=ax_clean)
-                                                    st.pyplot(fig_clean)
-                                                    plt.close()
-
-                                                except Exception as e:
-                                                    print("[DEBUG] Error during post-hoc analysis:", e)
-                                                    traceback.print_exc()
-                                                    st.error(f"Error creating critical difference plot: {e}")
-                                            else:
-                                                print("[DEBUG] No significant differences found (p ≥ 0.05).")
-                                                st.info("Friedman test indicates no significant differences between methods (p ≥ 0.05)")
-
-                                        except Exception as e:
-                                            print("[DEBUG] Error during Friedman test:", e)
-                                            traceback.print_exc()
-                                            st.error(f"Error in Friedman test: {e}")
-
-                                    else:
-                                        print(f"[DEBUG] Too few observations ({len(method_data)}). Need at least 3.")
-                                        st.warning(f"Need at least 3 observations for statistical analysis. Found {len(method_data)} observations.")
-
+                    # Filter data for selected datasets
+                    cd_data = metrics_df[
+                        (metrics_df['Dataset'].isin(selected_datasets)) &
+                        (metrics_df[metric_cd].notna())
+                    ]
+                    
+                    if not cd_data.empty and len(cd_data['Method'].unique()) > 1:
+                        try:
+                            # Create pivot table for critical difference analysis
+                            pivot_data = cd_data.pivot_table(
+                                values=metric_cd,
+                                index=['Dataset', 'Model'],
+                                columns='Method',
+                                aggfunc='mean'
+                            ).reset_index()
+                            
+                            # Remove rows with any NaN values
+                            pivot_data = pivot_data.dropna()
+                            
+                            if not pivot_data.empty and len(pivot_data.columns) > 3:  # At least 2 methods + Dataset + Model
+                                # Extract method columns (exclude Dataset and Model)
+                                method_columns = [col for col in pivot_data.columns if col not in ['Dataset', 'Model']]
+                                method_data = pivot_data[method_columns]
+                                
+                                # Perform Friedman test
+                                if len(method_data) >= 3:  # Need at least 3 observations
+                                    try:
+                                        # Convert to numpy array for Friedman test
+                                        data_for_friedman = [method_data[col].values for col in method_columns]
+                                        friedman_stat, friedman_p = stats.friedmanchisquare(*data_for_friedman)
+                                        
+                                        col1, col2 = st.columns(2)
+                                        with col1:
+                                            st.metric("Friedman χ²", f"{friedman_stat:.4f}")
+                                        with col2:
+                                            st.metric("p-value", f"{friedman_p:.4f}")
+                                        
+                                        if friedman_p < 0.05:
+                                            st.success("Friedman test indicates significant differences between methods (p < 0.05)")
+                                            
+                                            # Perform Nemenyi post-hoc test using the exact working logic
+                                            try:
+                                                # Calculate rankings (1 = best, higher values = worse)
+                                                ranking_matrix = method_data.rank(axis=1, method='average', ascending=False)
+                                                avg_ranks = ranking_matrix.mean().sort_values()
+                                                
+                                                # Display average ranks
+                                                st.write("**Average Ranks:**")
+                                                rank_df = pd.DataFrame({
+                                                    'Method': avg_ranks.index,
+                                                    'Average Rank': avg_ranks.values
+                                                })
+                                                st.dataframe(rank_df)
+                                                
+                                                # Perform Nemenyi post-hoc test
+                                                posthoc_results = sp.posthoc_nemenyi_friedman(ranking_matrix)
+                                                
+                                                # Create clean avg_ranks without numbers in names
+                                                clean_avg_ranks = avg_ranks.copy()
+                                                clean_avg_ranks.index = [name.split(' (')[0] if ' (' in name else name for name in clean_avg_ranks.index]
+                                                
+                                                # Update posthoc_results index/columns to match clean names
+                                                clean_posthoc = posthoc_results.copy()
+                                                clean_posthoc.index = [name.split(' (')[0] if ' (' in name else name for name in clean_posthoc.index]
+                                                clean_posthoc.columns = [name.split(' (')[0] if ' (' in name else name for name in clean_posthoc.columns]
+                                                
+                                                # Clean critical difference plot - improved readability
+                                                st.write("**Clean Critical Difference Plot:**")
+                                                fig_clean, ax_clean = plt.subplots()
+                                                
+                                                sp.critical_difference_diagram(
+                                                    clean_avg_ranks, 
+                                                    clean_posthoc, 
+                                                    ax=ax_clean
+                                                )
+                                                
+                                                # Calculate and add critical difference ruler
+                                                n_methods = len(clean_avg_ranks)
+                                                n_datasets = len(ranking_matrix)
+                                                
+                                                # Critical difference calculation (same as Nemenyi test)
+                                                from scipy.stats import chi2
+                                                import math
+                                                
+                                                alpha = 0.05
+                                                k = n_methods
+                                                N = n_datasets
+                                                
+                                                # Nemenyi critical difference formula
+                                                q_alpha = 2.569  # For alpha=0.05, approximate value for large k
+                                                cd = q_alpha * math.sqrt((k * (k + 1)) / (6.0 * N))
+                                                
+                                                # Add CD ruler positioned to avoid overlaps
+                                                y_min, y_max = ax_clean.get_ylim()
+                                                x_min, x_max = ax_clean.get_xlim()
+                                                
+                                                # Position CD ruler at bottom-right, away from method names and axis numbers
+                                                cd_y = y_min - 1.5  # Below the plot area
+                                                cd_start = x_min + 0.5  # Start from left side with some margin
+                                                cd_end = cd_start + cd
+                                                
+                                                # Extend y-axis limits to accommodate CD ruler
+                                                ax_clean.set_ylim(y_min - 2.5, y_max)
+                                                
+                                                # Draw CD ruler: |----CD----|
+                                                ax_clean.plot([cd_start, cd_end], [cd_y, cd_y], 'k-', linewidth=4)
+                                                ax_clean.plot([cd_start, cd_start], [cd_y-0.15, cd_y+0.15], 'k-', linewidth=4)
+                                                ax_clean.plot([cd_end, cd_end], [cd_y-0.15, cd_y+0.15], 'k-', linewidth=4)
+                                                
+                                                # Add CD label below the ruler
+                                                ax_clean.text((cd_start + cd_end) / 2, cd_y - 0.5, f'CD = {cd:.2f}', 
+                                                             ha='center', va='top', fontsize=22, fontweight='bold')
+                                                
+                                                # Add title with very large font
+                                                ax_clean.set_title(f'{data_type} | {metric_cd.title()}', 
+                                                                 fontsize=30, pad=15)
+                                                
+                                                # Improve line width for better readability
+                                                for line in ax_clean.lines:
+                                                    line.set_linewidth(3)  # Slightly thicker connecting lines
+                                                
+                                                # Improve font readability - all graph text at 28pt
+                                                for text in ax_clean.texts + list(ax_clean.get_yticklabels()) + list(ax_clean.get_xticklabels()):
+                                                    text.set_fontsize(28)  # Very large readable text
+                                                    text.set_color('black')  # High contrast black text
+                                                    text.set_fontweight('normal')  # Clean, readable weight
+                                                
+                                                st.pyplot(fig_clean)
+                                                plt.close()
+                                                
+                                                st.info("""
+                                                **How to interpret the Critical Difference plot:**
+                                                - Methods connected by a thick black line are NOT significantly different
+                                                - Methods not connected are significantly different  
+                                                - Lower average rank = better performance
+                                                """)
+                                                
+                                                # Show pairwise comparison details
+                                                st.markdown("#### 🔍 Pairwise Comparison Results")
+                                                comparison_results = []
+                                                methods = avg_ranks.index.tolist()
+                                                
+                                                for i, method1 in enumerate(methods):
+                                                    for j, method2 in enumerate(methods):
+                                                        if i < j:
+                                                            p_val = posthoc_results.loc[method1, method2]
+                                                            significant = "Yes" if p_val < 0.05 else "No"
+                                                            comparison_results.append({
+                                                                'Method 1': method1,
+                                                                'Method 2': method2,
+                                                                'p-value': f"{p_val:.4f}",
+                                                                'Significant (α=0.05)': significant
+                                                            })
+                                                
+                                                if comparison_results:
+                                                    comparison_df = pd.DataFrame(comparison_results)
+                                                    
+                                                    # Apply color formatting: Green for significant, Red for non-significant
+                                                    def highlight_significance(val):
+                                                        if val == "Yes":
+                                                            return 'color: green; font-weight: bold'
+                                                        elif val == "No":
+                                                            return 'color: red; font-weight: bold'
+                                                        return ''
+                                                    
+                                                    # Style the dataframe
+                                                    styled_df = comparison_df.style.applymap(
+                                                        highlight_significance, 
+                                                        subset=['Significant (α=0.05)']
+                                                    )
+                                                    
+                                                    st.dataframe(styled_df, width='stretch')
+                                                
+                                            except Exception as e:
+                                                st.error(f"Error creating critical difference plot: {e}")
+                                                
+                                        else:
+                                            st.info("Friedman test indicates no significant differences between methods (p ≥ 0.05)")
+                                            st.write("No post-hoc analysis needed.")
+                                            
+                                    except Exception as e:
+                                        st.error(f"Error in Friedman test: {e}")
+                                        
                                 else:
-                                    print("[DEBUG] Not enough columns or empty pivot_data.")
-                                    st.warning("Insufficient data after removing missing values or not enough methods for comparison.")
-
-                            except Exception as e:
-                                print("[DEBUG] Error processing data for CD analysis:", e)
-                                traceback.print_exc()
-                                st.error(f"Error processing data for critical difference analysis: {e}")
-
-                        else:
-                            print("[DEBUG] No valid data for CD analysis.")
-                            st.warning(f"No data available for {data_type} datasets with {metric_cd} metric.")
-
-                    except Exception as e:
-                        print("[DEBUG] Exception in outermost block:", e)
-                        traceback.print_exc()
-
+                                    st.warning(f"Need at least 3 observations for statistical analysis. Found {len(method_data)} observations.")
+                            else:
+                                st.warning("Insufficient data after removing missing values or not enough methods for comparison.")
+                                
+                        except Exception as e:
+                            st.error(f"Error processing data for critical difference analysis: {e}")
+                    else:
+                        st.warning(f"No data available for {data_type} datasets with {metric_cd} metric.")
                 else:
-                    print("[DEBUG] No dataset selected.")
                     st.warning(f"Please select at least one {data_type.lower()} dataset.")
-
         else:
             st.warning("No data available for critical difference analysis.")
 
