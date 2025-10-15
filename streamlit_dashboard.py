@@ -414,7 +414,7 @@ def create_metrics_dataframe(results: Dict[str, Any]) -> pd.DataFrame:
                 'faithfulness': float(evaluation.get('faithfulness', 0.0)),
                 'stability': float(evaluation.get('stability', 0.0)),
                 'completeness': float(evaluation.get('completeness', 0.0)),
-                'sparsity': float(evaluation.get('sparsity', 0.0)),
+                'compactness': float(evaluation.get('sparsity', 0.0)),
                 'monotonicity': float(evaluation.get('monotonicity', 0.0)),
                 'consistency': float(evaluation.get('consistency', 0.0)),
                 'time_complexity': float(evaluation.get('time_complexity', 0.0)),
@@ -616,7 +616,7 @@ def render_experiment_planner(results: Dict[str, Any]):
                 if len(available_methods) >= 2:
                     method1 = st.selectbox("Select Method 1:", available_methods, key="wilcoxon_method1")
                     method2 = st.selectbox("Select Method 2:", [m for m in available_methods if m != method1], key="wilcoxon_method2")
-                    metric_wilcoxon = st.selectbox("Select Metric:", ['faithfulness', 'monotonicity', 'completeness', 'stability', 'consistency', 'sparsity', 'simplicity'], key="wilcoxon_metric")
+                    metric_wilcoxon = st.selectbox("Select Metric:", ['faithfulness', 'monotonicity', 'completeness', 'stability', 'consistency', 'compactness', 'simplicity'], key="wilcoxon_metric")
                     
                     if st.button("Run Wilcoxon Test", key="run_wilcoxon"):
                         # Get data for both methods
@@ -673,7 +673,7 @@ def render_experiment_planner(results: Dict[str, Any]):
                 if len(available_methods) >= 2:
                     method1_mc = st.selectbox("Select Method 1:", available_methods, key="mcnemar_method1")
                     method2_mc = st.selectbox("Select Method 2:", [m for m in available_methods if m != method1_mc], key="mcnemar_method2")
-                    metric_mc = st.selectbox("Select Metric:", ['faithfulness', 'monotonicity', 'completeness', 'stability', 'consistency', 'sparsity', 'simplicity'], key="mcnemar_metric")
+                    metric_mc = st.selectbox("Select Metric:", ['faithfulness', 'monotonicity', 'completeness', 'stability', 'consistency', 'compactness', 'simplicity'], key="mcnemar_metric")
                     threshold_mc = st.slider("Success Threshold:", 0.0, 1.0, 0.5, 0.05, key="mcnemar_threshold")
                     
                     if st.button("Run McNemar Test", key="run_mcnemar"):
@@ -830,7 +830,7 @@ def render_experiment_planner(results: Dict[str, Any]):
             
             metric_cd = st.selectbox(
                 "Select metric for critical difference plot:",
-                ['faithfulness', 'monotonicity', 'completeness', 'stability', 'consistency', 'sparsity', 'simplicity'],
+                ['faithfulness', 'monotonicity', 'completeness', 'stability', 'consistency', 'compactness', 'simplicity'],
                 key="cd_metric"
             )
             
@@ -2684,7 +2684,7 @@ def main():
                         method_a_data = filtered_df[filtered_df['Method'] == method_a]
                         method_b_data = filtered_df[filtered_df['Method'] == method_b]
                         
-                        metrics = ['faithfulness', 'stability', 'completeness', 'sparsity']
+                        metrics = ['faithfulness', 'stability', 'completeness', 'compactness']
                         
                         comparison_data = []
                         for metric in metrics:
@@ -2734,7 +2734,7 @@ def main():
             st.subheader("🏆 Top Performers Across All Metrics")
             
             # Get all available evaluation metrics
-            evaluation_metrics = ['faithfulness', 'monotonicity', 'completeness', 'stability', 'consistency', 'sparsity', 'simplicity']
+            evaluation_metrics = ['faithfulness', 'monotonicity', 'completeness', 'stability', 'consistency', 'compactness', 'simplicity']
             available_metrics = [metric for metric in evaluation_metrics if metric in filtered_df.columns]
             
             if available_metrics:
@@ -2744,7 +2744,7 @@ def main():
                 for idx, metric in enumerate(available_metrics):
                     with metric_tabs[idx]:
                         # Determine if higher or lower is better for this metric
-                        if metric in ['sparsity', 'simplicity']:
+                        if metric in ['compactness', 'simplicity']:
                             # For sparsity and simplicity, lower might be better (more sparse/simple)
                             top_performers = filtered_df.nsmallest(3, metric)
                             direction = "Lowest"
@@ -2780,7 +2780,7 @@ def main():
             
             # Normalize each metric to 0-1 scale
             for metric in available_metrics:
-                if metric in ['sparsity', 'simplicity']:
+                if metric in ['compactness', 'simplicity']:
                     # For metrics where lower is better, invert the normalization
                     normalized_df[f'{metric}_norm'] = 1 - (normalized_df[metric] - normalized_df[metric].min()) / (normalized_df[metric].max() - normalized_df[metric].min() + 1e-8)
                 else:
@@ -2862,7 +2862,7 @@ def main():
                 best_avg_methods = {}
                 
                 for metric in available_metrics:
-                    if metric in ['sparsity', 'simplicity']:
+                    if metric in ['compactness', 'simplicity']:
                         best_idx = method_summary_df[f'{metric.title()} Avg'].idxmin()
                         best_method = method_summary_df.loc[best_idx, 'Method']
                         best_score = method_summary_df.loc[best_idx, f'{metric.title()} Avg']
@@ -2905,7 +2905,7 @@ def main():
                 best_single_methods = {}
                 
                 for metric in available_metrics:
-                    if metric in ['sparsity', 'simplicity']:
+                    if metric in ['compactness', 'simplicity']:
                         best_instance = filtered_df.loc[filtered_df[metric].idxmin()]
                     else:
                         best_instance = filtered_df.loc[filtered_df[metric].idxmax()]
@@ -3029,7 +3029,7 @@ def main():
                 # Select metric for heatmap
                 heatmap_metric = st.selectbox(
                     "Select Metric for Heatmap:",
-                    ['faithfulness', 'monotonicity', 'completeness', 'stability', 'consistency', 'sparsity', 'simplicity'],
+                    ['faithfulness', 'monotonicity', 'completeness', 'stability', 'consistency', 'compactness', 'simplicity'],
                     key='heatmap_metric'
                 )
             
@@ -3095,7 +3095,7 @@ def main():
                     pivot_data.values,
                     x=pivot_data.columns,
                     y=[f"{idx[0]}_{idx[1]}" for idx in pivot_data.index],
-                    color_continuous_scale='RdYlBu_r' if heatmap_metric in ['sparsity', 'simplicity'] else 'RdYlBu',
+                    color_continuous_scale='RdYlBu_r' if heatmap_metric in ['compactness', 'simplicity'] else 'RdYlBu',
                     aspect='auto',
                     text_auto=True
                 )
@@ -3131,7 +3131,7 @@ def main():
                 with col3:
                     st.metric("Methods Shown", len(pivot_data.columns))
                 with col4:
-                    best_combo = heatmap_df.loc[heatmap_df[heatmap_metric].idxmax() if heatmap_metric not in ['sparsity', 'simplicity'] else heatmap_df[heatmap_metric].idxmin()]
+                    best_combo = heatmap_df.loc[heatmap_df[heatmap_metric].idxmax() if heatmap_metric not in ['compactness', 'simplicity'] else heatmap_df[heatmap_metric].idxmin()]
                     st.metric("Best Score", f"{best_combo[heatmap_metric]:.4f}")
                 
                 # Show best performing combination
@@ -3161,7 +3161,7 @@ def main():
             
             metric_to_plot = st.selectbox(
                 "Select Metric to Compare:",
-                ['faithfulness', 'monotonicity', 'completeness', 'stability', 'consistency', 'sparsity', 'simplicity'],
+                ['faithfulness', 'monotonicity', 'completeness', 'stability', 'consistency', 'compactness', 'simplicity'],
                 key="metric_comparison_selector"
             )
             
@@ -3243,7 +3243,7 @@ def main():
             
             with col4:
                 # Metric selection
-                all_metrics = ['faithfulness', 'monotonicity', 'completeness', 'stability', 'consistency', 'sparsity', 'simplicity']
+                all_metrics = ['faithfulness', 'monotonicity', 'completeness', 'stability', 'consistency', 'compactness', 'simplicity']
                 available_metrics_radar = [metric for metric in all_metrics if metric in radar_filtered_df.columns]
                 
                 selected_metrics_radar = st.multiselect(
@@ -3272,7 +3272,7 @@ def main():
                     # Normalize metrics for better radar chart display
                     normalized_data = method_data.copy()
                     for metric in selected_metrics_radar:
-                        if metric in ['sparsity', 'simplicity']:
+                        if metric in ['compactness', 'simplicity']:
                             # For metrics where lower is better, invert for visualization
                             normalized_data[metric] = 1 - (method_data[metric] - method_data[metric].min()) / (method_data[metric].max() - method_data[metric].min() + 1e-8)
                         else:
@@ -3329,7 +3329,7 @@ def main():
                     
                     with col2:
                         st.markdown("**🔄 Normalized Scores (for radar):**")
-                        st.caption("Note: Sparsity & Simplicity inverted (lower = better)")
+                        st.caption("Note: compactness & Simplicity inverted (lower = better)")
                         normalized_display = normalized_data.round(4)
                         st.dataframe(normalized_display, width='stretch')
                     
@@ -3371,7 +3371,7 @@ def main():
             if 'available_metrics_radar' in locals():
                 summary_metrics = available_metrics_radar
             else:
-                all_metrics = ['faithfulness', 'monotonicity', 'completeness', 'stability', 'consistency', 'sparsity', 'simplicity']
+                all_metrics = ['faithfulness', 'monotonicity', 'completeness', 'stability', 'consistency', 'compactness', 'simplicity']
                 summary_metrics = [metric for metric in all_metrics if metric in filtered_df.columns]
             
             if summary_metrics:
